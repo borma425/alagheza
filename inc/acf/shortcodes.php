@@ -5,11 +5,11 @@ function get_c_meta($meta_key) {
 }
 
 
-
-
 add_shortcode('specifications_section', 'display_device_specifications');
 add_shortcode('qa_section', 'display_qa_section');
-add_shortcode('pros_cons_section', 'display_pros_cons_section');
+add_shortcode('pros_section', 'display_pros_section');
+add_shortcode('cons_section', 'display_cons_section');
+
 add_shortcode('more_products_prices_section', 'display_more_products_prices_section');
 add_shortcode('review_section', 'display_review_section');
 
@@ -43,10 +43,13 @@ function display_qa_section() {
 
 
 
-function display_pros_cons_section() {
+function display_pros_section() {
 
 }
 
+function display_cons_section() {
+
+}
 
 
 function display_more_products_prices_section() {
