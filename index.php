@@ -59,6 +59,7 @@ foreach ($posts as $post) {
                 break; // Stop after finding the first 'مميزات' section
             }
         }
+        
 
         // Scrape for 'عيوب' (Cons)
         foreach ($headings as $heading) {
