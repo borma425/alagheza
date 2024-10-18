@@ -389,20 +389,25 @@ function add_custom_meta_box() {
           $meta_key   = 'wp_review_schema_options';
           $meta_value = get_post_meta($post_id, $meta_key, true);
           
-          // Ensure $meta_value is an array
-          if (!is_array($meta_value)) {
-              // Attempt to decode if it's JSON
-              $decoded = json_decode($meta_value, true);
-              if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                  $meta_value = $decoded;
-              } 
+// Ensure $meta_value is an array
+if (!is_array($meta_value)) {
+    // Attempt to decode if it's JSON
+    $decoded = json_decode($meta_value, true);
+    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+        $meta_value = $decoded;
+    } else {
+        // Handle the case where $meta_value is neither an array nor valid JSON
+        $meta_value = []; // Initialize as an empty array or handle it as needed
+    }
+}
 
-
-          }
-
-          update_post_meta($post_id, 'wp_review_product_price',$meta_value['Product']['price']);
-          
-
+// Now safely access 'Product' and 'price'
+if (isset($meta_value['Product']['price'])) {
+    update_post_meta($post_id, 'wp_review_product_price', $meta_value['Product']['price']);
+} else {
+    // Handle the case where the price is not set
+    error_log('Price is not set in meta_value');
+}
 
 
           
