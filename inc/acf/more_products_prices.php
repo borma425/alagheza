@@ -138,6 +138,10 @@ function add_product_meta_box() {
                               <label>السعر</label>
                               <input type="text"  name="product_prices[]" value="<?php echo esc_attr($product['price']); ?>" class="product-input" />
                           </div>
+                          <div class="product-link">
+                          <label>التوجه لرابط</label>
+                          <input placeholder="إختياري" type="text"  name="product_links[]" value="<?php echo esc_textarea($product['link']); ?>" class="product-input" />
+                      </div>
                           <button type="button" class="remove-product">الحذف</button>
                       </div>
                   <?php endforeach; ?>
@@ -162,6 +166,10 @@ function add_product_meta_box() {
                       <div class="product-price">
                           <label>السعر</label>
                           <input type="text"  name="product_prices[]" class="product-input" />
+                      </div>
+                      <div class="product-link">
+                          <label>التوجه لرابط</label>
+                          <input placeholder="إختياري" type="text"  name="product_links[]" class="product-input" />
                       </div>
                       <button type="button" class="remove-product">الحذف</button>
                   </div>
@@ -196,6 +204,10 @@ function add_product_meta_box() {
                               <label>السعر</label>
                               <input type="text"  name="product_prices[]" class="product-input" />
                           </div>
+                                                <div class="product-link">
+                          <label>التوجه لرابط</label>
+                          <input placeholder="إختياري" type="text"  name="product_links[]" class="product-input" />
+                      </div>
                           <button type="button" class="remove-product">الحذف</button>
                       </div>
                   `);
@@ -260,6 +272,7 @@ function add_product_meta_box() {
           $names = $_POST['product_names'];
           $descs = $_POST['product_descs'];
           $prices = $_POST['product_prices'];
+          $links = $_POST['product_links'];
           $images = $_POST['product_images'];
   
           for ($i = 0; $i < count($names); $i++) {
@@ -268,6 +281,7 @@ function add_product_meta_box() {
                       'name'  => sanitize_text_field($names[$i]),
                       'desc'  => sanitize_textarea_field($descs[$i]),
                       'price' => $prices[$i],
+                      'link' => $links[$i],
                       'image' => esc_url_raw($images[$i])
                   ];
               }
