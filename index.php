@@ -76,15 +76,15 @@ foreach ($posts as $post) {
 
         // Update the custom meta fields for this post
         if ($main_title) {
-            update_post_meta($post_id, 'single_pros_cons_main_title', sanitize_text_field($main_title));
+            update_post_meta($post_id, 'single_pros_cons_main_title', $main_title);
         }
 
         if ($pros) {
-            update_post_meta($post_id, 'single_pros', sanitize_textarea_field($pros));
+            update_post_meta($post_id, 'single_pros', $pros);
         }
 
         if ($cons) {
-            update_post_meta($post_id, 'single_cons', sanitize_textarea_field($cons));
+            update_post_meta($post_id, 'single_cons', $cons);
         }
     } else {
         // Log or handle the case where post content is empty
