@@ -22,13 +22,16 @@ function pros_cons_meta_box() {
   
       // Nonce field for security
       wp_nonce_field(basename(__FILE__), 'pros_cons_nonce');
-      $single_pros_cons_main_title = get_post_meta($post->ID, 'single_pros_cons_main_title', true);
+      $single_pros_main_title = get_post_meta($post->ID, 'single_pros_main_title', true);
+      $single_cons_main_title = get_post_meta($post->ID, 'single_cons_main_title', true);
   
-      ?>
 
+ 
+
+      ?>
 <div>
 <label style="font-size:medium;">العنوان الرئيسي</label>
-    <input type="text" name="single_pros_cons_main_title" value="<?php echo esc_attr( $single_pros_cons_main_title ); ?>" class="qa-input" placeholder="العنوان الرئيسي"/>
+    <input type="text" name="single_pros_main_title" value="<?php echo esc_attr( $single_pros_main_title ); ?>" class="qa-input" placeholder="العنوان الرئيسي"/>
 
 </div><br><br>
 
@@ -50,7 +53,15 @@ function pros_cons_meta_box() {
               'textarea_rows' => 6,
           )
       );
-  
+  ?>
+
+<div>
+<label style="font-size:medium;">العنوان الرئيسي</label>
+    <input type="text" name="single_cons_main_title" value="<?php echo esc_attr( $single_cons_main_title ); ?>" class="qa-input" placeholder="العنوان الرئيسي"/>
+
+</div><br><br>
+
+<?php
       // Display the WP Editor for Cons
       echo '<label for="single_cons" style="margin-top:20px; display:block;">العيوب</label>';
       wp_editor(
@@ -78,11 +89,14 @@ function pros_cons_meta_box() {
       }
 
 
-
-      
-      if (isset($_POST['single_pros_cons_main_title'])) {
-        update_post_meta($post_id, 'single_pros_cons_main_title', $_POST['single_pros_cons_main_title']);
+      if (isset($_POST['single_pros_main_title'])) {
+        update_post_meta($post_id, 'single_pros_main_title', $_POST['single_pros_main_title']);
     }
+
+    if (isset($_POST['single_cons_main_title'])) {
+        update_post_meta($post_id, 'single_cons_main_title', $_POST['single_cons_main_title']);
+    }
+
 
 
 

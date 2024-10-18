@@ -31,6 +31,7 @@ $posts = get_posts($args);
 foreach ($posts as $post) {
     $post_id = $post->ID;
     $post_title = $post->post_title;
+
     // Apply content filters like shortcodes
     $post_content = apply_filters('the_content', $post->post_content);
 
@@ -44,30 +45,31 @@ foreach ($posts as $post) {
 
         $pros = null;
         $cons = null;
-        $main_title = null;
+        $pros_main_h2 = null;
+        $cons_main_h2 = null;
 
         // Scrape for 'مميزات' (Pros)
         foreach ($headings as $heading) {
             if (strpos($heading->text(), 'مميزات') !== false) {
-                $main_title = $heading->text(); // Get the <h2> content
+                $pros_main_h2 = $heading->text(); // Get the <h2> content for Pros
                 $next_element = $heading->nextSibling('ul'); // Get the next <ul>
 
                 if ($next_element) {
-                    $pros = $next_element->html(); // Get the <ul> content
+                    $pros = $next_element->html(); // Get the <ul> content for Pros
                 }
 
                 break; // Stop after finding the first 'مميزات' section
             }
         }
 
-
         // Scrape for 'عيوب' (Cons)
         foreach ($headings as $heading) {
             if (strpos($heading->text(), 'عيوب') !== false) {
+                $cons_main_h2 = $heading->text(); // Get the <h2> content for Cons
                 $next_element = $heading->nextSibling('ul'); // Get the next <ul>
 
                 if ($next_element) {
-                    $cons = $next_element->html(); // Get the <ul> content
+                    $cons = $next_element->html(); // Get the <ul> content for Cons
                 }
 
                 break; // Stop after finding the first 'عيوب' section
@@ -75,12 +77,16 @@ foreach ($posts as $post) {
         }
 
         // Update the custom meta fields for this post
-        if ($main_title) {
-            update_post_meta($post_id, 'single_pros_cons_main_title', $main_title);
+        if ($pros_main_h2) {
+            update_post_meta($post_id, 'single_pros_main_title', $pros_main_h2);
         }
 
         if ($pros) {
             update_post_meta($post_id, 'single_pros', $pros);
+        }
+
+        if ($cons_main_h2) {
+            update_post_meta($post_id, 'single_cons_main_title', $cons_main_h2);
         }
 
         if ($cons) {
@@ -88,6 +94,6 @@ foreach ($posts as $post) {
         }
     } else {
         // Log or handle the case where post content is empty
-        echo " $post_title<br>";
+        echo "Post content is empty for post ID: $post_title<br>";
     }
 }
