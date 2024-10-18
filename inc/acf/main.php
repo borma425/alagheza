@@ -10,24 +10,22 @@ function remove_tags_meta_box_banner() {
     add_action('admin_menu', 'remove_tags_meta_box_banner');
 
 
+function remove_tags_meta_boxbrands() {
+    $cpt_id = ['brands', 'sections'];
 
+    foreach ($cpt_id as $post_type) {
+        remove_meta_box('postcustom', $post_type, 'normal');
+        remove_meta_box('authordiv', $post_type, 'normal');
+        remove_meta_box('commentsdiv', $post_type, 'normal');
+        remove_meta_box('commentstatusdiv', $post_type, 'normal');
+        remove_meta_box('pageparentdiv', $post_type, 'normal');
+        remove_meta_box('formatdiv', $post_type, 'normal');
+        // Remove editor support for the post types
+        remove_post_type_support($post_type, 'editor');
+    }
+}
 
-    function remove_tags_meta_boxbrands() {
-        $cpt_id = 'brands';
-            remove_meta_box('postcustom', $cpt_id, 'normal');
-            remove_meta_box('authordiv', $cpt_id, 'normal');
-            remove_meta_box('commentsdiv', $cpt_id, 'normal');
-            remove_meta_box('commentstatusdiv', $cpt_id, 'normal');
-            remove_meta_box('pageparentdiv', $cpt_id, 'normal');
-            remove_meta_box('formatdiv', $cpt_id, 'normal');
-            remove_post_type_support($cpt_id, 'editor');
-      
-        }
-      
-      add_action('admin_menu', 'remove_tags_meta_boxbrands');
-      
-    
-      
+add_action('admin_menu', 'remove_tags_meta_boxbrands');
 
 
 
