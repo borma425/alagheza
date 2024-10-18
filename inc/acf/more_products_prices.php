@@ -102,8 +102,18 @@ function add_product_meta_box() {
   }
   </style>';
       wp_nonce_field(basename(__FILE__), 'product_meta_nonce');
+    $prices_main_title = get_post_meta($post->ID, 'prices_main_title', true);
+
       ?>
       <div class="product-meta-box">
+
+      <div>
+<label style="font-size:medium;">العنوان الرئيسي</label>
+    <input type="text" name="prices_main_title" value="<?php echo esc_attr( $prices_main_title ); ?>" class="qa-input" placeholder="العنوان الرئيسي"/>
+
+</div><br><br>
+
+
           <div id="product-fields-container">
               <?php if (!empty($product_data)) : ?>
                   <?php foreach ($product_data as $index => $product) : ?>
@@ -235,6 +245,15 @@ function add_product_meta_box() {
           return $post_id;
       }
   
+
+      
+      
+      if (isset($_POST['prices_main_title'])) {
+        update_post_meta($post_id, 'prices_main_title', $_POST['prices_main_title']);
+    }
+
+
+
       // Save products
       if (isset($_POST['product_names']) && isset($_POST['product_descs']) && isset($_POST['product_prices']) && isset($_POST['product_images'])) {
           $product_data = [];

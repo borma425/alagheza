@@ -24,6 +24,7 @@ function add_specifications_meta_box() {
   
   
       $device_specs = get_post_meta($post->ID, 'device_specs', true);
+      $device_specifications_main_title = get_post_meta($post->ID, 'device_specifications_main_title', true);
   
   
       wp_nonce_field(basename(__FILE__), 'custom_meta_box_nonce');
@@ -137,6 +138,15 @@ function add_specifications_meta_box() {
 
 </style>
       <h3>جدول المواصفات</h3>
+
+      <div>
+<label style="font-size:medium;">العنوان الرئيسي</label>
+    <input type="text" name="device_specifications_main_title" value="<?php echo esc_attr( $device_specifications_main_title ); ?>" class="qa-input" placeholder="العنوان الرئيسي"/>
+
+</div><br><br>
+
+
+
       <div id="device-specifications-container">
           <?php
           if (!empty($device_specs)) {
@@ -228,7 +238,9 @@ function save_device_specs_meta_box_data($post_id) {
       if (isset($_POST['device_specs'])) {
             update_post_meta($post_id, 'device_specs', $_POST['device_specs']);
         }
-
+        if (isset($_POST['device_specifications_main_title'])) {
+            update_post_meta($post_id, 'device_specifications_main_title', $_POST['device_specifications_main_title']);
+        }
 
 
   }

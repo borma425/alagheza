@@ -101,9 +101,20 @@ echo '<style>/* Meta Box Container */
 }
 </style>';
     wp_nonce_field(basename(__FILE__), 'qa_meta_nonce');
+    $qa_title = get_post_meta($post->ID, 'qa_title', true);
+
     ?>
     <div class="qa-meta-box">
+
         <div id="qa-fields-container">
+
+        <div>
+<label style="font-size:medium;">العنوان الرئيسي</label>
+    <input type="text" name="qa_title" value="<?php echo esc_attr( $qa_title ); ?>" class="qa-input" placeholder="العنوان الرئيسي"/>
+
+</div><br><br>
+
+
             <?php if(!empty($qa_data)) : ?>
                 <?php foreach ($qa_data as $index => $qa): ?>
                     <div class="qa-pair">
@@ -119,7 +130,9 @@ echo '<style>/* Meta Box Container */
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
+
                 <div class="qa-pair">
+
                     <div class="qa-question">
                         <label>السؤال</label>
                         <input type="text" name="qa_questions[]" class="qa-input" />
@@ -178,6 +191,16 @@ echo '<style>/* Meta Box Container */
           return $post_id;
       }
   
+
+
+      
+      if (isset($_POST['qa_title'])) {
+        update_post_meta($post_id, 'qa_title', $_POST['qa_title']);
+    }
+
+
+
+
       // Save questions and answers
       if (isset($_POST['qa_questions']) && isset($_POST['qa_answers'])) {
           $qa_data = [];
