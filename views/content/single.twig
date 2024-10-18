@@ -1,0 +1,16 @@
+{% extends 'base.twig' %}
+
+{% block grid_content %}
+	<article>
+		<h1>{{ post.title }}</h1>
+
+		<img
+            src="{{ post.thumbnail.src }}"
+            alt="{{ post.thumbnail.alt }}"
+        >
+
+          {{ post.post_content|raw }}
+
+
+	</article>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% if pagination.pages is not empty %}
+<nav class="nav-pagination">
+   <ul class="pagination">
+      {# Previous Page #}
+      {% if pagination.prev %}
+      <li class="page-item">
+         <a class="page-link" href="{{ pagination.prev }}" aria-label="Previous">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+               <path d="M31.707 38.101L11.908 57.899c-4.686 4.686-4.686 12.284 0 16.971L192.607 256 11.908 437.13c-4.686 4.686-4.686 12.284 0 16.971L31.707 473.9c4.686 4.686 12.284 4.686 16.971 0l209.414-209.414c4.686-4.686 4.686-12.284 0-16.971L48.678 38.101c-4.687-4.687-12.285-4.687-16.971 0z"/>
+            </svg>
+         </a>
+      </li>
+      {% endif %}
+
+      {# Pagination Pages #}
+      {% for page in pagination.pages %}
+      <li class="page-item {% if page.current %}active{% endif %}">
+         {% if page.current %}
+         <span class="page-link">{{ page }}</span>
+         {% else %}
+         <a class="page-link" href="{{ page.link }}">{{ page }}</a>
+         {% endif %}
+      </li>
+      {% endfor %}
+
+      {# Next Page #}
+      {% if pagination.next %}
+      <li class="page-item">
+         <a class="page-link" href="{{ pagination.next }}" aria-label="Next">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+               <path d="M24.707 38.101L4.908 57.899c-4.686 4.686-4.686 12.284 0 16.971L185.607 256 4.908 437.13c-4.686 4.686-4.686 12.284 0 16.971L24.707 473.9c4.686 4.686 12.284 4.686 16.971 0l209.414-209.414c4.686-4.686 4.686-12.284 0-16.971L41.678 38.101c-4.687-4.687-12.285-4.687-16.971 0z"/>
+            </svg>
+         </a>
+      </li>
+      {% endif %}
+   </ul>
+</nav>
+{% endif %}

@@ -1,0 +1,92 @@
+	<header class="header">
+			<div class="container">
+				<div class="logo">
+					<a href="/">
+						<img
+							src="https://mellow-douhua-911077.netlify.app/includes/images/logo.png"
+							alt="الشعار"
+							width="132"
+							height="40" />
+					</a>
+				</div>
+				<nav class="nav">
+					<button class="nav-toggle" aria-label="تبديل القائمة">
+						<span></span>
+						<span></span>
+						<span></span>
+					</button>
+					<div class="nav-sidebar">
+<ul class="nav-menu">
+    {% for item in header_menu_1.items %}
+        <!-- Link without sub links -->
+        {% if not item.children %}
+            <li>
+                <a href="{{ item.link }}" class="nav-link" data-page="{{ item.slug }}">
+                    {{ item.title }}
+                </a>
+            </li>
+        {% else %}
+            <!-- Item with sub links (menu) -->
+            <li class="has-dropdown">
+                <!-- Main link -->
+                <a href="{{ item.link }}" class="nav-link" data-page="{{ item.slug }}">
+                    {{ item.title }}
+                    <!-- Arrow icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+                <!-- Dropdown menu -->
+                <ul class="dropdown">
+                    {% for child in item.children %}
+                        <li>
+                            <a href="{{ child.link }}" class="nav-link" data-page="{{ child.slug }}">
+                                {{ child.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+
+					</div>
+				</nav>
+				<div class="search-container">
+					<button class="search-toggle" aria-label="فتح نافذة البحث">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="search-icon">
+							<circle cx="11" cy="11" r="8"></circle>
+							<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</header>
+
+
+		<div class="search-window" id="searchWindow">
+			<div class="search-content">
+				<button class="close-search" aria-label="إغلاق نافذة البحث">
+					&times;
+				</button>
+				<h2>البحث</h2>
+				<form role="search" method="get" action="{{site.link}}" autocomplete="on" class="search-form">
+					<input autocomplete="on" name="s" itemprop="query-input"
+						type="text"
+						placeholder="ادخل كلمة البحث..."
+						aria-label="حقل البحث" />
+					<button type="submit" aria-label="بحث">بحث</button>
+				</form>
+			</div>
+		</div>

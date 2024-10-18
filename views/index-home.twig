@@ -1,0 +1,33 @@
+{% extends "base.twig" %}
+
+{% block grid_content %}
+
+
+{% include "main/hero1.twig" %}
+{% include "components/inline-grid/aqsam.twig" %}
+
+{% include "components/inline-grid/brands.twig" %}
+{% include "smart-search.twig" %}
+{% include "recent-review-devices.twig" %}
+{% include "advices.twig" %}
+{% include "how-we-review.twig" %}
+
+
+			<!-- end categories section -->
+{# {% if posts %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <h2>{{ post.title }}</h2>
+                <p>Product Price: {{post.meta('wp_review_product_price') }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No products found at this price.</p>
+{% endif %}
+ #}
+
+
+
+{% endblock %}

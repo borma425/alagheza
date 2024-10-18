@@ -1,0 +1,28 @@
+
+{% set defaultimg = fn('asset_url',"no_image_1200x627.png","/img/default/") | relative %}
+{% set medium_logo  =  site.theme.theme_mod('basic-logos-callout-medium_logo') | default(defaultimg) %}
+{% set logo_100_x_100  =  site.theme.theme_mod('basic-logos-callout-logo_100_x_100') | default(defaultimg) %}
+
+{% block html_head %}
+	{% include 'main/html-head.twig' %}
+{% endblock %}
+
+{% block head %}
+
+</head>{% endblock %}
+<body>
+{% include 'main/html-header.twig' %}
+
+		<main>
+{% block grid_content %}{% endblock %}
+
+
+		</main>
+
+	{% block footer %}
+		{% include 'main/html-footer.twig' %}
+	{% endblock %}
+
+{{ function('wp_footer') }}
+
+</body></html>

@@ -1,0 +1,61 @@
+
+			<!-- start electrical tips section -->
+			<section class="electrical-tips">
+				<div class="container">
+					<div class="main-title">
+						<h2 class="title">نصائح كهربائية</h2>
+						<a href="/all-category" class="link">
+							المزيد من النصائح
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="arrow-icon">
+								<line x1="5" y1="12" x2="19" y2="12"></line>
+								<polyline points="12 5 19 12 12 19"></polyline>
+							</svg>
+						</a>
+					</div>
+					<div class="tips-grid">
+
+
+	
+{% for post in advice_posts %}
+    <article class="tip-card">
+        <div class="tip-content">
+            <!-- Display Category Name -->
+<p class="tip-category">{{ post.categories | first.title }}</p>
+
+            <!-- Post Title and Link -->
+            <h3 class="tip-title">
+                <a href="{{ post.link }}">{{ post.title }}</a>
+            </h3>
+
+            <!-- Post Excerpt/Description -->
+            <p class="tip-description">
+                {{ post.excerpt }}
+            </p>
+
+            <!-- Read More Link -->
+            <a href="{{ post.link }}" class="tip-link">
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+                اقرأ المزيد
+            </a>
+        </div>
+    </article>
+{% endfor %}
+
+
+
+
+					</div>
+				</div>
+			</section>
