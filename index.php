@@ -30,7 +30,7 @@ $posts = get_posts($args);
 
 foreach ($posts as $post) {
     $post_id = $post->ID;
-
+    $post_title = $post->post_title;
     // Apply content filters like shortcodes
     $post_content = apply_filters('the_content', $post->post_content);
 
@@ -59,7 +59,7 @@ foreach ($posts as $post) {
                 break; // Stop after finding the first 'مميزات' section
             }
         }
-        
+
 
         // Scrape for 'عيوب' (Cons)
         foreach ($headings as $heading) {
@@ -88,6 +88,6 @@ foreach ($posts as $post) {
         }
     } else {
         // Log or handle the case where post content is empty
-        echo "Post content is empty for post ID: $post_id<br>";
+        echo " $post_title<br>";
     }
 }
