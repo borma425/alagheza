@@ -68,7 +68,7 @@ echo $style;
     echo '<br><li>استخدم <strong onclick="copyToClipboard(this)">[qa_section]</strong> لإظهار جدول  أسئلة & أجوبة</li>';
     echo '<br><li>استخدم <strong onclick="copyToClipboard(this)">[more_products_prices_section]</strong> لإظهار جدول  خطط الأسعار</li>';
     echo '<br><li>استخدم <strong onclick="copyToClipboard(this)">[pros_section]</strong> لإظهار جدول المميزات </li>';
-    echo '<br><li>استخدم <strong onclick="copyToClipboard(this)">[cons_section]</strong> لإظهار جدول المميزات </li>';
+    echo '<br><li>استخدم <strong onclick="copyToClipboard(this)">[cons_section]</strong> لإظهار جدول العيوب </li>';
     echo '<br><li>استخدم <strong onclick="copyToClipboard(this)">[review_section]</strong> لإظهار جدول  ملخص المراجعة</li>';
 
     echo '</ul>';
