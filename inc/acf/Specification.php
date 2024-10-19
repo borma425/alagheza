@@ -170,58 +170,56 @@ function add_specifications_meta_box() {
       </button>
   
       <script type="text/javascript">
-          jQuery(document).ready(function($) {
-              var mediaUploader;
-  
-              // Add new specification
-              $('#add-specification').click(function() {
-                  var newIndex = Date.now(); // Unique index
-                  $('#device-specifications-container').append(`
-                      <div class="specification-item">
-                          <input type="text" name="device_specs[` + newIndex + `][name]" placeholder="العنوان" />
-                          <textarea name="device_specs[` + newIndex + `][description]" placeholder="الوصف"></textarea>
-                          <input type="hidden" name="device_specs[` + newIndex + `][icon]" class="device-icon-url" />
-                          <img src="" class="device-icon-preview" style="max-width:100px; max-height:100px; display:none;" />
-                          <button type="button" class="upload-icon-button button">رفع الأيقونه</button>
-                          <button type="button" class="remove-specification button">الحذف</button>
-                      </div>
-                  `);
-              });
-  
-              // Remove specification
-              $(document).on('click', '.remove-specification', function() {
-                  $(this).closest('.specification-item').remove();
-              });
-  
-              // رفع الأيقونه
-              $(document).on('click', '.upload-icon-button', function(e) {
-                  e.preventDefault();
-                  var button = $(this);
-                  var container = button.closest('.specification-item');
-  
-                  if (mediaUploader) {
-                      mediaUploader.open();
-                      return;
-                  }
-  
-                  mediaUploader = wp.media({
-                      title: 'اختر الايقونة',
-                      button: {
-                          text: 'اختر هذة الايقونه'
-                      },
-                      multiple: false
-                  });
-  
-                  mediaUploader.on('select', function() {
-                      var attachment = mediaUploader.state().get('selection').first().toJSON();
-                      container.find('.device-icon-url').val(attachment.url);
-                      container.find('.device-icon-preview').attr('src', attachment.url).show();
-                  });
-  
-                  mediaUploader.open();
-              });
-          });
-      </script>
+    jQuery(document).ready(function($) {
+        // Function to create new media uploader for each button
+        function createMediaUploader(button) {
+            var mediaUploader = wp.media({
+                title: 'اختر الايقونة',
+                button: {
+                    text: 'اختر هذة الايقونه'
+                },
+                multiple: false
+            });
+
+            mediaUploader.on('select', function() {
+                var attachment = mediaUploader.state().get('selection').first().toJSON();
+                var container = button.closest('.specification-item');
+                container.find('.device-icon-url').val(attachment.url);
+                container.find('.device-icon-preview').attr('src', attachment.url).show();
+            });
+
+            return mediaUploader;
+        }
+
+        // Add new specification
+        $('#add-specification').click(function() {
+            var newIndex = Date.now(); // Unique index
+            $('#device-specifications-container').append(`
+                <div class="specification-item">
+                    <input type="text" name="device_specs[` + newIndex + `][name]" placeholder="العنوان" />
+                    <textarea name="device_specs[` + newIndex + `][description]" placeholder="الوصف"></textarea>
+                    <input type="hidden" name="device_specs[` + newIndex + `][icon]" class="device-icon-url" />
+                    <img src="" class="device-icon-preview" style="max-width:100px; max-height:100px; display:none;" />
+                    <button type="button" class="upload-icon-button button">رفع الأيقونه</button>
+                    <button type="button" class="remove-specification button">الحذف</button>
+                </div>
+            `);
+        });
+
+        // Remove specification
+        $(document).on('click', '.remove-specification', function() {
+            $(this).closest('.specification-item').remove();
+        });
+
+        // Handle image upload for each button separately
+        $(document).on('click', '.upload-icon-button', function(e) {
+            e.preventDefault();
+            var button = $(this);
+            var mediaUploader = createMediaUploader(button); // Create a new uploader instance for this button
+            mediaUploader.open();
+        });
+    });
+</script>
       <?php
   }
 
