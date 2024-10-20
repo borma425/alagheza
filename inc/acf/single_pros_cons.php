@@ -98,16 +98,16 @@ function pros_cons_meta_box() {
     }
 
 
-
-
+    
+    
       // Save 'Pros'
       if (isset($_POST['single_pros_editor'])) {
-          update_post_meta($post_id, 'single_pros', sanitize_textarea_field($_POST['single_pros_editor']));
+          update_post_meta($post_id, 'single_pros', wp_kses_post($_POST['single_pros_editor']));
       }
   
       // Save 'Cons'
       if (isset($_POST['single_cons_editor'])) {
-          update_post_meta($post_id, 'single_cons', sanitize_textarea_field($_POST['single_cons_editor']));
+          update_post_meta($post_id, 'single_cons', wp_kses_post($_POST['single_cons_editor']));
       }
   }
   add_action('save_post', 'save_pros_cons_meta_box_data');
