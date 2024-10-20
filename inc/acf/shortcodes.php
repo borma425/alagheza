@@ -56,6 +56,6 @@ function display_more_products_prices_section() {
 
 }
 
-function review_section() {
+function display_review_section() {
 
 }

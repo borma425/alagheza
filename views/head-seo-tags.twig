@@ -1,0 +1,224 @@
+
+<article>
+    <h1>Product Information</h1>
+    <p>Product Name: {{ product_name }}</p>
+</article>
+
+
+
+
+
+{% set homeName =        site.name %}
+{% set homeUrl  = site.link %}
+{% set homeDescription = site.description %}
+{% set PostDescription = post.excerpt.length(50).read_more(false) %}
+{% set thumbnail =
+fn('is_home') or
+fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") :
+post.thumbnail.src
+%}
+
+{% set mainTitle  = post.title %}
+{# {% set mainTitle  = post.title %} #}
+
+{% set Title =
+fn('is_post_type_archive','article') ?  ' أحدث المقالات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
+fn('is_post_type_archive','products') ?  ' أحدث منتجات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
+fn('is_post_type_archive','success-partners') ?  '  شركاء النجاح   ' :
+fn('is_home') or fn('is_front_page') ? homeName ~ " - " ~ homeDescription :
+fn('is_singular') ?   mainTitle:
+fn('is_search') ?  search_query :
+fn('is_404') ? "  404 - Not Found:" ~ homeName : homeName
+%}
+
+{% set Description =
+fn('is_post_type_archive') ?  Title :
+PostDescription ?  PostDescription : homeDescription
+%}
+
+{% set datePublishedTimestamp = post.date | date('U') %}
+{% set dateModifiedTimestamp = post.modified | date('U') %}
+{% set articleBody =  post.post_content|shortcodes %}
+
+
+
+{# Define your pros and cons as strings containing HTML lists #}
+{% set pros_html = '<ul>
+ 	<li>2 موتور</li>
+ 	<li>إضاءة فعالة من حيث الطاقة</li>
+ 	<li>تهوية قوية</li>
+ 	<li>3 سرعات</li>
+ 	<li>بناء متين</li>
+ 	<li>تصميم أنيق</li>
+ 	<li>تشغيل سهل</li>
+ 	<li>مرشحات قابلة للغسل</li>
+</ul>' %}
+
+{% set cons_html = '<ul>
+ 	<li>غير معروف بكثرة</li>
+ 	<li>مصنوع من خامات متوسطة</li>
+</ul>' %}
+
+{# Remove the <ul> and split the list by <li> tags. This strips the tags but keeps the content #}
+{% set pros_list = pros_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
+{% set cons_list = cons_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
+
+{# Output JSON-LD for SEO #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ post.title }}",
+  "review": {
+    "@type": "Review",
+    "reviewBody": "This product has several pros and cons.",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "4",
+      "bestRating": "5"
+    },
+    "positiveNotes": [
+      {% for item in pros_list %}
+        {% if item|trim is not empty %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "item": {
+            "@type": "Thing",
+            "name": "{{ item|trim }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
+      {% endfor %}
+    ],
+    "negativeNotes": [
+      {% for item in cons_list %}
+        {% if item|trim is not empty %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "item": {
+            "@type": "Thing",
+            "name": "{{ item|trim }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ mainTitle }}",
+  "description": "{{ articleDescription }}",  // Use a dynamic variable for the article description
+  "datePublished": "{{ datePublishedTimestamp }}",
+  "dateModified": "{{ dateModifiedTimestamp }}",
+  "inLanguage": "ar",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ post.thumbnail.src }}"
+  },
+  "articleBody": "{{ articleBody }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ post.link }}"
+  }
+}
+</script>
+
+
+
+
+{% set product_name =  post.post_content|shortcodes %}
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Product Name Here",
+  "image": "https://example.com/image-url.jpg",
+  "description": "A brief description of the product.",
+  "brand": {
+    "@type": "Brand",
+    "name": "Brand Name Here"
+  },
+  "sku": "SKU12345",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",  // Change to your current currency code (e.g., EGP for Egyptian Pound)
+    "price": "199.99",        // Current price of the product
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "url": "https://example.com/product-url"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.5",     // Average rating
+    "ratingCount": "100"      // Total number of ratings
+  },
+  "review": {
+    "@type": "Review",
+    "datePublished": "2024-10-20",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "4.5",   // Rating given
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "reviewBody": "This product is excellent for its price. Highly recommended!"
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Your Article Title Here",
+  "description": "A brief description of your article, summarizing its content and main points.",
+  "author": {
+    "@type": "Person",
+    "name": "Author Name",
+    "url": "https://example.com/author-profile"
+  },
+  "datePublished": "2024-10-20T08:00:00+00:00",
+  "dateModified": "2024-10-20T09:00:00+00:00",
+  "image": "https://example.com/image-url.jpg",
+  "articleBody": "The full text of your article goes here. It can be a brief overview or the entire content.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Publisher Name",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://example.com/logo.jpg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://example.com/your-article-url"
+  }
+}
+</script>
