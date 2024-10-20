@@ -100,15 +100,36 @@ function pros_cons_meta_box() {
 
     
     
-      // Save 'Pros'
-      if (isset($_POST['single_pros_editor'])) {
-          update_post_meta($post_id, 'single_pros', wp_kses_post($_POST['single_pros_editor']));
-      }
-  
-      // Save 'Cons'
-      if (isset($_POST['single_cons_editor'])) {
-          update_post_meta($post_id, 'single_cons', wp_kses_post($_POST['single_cons_editor']));
-      }
+// Save 'Pros'
+if (isset($_POST['single_pros_editor'])) {
+    $pros_content = wp_kses_post($_POST['single_pros_editor']);
+
+    // Check if the content does not already contain <li>
+    if (stripos($pros_content, '<li>') === false) {
+        $pros_lines = explode(PHP_EOL, $pros_content);
+        $pros_list = '<ul><li>' . implode('</li><li>', array_filter(array_map('trim', $pros_lines))) . '</li></ul>';
+    } else {
+        $pros_list = $pros_content; // Keep the original content if it has <li>
+    }
+
+    update_post_meta($post_id, 'single_pros', $pros_list);
+}
+
+// Save 'Cons'
+if (isset($_POST['single_cons_editor'])) {
+    $cons_content = wp_kses_post($_POST['single_cons_editor']);
+
+    // Check if the content does not already contain <li>
+    if (stripos($cons_content, '<li>') === false) {
+        $cons_lines = explode(PHP_EOL, $cons_content);
+        $cons_list = '<ul><li>' . implode('</li><li>', array_filter(array_map('trim', $cons_lines))) . '</li></ul>';
+    } else {
+        $cons_list = $cons_content; // Keep the original content if it has <li>
+    }
+
+    update_post_meta($post_id, 'single_cons', $cons_list);
+}
+
   }
   add_action('save_post', 'save_pros_cons_meta_box_data');
   
