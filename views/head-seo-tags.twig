@@ -64,6 +64,8 @@ PostDescription ?  PostDescription : homeDescription
 {% set cons_list = cons_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
 
 {# Output JSON-LD for SEO #}
+
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -144,8 +146,6 @@ PostDescription ?  PostDescription : homeDescription
 
 
 
-
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -160,22 +160,25 @@ PostDescription ?  PostDescription : homeDescription
   "sku": "{{ product_sku }}",
   "offers": {
     "@type": "Offer",
-    "priceCurrency": "EGP",  // Change to your current currency code (e.g., EGP for Egyptian Pound)
-    "price": "{{ product_price }}",        // Current price of the product
+    "priceCurrency": "EGP",
+    "price": "{{ product_price }}",
     "itemCondition": "https://schema.org/NewCondition",
     "availability": "https://schema.org/InStock",
     "url": "{{ post.link }}"
   },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "{{ product_total_rating }}",     // Average rating
+    "ratingValue": "{{ product_total_rating }}",
+    "bestRating": "10",
+    "worstRating": "0",
+    "ratingCount": "{{ product_rating_count }}"
   },
   "review": {
     "@type": "Review",
     "datePublished": "{{ datePublishedTimestamp }}",
     "reviewRating": {
       "@type": "Rating",
-      "ratingValue": "{{ product_total_rating }}",   // Rating given
+      "ratingValue": "{{ product_total_rating }}",
       "bestRating": "10",
       "worstRating": "0"
     },
