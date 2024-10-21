@@ -39,6 +39,8 @@ PostDescription ?  PostDescription : homeDescription
 {% set datePublishedTimestamp = post.date | date('U') %}
 {% set dateModifiedTimestamp = post.modified | date('U') %}
 {% set articleBody =  post.post_content|shortcodes %}
+
+
 {# Define your pros and cons as strings containing HTML lists #}
 {% set pros_html = '<ul>
     <li>2 موتور</li>
@@ -60,31 +62,28 @@ PostDescription ?  PostDescription : homeDescription
 {% set pros_list = pros_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
 {% set cons_list = cons_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
 
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "{{ post.title | trim }}",
+  "name": "كل مايخص عيوب و اسعار شفاط تيفا و ما لن يخبرك به البائع",
   "review": {
     "@type": "Review",
-    "name": "{{ post.title }} review",  // Dynamic name for the review
+    "name": "كل مايخص عيوب و اسعار شفاط تيفا و ما لن يخبرك به البائع review",
     "author": {
       "@type": "Person",
-      "name": "{{ review_author_name }}"  // Replace with the actual author's name
+      "name": "اسم المؤلف"  {# Replace with the actual author's name #}
     },
     "positiveNotes": {
       "@type": "ItemList",
       "itemListElement": [
-        {% set position = 1 %}  // Initialize position counter
         {% for item in pros_list %}
           {% if item|trim is not empty %}
           {
             "@type": "ListItem",
-            "position": {{ position }},
+            "position": {{ loop.index }},
             "name": "{{ item|trim }}"
           }{% if not loop.last %},{% endif %}
-          {% set position = position + 1 %}  // Increment position
           {% endif %}
         {% endfor %}
       ]
@@ -92,15 +91,13 @@ PostDescription ?  PostDescription : homeDescription
     "negativeNotes": {
       "@type": "ItemList",
       "itemListElement": [
-        {% set position = 1 %}  // Initialize position counter
         {% for item in cons_list %}
           {% if item|trim is not empty %}
           {
             "@type": "ListItem",
-            "position": {{ position }},
+            "position": {{ loop.index }},
             "name": "{{ item|trim }}"
           }{% if not loop.last %},{% endif %}
-          {% set position = position + 1 %}  // Increment position
           {% endif %}
         {% endfor %}
       ]
@@ -108,7 +105,6 @@ PostDescription ?  PostDescription : homeDescription
   }
 }
 </script>
-
 
 
 
