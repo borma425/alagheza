@@ -68,7 +68,22 @@ PostDescription ?  PostDescription : homeDescription
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "{{ post.title }}",
+  "name": "{{ post.title | trim }}",
+  "description": "Description of the product here.",
+  "image": "URL of the product image here",
+  "sku": "{{ product_sku }}",  {# Add SKU here if available #}
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product_brand }}"  {# Add brand name here if available #}
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EGP",
+    "price": "{{ product_price }}",  {# Add current price here if available #}
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ post.link }}"
+  },
   "review": {
     "@type": "Review",
     "reviewBody": "This product has several pros and cons.",
