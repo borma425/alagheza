@@ -124,7 +124,7 @@ PostDescription ?  PostDescription : homeDescription
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "{{ mainTitle }}",
-  "description": "{{ articleDescription }}",  // Use a dynamic variable for the article description
+  "description": "{{ Description }}",  // Use a dynamic variable for the article description
   "datePublished": "{{ datePublishedTimestamp }}",
   "dateModified": "{{ dateModifiedTimestamp }}",
   "inLanguage": "ar",
@@ -143,7 +143,6 @@ PostDescription ?  PostDescription : homeDescription
 
 
 
-{% set product_name =  post.post_content|shortcodes %}
 
 
 
@@ -151,37 +150,36 @@ PostDescription ?  PostDescription : homeDescription
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "Product Name Here",
-  "image": "https://example.com/image-url.jpg",
-  "description": "A brief description of the product.",
+  "name": "{{ product_name }}",
+  "image": "{{ product_image }}",
+  "description": "{{ product_desc }}",
   "brand": {
     "@type": "Brand",
-    "name": "Brand Name Here"
+    "name": "{{ product_brand }}"
   },
-  "sku": "SKU12345",
+  "sku": "{{ product_sku }}",
   "offers": {
     "@type": "Offer",
-    "priceCurrency": "USD",  // Change to your current currency code (e.g., EGP for Egyptian Pound)
-    "price": "199.99",        // Current price of the product
+    "priceCurrency": "EGP",  // Change to your current currency code (e.g., EGP for Egyptian Pound)
+    "price": "{{ product_price }}",        // Current price of the product
     "itemCondition": "https://schema.org/NewCondition",
     "availability": "https://schema.org/InStock",
-    "url": "https://example.com/product-url"
+    "url": "{{ post.link }}"
   },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "4.5",     // Average rating
-    "ratingCount": "100"      // Total number of ratings
+    "ratingValue": "{{ product_total_rating }}",     // Average rating
   },
   "review": {
     "@type": "Review",
-    "datePublished": "2024-10-20",
+    "datePublished": "{{ datePublishedTimestamp }}",
     "reviewRating": {
       "@type": "Rating",
-      "ratingValue": "4.5",   // Rating given
-      "bestRating": "5",
-      "worstRating": "1"
+      "ratingValue": "{{ product_total_rating }}",   // Rating given
+      "bestRating": "10",
+      "worstRating": "0"
     },
-    "reviewBody": "This product is excellent for its price. Highly recommended!"
+    "reviewBody": "{{ product_reviewBody }}"
   }
 }
 </script>
@@ -193,32 +191,3 @@ PostDescription ?  PostDescription : homeDescription
 
 
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Your Article Title Here",
-  "description": "A brief description of your article, summarizing its content and main points.",
-  "author": {
-    "@type": "Person",
-    "name": "Author Name",
-    "url": "https://example.com/author-profile"
-  },
-  "datePublished": "2024-10-20T08:00:00+00:00",
-  "dateModified": "2024-10-20T09:00:00+00:00",
-  "image": "https://example.com/image-url.jpg",
-  "articleBody": "The full text of your article goes here. It can be a brief overview or the entire content.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Publisher Name",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://example.com/logo.jpg"
-    }
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://example.com/your-article-url"
-  }
-}
-</script>
