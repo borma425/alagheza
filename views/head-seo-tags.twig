@@ -119,6 +119,64 @@ PostDescription ?  PostDescription : homeDescription
   }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ post.title | trim }}",
+  "description": "{{ post.description | trim }}",  // Ensure this is not empty
+  "image": "{{ post.thumbnail.src }}",  // Ensure this URL is correct
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product_brand | trim }}"  // Replace with actual brand
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EGP",
+    "price": "{{ product_price }}",  // Ensure this is a valid number
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ post.link | trim }}"
+  },
+  "review": {
+    "@type": "Review",
+    "reviewBody": "This product has several pros and cons.",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "4",  // Ensure this is a valid number
+      "bestRating": "5"
+    },
+    "positiveNotes": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {% for item in pros_list %}
+          {% if item|trim is not empty %}
+          {
+            "@type": "ListItem",
+            "position": {{ loop.index }},
+            "name": "{{ item|trim }}"
+          }{% if not loop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      ]
+    },
+    "negativeNotes": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {% for item in cons_list %}
+          {% if item|trim is not empty %}
+          {
+            "@type": "ListItem",
+            "position": {{ loop.index }},
+            "name": "{{ item|trim }}"
+          }{% if not loop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      ]
+    }
+  }
+}
+</script>
 
 
 
