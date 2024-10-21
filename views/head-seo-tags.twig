@@ -119,7 +119,7 @@ PostDescription ?  PostDescription : homeDescription
     "@type": "ImageObject",
     "url": "{{ post.thumbnail.src }}"
   },
-  "articleBody": "{{ articleBody| raw  }}",
+  "articleBody": "{{ articleBody| replace({ '"': "'" })  }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ post.link }}"
