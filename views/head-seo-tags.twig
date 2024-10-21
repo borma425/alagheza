@@ -43,19 +43,19 @@ PostDescription ?  PostDescription : homeDescription
 
 {# Define your pros and cons as strings containing HTML lists #}
 {% set pros_html = '<ul>
- 	<li>2 موتور</li>
- 	<li>إضاءة فعالة من حيث الطاقة</li>
- 	<li>تهوية قوية</li>
- 	<li>3 سرعات</li>
- 	<li>بناء متين</li>
- 	<li>تصميم أنيق</li>
- 	<li>تشغيل سهل</li>
- 	<li>مرشحات قابلة للغسل</li>
+    <li>2 موتور</li>
+    <li>إضاءة فعالة من حيث الطاقة</li>
+    <li>تهوية قوية</li>
+    <li>3 سرعات</li>
+    <li>بناء متين</li>
+    <li>تصميم أنيق</li>
+    <li>تشغيل سهل</li>
+    <li>مرشحات قابلة للغسل</li>
 </ul>' %}
 
 {% set cons_html = '<ul>
- 	<li>غير معروف بكثرة</li>
- 	<li>مصنوع من خامات متوسطة</li>
+    <li>غير معروف بكثرة</li>
+    <li>مصنوع من خامات متوسطة</li>
 </ul>' %}
 
 {# Remove the <ul> and split the list by <li> tags. This strips the tags but keeps the content #}
@@ -78,27 +78,31 @@ PostDescription ?  PostDescription : homeDescription
       "bestRating": "5"
     },
     "positiveNotes": [
-      {% for item in pros_list if item|trim is not empty %}
-      {
-        "@type": "ListItem",
-        "position": {{ loop.index }},
-        "item": {
-          "@type": "Thing",
-          "name": "{{ item|trim }}"
-        }
-      }{% if not loop.last %},{% endif %}
+      {% for item in pros_list %}
+        {% if item|trim is not empty %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "item": {
+            "@type": "Thing",
+            "name": "{{ item|trim }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
       {% endfor %}
     ],
     "negativeNotes": [
-      {% for item in cons_list if item|trim is not empty %}
-      {
-        "@type": "ListItem",
-        "position": {{ loop.index }},
-        "item": {
-          "@type": "Thing",
-          "name": "{{ item|trim }}"
-        }
-      }{% if not loop.last %},{% endif %}
+      {% for item in cons_list %}
+        {% if item|trim is not empty %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "item": {
+            "@type": "Thing",
+            "name": "{{ item|trim }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
       {% endfor %}
     ]
   }
