@@ -146,8 +146,6 @@ PostDescription ?  PostDescription : homeDescription
     "@type": "Offer",
     "priceCurrency": "EGP",
     "price": "{{ product_price | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-    "itemCondition": "https://schema.org/NewCondition",
-    "availability": "https://schema.org/InStock",
     "url": "{{ post.link | trim }}"  {# Ensure this is trimmed to remove whitespace #}
   },
   "aggregateRating": {
