@@ -39,8 +39,6 @@ PostDescription ?  PostDescription : homeDescription
 {% set datePublishedTimestamp = post.date | date('U') %}
 {% set dateModifiedTimestamp = post.modified | date('U') %}
 {% set articleBody =  post.post_content|shortcodes %}
-
-
 {# Define your pros and cons as strings containing HTML lists #}
 {% set pros_html = '<ul>
     <li>2 موتور</li>
@@ -68,12 +66,11 @@ PostDescription ?  PostDescription : homeDescription
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "{{ post.title | trim }}",
-  "description": "Description of the product here.",
-  "image": "URL of the product image here", {# Make sure to replace this with actual URL #}
-  "sku": "{{ product_sku }}", {# Add SKU here if available #}
+  "description": "Description of the product here.", {# Make sure to replace this with actual description #}
+  "image": "{{ post.thumbnail.src }}", {# Ensure this is the actual URL of the product image #}
   "brand": {
     "@type": "Brand",
-    "name": "{{ product_brand | trim }}" {# Make sure to replace this with actual brand #}
+    "name": "{{ product_brand | trim }}" {# Replace with actual brand #}
   },
   "offers": {
     "@type": "Offer",
@@ -83,55 +80,45 @@ PostDescription ?  PostDescription : homeDescription
     "availability": "https://schema.org/InStock",
     "url": "{{ post.link | trim }}"
   },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "{{ product_total_rating | trim }}", {# Ensure this is a valid number #}
-    "bestRating": "5",
-    "worstRating": "0"
-  },
   "review": {
     "@type": "Review",
     "reviewBody": "This product has several pros and cons.",
     "reviewRating": {
       "@type": "Rating",
       "ratingValue": "4", {# Ensure this is a valid number #}
-      "bestRating": "5",
-      "worstRating": "0"
+      "bestRating": "5"
     },
-    "positiveNotes": [
-      {% for item in pros_list %}
-        {% if item|trim is not empty %}
-        {
-          "@type": "ListItem",
-          "position": {{ loop.index }},
-          "item": {
-            "@type": "Thing",
+    "positiveNotes": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {% for item in pros_list %}
+          {% if item|trim is not empty %}
+          {
+            "@type": "ListItem",
+            "position": {{ loop.index }},
             "name": "{{ item|trim }}"
-          }
-        }{% if not loop.last %},{% endif %}
-        {% endif %}
-      {% endfor %}
-    ],
-    "negativeNotes": [
-      {% for item in cons_list %}
-        {% if item|trim is not empty %}
-        {
-          "@type": "ListItem",
-          "position": {{ loop.index }},
-          "item": {
-            "@type": "Thing",
+          }{% if not loop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      ]
+    },
+    "negativeNotes": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {% for item in cons_list %}
+          {% if item|trim is not empty %}
+          {
+            "@type": "ListItem",
+            "position": {{ loop.index }},
             "name": "{{ item|trim }}"
-          }
-        }{% if not loop.last %},{% endif %}
-        {% endif %}
-      {% endfor %}
-    ]
+          }{% if not loop.last %},{% endif %}
+          {% endif %}
+        {% endfor %}
+      ]
+    }
   }
 }
 </script>
-
-
-
 
 
 
