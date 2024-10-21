@@ -6,17 +6,40 @@
 
 
 
-{% set homeName = site.name %}
+
+
+{% set homeName =        site.name %}
 {% set homeUrl  = site.link %}
 {% set homeDescription = site.description %}
 {% set PostDescription = post.excerpt.length(50).read_more(false) %}
-{% set thumbnail = fn('is_home') or fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") : post.thumbnail.src %}
+{% set thumbnail =
+fn('is_home') or
+fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") :
+post.thumbnail.src
+%}
+
 {% set mainTitle  = post.title %}
-{% set Title = fn('is_post_type_archive','article') ? ' أحدث المقالات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز' : fn('is_post_type_archive','products') ? ' أحدث منتجات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز' : fn('is_post_type_archive','success-partners') ? '  شركاء النجاح' : fn('is_home') or fn('is_front_page') ? homeName ~ " - " ~ homeDescription : fn('is_singular') ? mainTitle : fn('is_search') ? search_query : fn('is_404') ? "  404 - Not Found:" ~ homeName : homeName %}
-{% set Description = fn('is_post_type_archive') ? Title : PostDescription ? PostDescription : homeDescription %}
+{# {% set mainTitle  = post.title %} #}
+
+{% set Title =
+fn('is_post_type_archive','article') ?  ' أحدث المقالات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
+fn('is_post_type_archive','products') ?  ' أحدث منتجات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
+fn('is_post_type_archive','success-partners') ?  '  شركاء النجاح   ' :
+fn('is_home') or fn('is_front_page') ? homeName ~ " - " ~ homeDescription :
+fn('is_singular') ?   mainTitle:
+fn('is_search') ?  search_query :
+fn('is_404') ? "  404 - Not Found:" ~ homeName : homeName
+%}
+
+{% set Description =
+fn('is_post_type_archive') ?  Title :
+PostDescription ?  PostDescription : homeDescription
+%}
+
 {% set datePublishedTimestamp = post.date | date('U') %}
 {% set dateModifiedTimestamp = post.modified | date('U') %}
-{% set articleBody = post.post_content | shortcodes %}
+{% set articleBody =  post.post_content|shortcodes %}
+
 
 {# Define your pros and cons as strings containing HTML lists #}
 {% set pros_html = '<ul>
@@ -45,24 +68,24 @@
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "{{ post.title | trim }}",
-  "description": "{{ post.description | trim }}",  {# Add a dynamic product description #}
-  "image": "{{ post.thumbnail.src | trim }}",  {# Replace with the actual URL #}
-  "sku": "{{ product_sku | trim }}",  {# Ensure SKU is available #}
+  "description": "Description of the product here.",
+  "image": "URL of the product image here", {# Make sure to replace this with actual URL #}
+  "sku": "{{ product_sku }}", {# Add SKU here if available #}
   "brand": {
     "@type": "Brand",
-    "name": "{{ product_brand | trim }}"  {# Replace with actual brand #}
+    "name": "{{ product_brand | trim }}" {# Make sure to replace this with actual brand #}
   },
   "offers": {
     "@type": "Offer",
     "priceCurrency": "EGP",
-    "price": "{{ product_price | trim }}",  {# Ensure this is a valid number #}
+    "price": "{{ product_price }}", {# Ensure this is a valid number #}
     "itemCondition": "https://schema.org/NewCondition",
     "availability": "https://schema.org/InStock",
     "url": "{{ post.link | trim }}"
   },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is a valid number #}
+    "ratingValue": "{{ product_total_rating | trim }}", {# Ensure this is a valid number #}
     "bestRating": "5",
     "worstRating": "0"
   },
@@ -71,7 +94,7 @@
     "reviewBody": "This product has several pros and cons.",
     "reviewRating": {
       "@type": "Rating",
-      "ratingValue": "4",  {# Ensure this is a valid number #}
+      "ratingValue": "4", {# Ensure this is a valid number #}
       "bestRating": "5",
       "worstRating": "0"
     },
@@ -107,13 +130,17 @@
 }
 </script>
 
-{# Article Schema #}
+
+
+
+
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "{{ mainTitle }}",
-  "description": "{{ Description }}",  {# Use a dynamic variable for the article description #}
+  "description": "{{ Description }}",  // Use a dynamic variable for the article description
   "datePublished": "{{ datePublishedTimestamp }}",
   "dateModified": "{{ dateModifiedTimestamp }}",
   "inLanguage": "ar",
@@ -121,6 +148,60 @@
     "@type": "ImageObject",
     "url": "{{ post.thumbnail.src }}"
   },
-  "articleBody": "{{ articleBody | striptags }}"
+  "articleBody": "{{ articleBody|striptags }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ post.link }}"
+  }
 }
 </script>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product_name | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+  "image": "{{ product_image | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+  "description": "{{ product_desc | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product_brand | trim }}"  {# Ensure this is trimmed to remove whitespace #}
+  },
+  "sku": "{{ product_sku | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EGP",
+    "price": "{{ product_price | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ post.link | trim }}"  {# Ensure this is trimmed to remove whitespace #}
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+    "bestRating": "10",
+    "worstRating": "0",
+    "ratingCount": "{{ product_rating_count | trim }}"  {# Ensure this is trimmed to remove whitespace #}
+  },
+  "review": {
+    "@type": "Review",
+    "datePublished": "{{ datePublishedTimestamp }}",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is trimmed to remove whitespace #}
+      "bestRating": "10",
+      "worstRating": "0"
+    },
+    "reviewBody": "{{ product_reviewBody | trim }}"  {# Ensure this is trimmed to remove whitespace #}
+  }
+}
+</script>
+
+
+
+
+
+
