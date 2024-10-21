@@ -66,24 +66,20 @@ PostDescription ?  PostDescription : homeDescription
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "كل مايخص عيوب و اسعار شفاط تيفا و ما لن يخبرك به البائع",
-  "review": {
+  "name": "{{ post.title | trim }}",
+    "review": {
     "@type": "Review",
-    "name": "كل مايخص عيوب و اسعار شفاط تيفا و ما لن يخبرك به البائع review",
-    "author": {
-      "@type": "Person",
-      "name": "اسم المؤلف"  {# Replace with the actual author's name #}
-    },
+    "name": "{{ post.title }} review",  // Dynamic name for the review
     "positiveNotes": {
       "@type": "ItemList",
       "itemListElement": [
         {% for item in pros_list %}
           {% if item|trim is not empty %}
-          {
-            "@type": "ListItem",
-            "position": {{ loop.index }},
-            "name": "{{ item|trim }}"
-          }{% if not loop.last %},{% endif %}
+            {
+              "@type": "ListItem",
+              "position": {{ loop.index }},
+              "name": "{{ item|trim }}"
+            }{% if loop.index != pros_list|length-1 %},{% endif %}
           {% endif %}
         {% endfor %}
       ]
@@ -93,11 +89,11 @@ PostDescription ?  PostDescription : homeDescription
       "itemListElement": [
         {% for item in cons_list %}
           {% if item|trim is not empty %}
-          {
-            "@type": "ListItem",
-            "position": {{ loop.index }},
-            "name": "{{ item|trim }}"
-          }{% if not loop.last %},{% endif %}
+            {
+              "@type": "ListItem",
+              "position": {{ loop.index }},
+              "name": "{{ item|trim }}"
+            }{% if loop.index != cons_list|length-1 %},{% endif %}
           {% endif %}
         {% endfor %}
       ]
