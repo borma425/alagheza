@@ -63,34 +63,40 @@ PostDescription ?  PostDescription : homeDescription
 {% set cons_list = cons_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
 
 {# Output JSON-LD for SEO #}
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "{{ post.title | trim }}",
   "description": "Description of the product here.",
-  "image": "URL of the product image here",
-  "sku": "{{ product_sku }}",  {# Add SKU here if available #}
+  "image": "URL of the product image here", {# Make sure to replace this with actual URL #}
+  "sku": "{{ product_sku }}", {# Add SKU here if available #}
   "brand": {
     "@type": "Brand",
-    "name": "{{ product_brand }}"  {# Add brand name here if available #}
+    "name": "{{ product_brand | trim }}" {# Make sure to replace this with actual brand #}
   },
   "offers": {
     "@type": "Offer",
     "priceCurrency": "EGP",
-    "price": "{{ product_price }}",  {# Add current price here if available #}
+    "price": "{{ product_price }}", {# Ensure this is a valid number #}
     "itemCondition": "https://schema.org/NewCondition",
     "availability": "https://schema.org/InStock",
-    "url": "{{ post.link }}"
+    "url": "{{ post.link | trim }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product_total_rating | trim }}", {# Ensure this is a valid number #}
+    "bestRating": "5",
+    "worstRating": "0"
   },
   "review": {
     "@type": "Review",
     "reviewBody": "This product has several pros and cons.",
     "reviewRating": {
       "@type": "Rating",
-      "ratingValue": "4",
-      "bestRating": "5"
+      "ratingValue": "4", {# Ensure this is a valid number #}
+      "bestRating": "5",
+      "worstRating": "0"
     },
     "positiveNotes": [
       {% for item in pros_list %}
