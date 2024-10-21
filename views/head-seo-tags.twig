@@ -6,40 +6,17 @@
 
 
 
-
-
-{% set homeName =        site.name %}
+{% set homeName = site.name %}
 {% set homeUrl  = site.link %}
 {% set homeDescription = site.description %}
 {% set PostDescription = post.excerpt.length(50).read_more(false) %}
-{% set thumbnail =
-fn('is_home') or
-fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") :
-post.thumbnail.src
-%}
-
+{% set thumbnail = fn('is_home') or fn('is_front_page') ? fn('asset_url',"thumnail-1200x630.jpg","/img/default/") : post.thumbnail.src %}
 {% set mainTitle  = post.title %}
-{# {% set mainTitle  = post.title %} #}
-
-{% set Title =
-fn('is_post_type_archive','article') ?  ' أحدث المقالات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
-fn('is_post_type_archive','products') ?  ' أحدث منتجات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
-fn('is_post_type_archive','success-partners') ?  '  شركاء النجاح   ' :
-fn('is_home') or fn('is_front_page') ? homeName ~ " - " ~ homeDescription :
-fn('is_singular') ?   mainTitle:
-fn('is_search') ?  search_query :
-fn('is_404') ? "  404 - Not Found:" ~ homeName : homeName
-%}
-
-{% set Description =
-fn('is_post_type_archive') ?  Title :
-PostDescription ?  PostDescription : homeDescription
-%}
-
+{% set Title = fn('is_post_type_archive','article') ? ' أحدث المقالات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز' : fn('is_post_type_archive','products') ? ' أحدث منتجات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز' : fn('is_post_type_archive','success-partners') ? '  شركاء النجاح' : fn('is_home') or fn('is_front_page') ? homeName ~ " - " ~ homeDescription : fn('is_singular') ? mainTitle : fn('is_search') ? search_query : fn('is_404') ? "  404 - Not Found:" ~ homeName : homeName %}
+{% set Description = fn('is_post_type_archive') ? Title : PostDescription ? PostDescription : homeDescription %}
 {% set datePublishedTimestamp = post.date | date('U') %}
 {% set dateModifiedTimestamp = post.modified | date('U') %}
-{% set articleBody =  post.post_content|shortcodes %}
-
+{% set articleBody = post.post_content | shortcodes %}
 
 {# Define your pros and cons as strings containing HTML lists #}
 {% set pros_html = '<ul>
@@ -62,16 +39,81 @@ PostDescription ?  PostDescription : homeDescription
 {% set pros_list = pros_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
 {% set cons_list = cons_html | replace({'<ul>': '', '</ul>': '', '<li>': '', '</li>': '|'}) | split('|') %}
 
+{# Output JSON-LD for SEO #}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ post.title | trim }}",
+  "description": "{{ post.description | trim }}",  {# Add a dynamic product description #}
+  "image": "{{ post.thumbnail.src | trim }}",  {# Replace with the actual URL #}
+  "sku": "{{ product_sku | trim }}",  {# Ensure SKU is available #}
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product_brand | trim }}"  {# Replace with actual brand #}
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EGP",
+    "price": "{{ product_price | trim }}",  {# Ensure this is a valid number #}
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "url": "{{ post.link | trim }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is a valid number #}
+    "bestRating": "5",
+    "worstRating": "0"
+  },
+  "review": {
+    "@type": "Review",
+    "reviewBody": "This product has several pros and cons.",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "4",  {# Ensure this is a valid number #}
+      "bestRating": "5",
+      "worstRating": "0"
+    },
+    "positiveNotes": [
+      {% for item in pros_list %}
+        {% if item|trim is not empty %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "item": {
+            "@type": "Thing",
+            "name": "{{ item|trim }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
+      {% endfor %}
+    ],
+    "negativeNotes": [
+      {% for item in cons_list %}
+        {% if item|trim is not empty %}
+        {
+          "@type": "ListItem",
+          "position": {{ loop.index }},
+          "item": {
+            "@type": "Thing",
+            "name": "{{ item|trim }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
 
-
-
-
+{# Article Schema #}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "{{ mainTitle }}",
-  "description": "{{ Description }}",  // Use a dynamic variable for the article description
+  "description": "{{ Description }}",  {# Use a dynamic variable for the article description #}
   "datePublished": "{{ datePublishedTimestamp }}",
   "dateModified": "{{ dateModifiedTimestamp }}",
   "inLanguage": "ar",
@@ -79,63 +121,6 @@ PostDescription ?  PostDescription : homeDescription
     "@type": "ImageObject",
     "url": "{{ post.thumbnail.src }}"
   },
-  "articleBody": "{{ articleBody|striptags }}",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ post.link }}"
-  }
+  "articleBody": "{{ articleBody | striptags }}"
 }
 </script>
-
-
-
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "{{ product_name }}",
-  "image": "{{ product_image }}",
-  "description": "{{ product_desc }}",
-  "brand": {
-    "@type": "Brand",
-    "name": "{{ product_brand }}"
-  },
-  "sku": "{{ product_sku }}",
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "EGP",
-    "price": "{{ product_price }}",
-    "itemCondition": "https://schema.org/NewCondition",
-    "availability": "https://schema.org/InStock",
-    "url": "{{ post.link }}"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "{{ product_total_rating }}",
-    "bestRating": "10",
-    "worstRating": "0",
-    "ratingCount": "{{ product_rating_count }}"
-  },
-  "review": {
-    "@type": "Review",
-    "datePublished": "{{ datePublishedTimestamp }}",
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": "{{ product_total_rating }}",
-      "bestRating": "10",
-      "worstRating": "0"
-    },
-    "reviewBody": "{{ product_reviewBody }}"
-  }
-}
-</script>
-
-
-
-
-
-
-
-
