@@ -69,46 +69,23 @@ PostDescription ?  PostDescription : homeDescription
 
 
 
-
-
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "{{ product_name | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "image": "{{ product_image | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "description": "{{ product_desc | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "brand": {
-    "@type": "Brand",
-    "name": "{{ product_brand | trim }}"  {# Ensure this is trimmed to remove whitespace #}
+  "@type": "Article",
+  "headline": "{{ mainTitle }}",
+  "description": "{{ Description }}",  // Use a dynamic variable for the article description
+  "datePublished": "{{ datePublishedTimestamp }}",
+  "dateModified": "{{ dateModifiedTimestamp }}",
+  "inLanguage": "ar",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ post.thumbnail.src }}"
   },
-  "sku": "{{ product_sku | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "EGP",
-    "price": "{{ product_price | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-    "itemCondition": "https://schema.org/NewCondition",
-    "availability": "https://schema.org/InStock",
-    "url": "{{ post.link | trim }}"  {# Ensure this is trimmed to remove whitespace #}
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-    "bestRating": "10",
-    "worstRating": "0",
-    "ratingCount": "{{ product_rating_count | trim }}"  {# Ensure this is trimmed to remove whitespace #}
-  },
-  "review": {
-    "@type": "Review",
-    "datePublished": "{{ datePublishedTimestamp }}",
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-      "bestRating": "10",
-      "worstRating": "0"
-    },
-    "reviewBody": "{{ product_reviewBody | trim }}"  {# Ensure this is trimmed to remove whitespace #}
+  "articleBody": "{{ articleBody|striptags }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ post.link }}"
   }
 }
 </script>
