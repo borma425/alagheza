@@ -65,7 +65,6 @@ PostDescription ?  PostDescription : homeDescription
 
 {# Output JSON-LD for SEO #}
 
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -80,37 +79,32 @@ PostDescription ?  PostDescription : homeDescription
       "bestRating": "5"
     },
     "positiveNotes": [
-      {% for item in pros_list %}
-        {% if item|trim is not empty %}
-        {
-          "@type": "ListItem",
-          "position": {{ loop.index }},
-          "item": {
-            "@type": "Thing",
-            "name": "{{ item|trim }}"
-          }
-        }{% if not loop.last %},{% endif %}
-        {% endif %}
+      {% for item in pros_list if item|trim is not empty %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "item": {
+          "@type": "Thing",
+          "name": "{{ item|trim }}"
+        }
+      }{% if not loop.last %},{% endif %}
       {% endfor %}
     ],
     "negativeNotes": [
-      {% for item in cons_list %}
-        {% if item|trim is not empty %}
-        {
-          "@type": "ListItem",
-          "position": {{ loop.index }},
-          "item": {
-            "@type": "Thing",
-            "name": "{{ item|trim }}"
-          }
-        }{% if not loop.last %},{% endif %}
-        {% endif %}
+      {% for item in cons_list if item|trim is not empty %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "item": {
+          "@type": "Thing",
+          "name": "{{ item|trim }}"
+        }
+      }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]
   }
 }
 </script>
-
 
 
 
