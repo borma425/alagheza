@@ -132,7 +132,7 @@ PostDescription ?  PostDescription : homeDescription
     "@type": "ImageObject",
     "url": "{{ post.thumbnail.src }}"
   },
-  "articleBody": "{{ articleBody }}",
+  "articleBody": "{{ articleBody|striptags }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ post.link }}"
