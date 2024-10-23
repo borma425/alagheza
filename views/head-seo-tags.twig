@@ -36,8 +36,8 @@ fn('is_post_type_archive') ?  Title :
 PostDescription ?  PostDescription : homeDescription
 %}
 
-{% set datePublishedTimestamp = post.date|date('c') %}
-{% set dateModifiedTimestamp = post.modified|date('c') %}
+{% set datePublishedTimestamp = post.date %}
+{% set dateModifiedTimestamp = post.modified %}
 
 {% set articleBody =  post.post_content|shortcodes %}
 
