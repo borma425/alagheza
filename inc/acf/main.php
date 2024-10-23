@@ -45,3 +45,52 @@ add_action('admin_menu', 'remove_tags_meta_boxbrands');
             include_once $file;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    function add_inline_editor_script() {
+        // Check if we are on the post editor page
+        if (get_current_screen()->base === 'post' || get_current_screen()->base === 'post_page') {
+            ?>
+            <script type="text/javascript">
+jQuery(document).ready(function($) {
+    // Create a new div with a border style
+
+    const ratings_meta_box = document.getElementById('ratings_meta_box');
+    const custom_meta_box = document.getElementById('custom_meta_box');
+
+    // Create a new div with the specified ID
+    const newDiv = document.createElement('div');
+    newDiv.id = 'our_meta_border1';
+    newDiv.style.border = '2px solid #D9E1D9';
+    newDiv.style.padding = '20px';
+    newDiv.style.borderRadius = '10px';
+    newDiv.style.backgroundColor = '#f9f9f9';
+
+
+    // Insert the new div before the custom meta box
+    ratings_meta_box.parentNode.insertBefore(newDiv, ratings_meta_box);
+    custom_meta_box.parentNode.insertBefore(newDiv, custom_meta_box);
+
+    // Move the custom meta box inside the new div
+    newDiv.appendChild(ratings_meta_box);
+    newDiv.appendChild(custom_meta_box);
+
+
+});
+
+
+            </script>
+            <?php
+        }
+    }
+    add_action('admin_footer', 'add_inline_editor_script');

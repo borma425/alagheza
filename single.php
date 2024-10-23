@@ -61,7 +61,6 @@ if (is_array($meta_value) && isset($meta_value['Product']['image'])) {
 
 
 
-
 $context['product_image'] = $reviewed_item_image;
 $context['product_desc'] =  isset($meta_value['Product']['description']) ? $meta_value['Product']['description'] : '';
 $context['product_brand'] =  isset($meta_value['Product']['brand']) ? $meta_value['Product']['brand'] : '';
@@ -69,9 +68,6 @@ $context['product_sku'] =   isset($meta_value['Product']['sku']) ? $meta_value['
 $context['product_price'] =   isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
 $context['product_total_rating'] =   get_post_meta( $post->ID, 'wp_review_total', true );
 $context['product_reviewBody'] =    get_post_meta($post->ID, 'wp_review_desc', true);
-
-
-
 
 // Optionally enable caching
 $cache_key = $post->ID;
