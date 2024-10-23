@@ -13,11 +13,11 @@ function add_new_product_meta_box() {
 add_action('add_meta_boxes', 'add_new_product_meta_box');
 
 function display_new_product_meta_box($post) {
-    $new_pricses_2_data = get_post_meta($post->ID, '_new_pricses_2_meta_key', true);
-    $new_pricses_2_data = is_array($new_pricses_2_data) ? $new_pricses_2_data : [];
+    $new_product_data = get_post_meta($post->ID, '_new_product_meta_key', true);
+    $new_product_data = is_array($new_product_data) ? $new_product_data : [];
     echo '
     <style>
-    .new-pricses-2-meta-box {
+    .new-product-meta-box {
         background-color: #f9f9f9;
         padding: 20px;
         border-radius: 8px;
@@ -25,7 +25,7 @@ function display_new_product_meta_box($post) {
         border: 1px solid #ddd;
     }
     
-    .new-pricses-2-pair {
+    .new-product-pair {
         background-color: #fff;
         padding: 15px;
         border-radius: 6px;
@@ -35,7 +35,7 @@ function display_new_product_meta_box($post) {
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     
-    .new-pricses-2-image {
+    .new-product-image {
         margin-bottom: 10px;
     }
     
@@ -54,9 +54,9 @@ function display_new_product_meta_box($post) {
         margin: 0 auto;
     }
     
-    .new-pricses-2-input,
-    .new-pricses-2-textarea,
-    .new-pricses-2-image-url {
+    .new-product-input,
+    .new-product-textarea,
+    .new-product-image-url {
         width: 100%;
         padding: 10px;
         border: 1px solid #ddd;
@@ -64,9 +64,9 @@ function display_new_product_meta_box($post) {
         margin-bottom: 10px;
     }
     
-    .add-new-pricses-2-btn,
+    .add-new-product-btn,
     .upload-new-image-button,
-    .remove-new-pricses-2 {
+    .remove-new-product {
         background-color: #007cba;
         color: #fff;
         border: none;
@@ -82,7 +82,7 @@ function display_new_product_meta_box($post) {
         margin-top: 5px;
     }
     
-    .remove-new-pricses-2 {
+    .remove-new-product {
         background-color: #dc3545;
         position: absolute;
         top: -25px;
@@ -90,133 +90,133 @@ function display_new_product_meta_box($post) {
         padding: 5px;
     }
     
-    .add-new-pricses-2-btn:hover,
+    .add-new-product-btn:hover,
     .upload-new-image-button:hover,
-    .remove-new-pricses-2:hover {
+    .remove-new-product:hover {
         background-color: #005a9c;
     }
     
-    .remove-new-pricses-2:hover {
+    .remove-new-product:hover {
         background-color: #c82333;
     }
     </style>';
     
-    wp_nonce_field(basename(__FILE__), 'new_pricses_2_meta_nonce');
-    $new_pricses_2_main_title = get_post_meta($post->ID, 'new_pricses_2_main_title', true);
+    wp_nonce_field(basename(__FILE__), 'new_product_meta_nonce');
+    $new_prices_main_title = get_post_meta($post->ID, 'new_prices_main_title', true);
     ?>
-    <div class="new-pricses-2-meta-box">
+    <div class="new-product-meta-box">
         <div>
             <label style="font-size:medium;">العنوان الرئيسي الجديد</label>
-            <input type="text" name="new_pricses_2_main_title" value="<?php echo esc_attr($new_pricses_2_main_title); ?>" class="new-pricses-2-input" placeholder="العنوان الرئيسي"/>
+            <input type="text" name="new_prices_main_title" value="<?php echo esc_attr($new_prices_main_title); ?>" class="new-product-input" placeholder="العنوان الرئيسي"/>
         </div><br><br>
 
-        <div id="new-pricses-2-fields-container">
-            <?php if (!empty($new_pricses_2_data)) : ?>
-                <?php foreach ($new_pricses_2_data as $index => $new_pricses_2) : ?>
-                    <div class="new-pricses-2-pair">
-                        <div class="new-pricses-2-image">
+        <div id="new-product-fields-container">
+            <?php if (!empty($new_product_data)) : ?>
+                <?php foreach ($new_product_data as $index => $new_product) : ?>
+                    <div class="new-product-pair">
+                        <div class="new-product-image">
                             <label>الصورة للمنتج الجديد</label>
                             <div class="new-image-preview-wrapper">
-                                <img src="<?php echo esc_url($new_pricses_2['image']); ?>" class="new-image-preview" />
+                                <img src="<?php echo esc_url($new_product['image']); ?>" class="new-image-preview" />
                             </div>
-                            <input type="hidden" name="new_pricses_2_images[]" value="<?php echo esc_url($new_pricses_2['image']); ?>" class="new-pricses-2-image-url" />
+                            <input type="hidden" name="new_product_images[]" value="<?php echo esc_url($new_product['image']); ?>" class="new-product-image-url" />
                             <button type="button" class="upload-new-image-button">رفع الصورة</button>
                         </div>
-                        <div class="new-pricses-2-name">
+                        <div class="new-product-name">
                             <label>الأسم الجديد</label>
-                            <input type="text" name="new_pricses_2_names[]" value="<?php echo esc_attr($new_pricses_2['name']); ?>" class="new-pricses-2-input" />
+                            <input type="text" name="new_product_names[]" value="<?php echo esc_attr($new_product['name']); ?>" class="new-product-input" />
                         </div>
-                        <div class="new-pricses-2-desc">
+                        <div class="new-product-desc">
                             <label>الوصف الجديد</label>
-                            <textarea name="new_pricses_2_descs[]" class="new-pricses-2-textarea"><?php echo esc_textarea($new_pricses_2['desc']); ?></textarea>
+                            <textarea name="new_product_descs[]" class="new-product-textarea"><?php echo esc_textarea($new_product['desc']); ?></textarea>
                         </div>
-                        <div class="new-pricses-2-price">
+                        <div class="new-product-price">
                             <label>السعر الجديد</label>
-                            <input type="text" name="new_pricses_2_prices[]" value="<?php echo esc_attr($new_pricses_2['price']); ?>" class="new-pricses-2-input" />
+                            <input type="text" name="new_product_prices[]" value="<?php echo esc_attr($new_product['price']); ?>" class="new-product-input" />
                         </div>
-                        <div class="new-pricses-2-link">
+                        <div class="new-product-link">
                             <label>التوجه لرابط جديد</label>
-                            <input placeholder="إختياري" type="text" name="new_pricses_2_links[]" value="<?php echo esc_textarea($new_pricses_2['link']); ?>" class="new-pricses-2-input" />
+                            <input placeholder="إختياري" type="text" name="new_product_links[]" value="<?php echo esc_textarea($new_product['link']); ?>" class="new-product-input" />
                         </div>
-                        <button type="button" class="remove-new-pricses-2">الحذف</button>
+                        <button type="button" class="remove-new-product">الحذف</button>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
-                <div class="new-pricses-2-pair">
-                    <div class="new-pricses-2-image">
+                <div class="new-product-pair">
+                    <div class="new-product-image">
                         <label>الصورة للمنتج الجديد</label>
                         <div class="new-image-preview-wrapper">
                             <img src="" class="new-image-preview" style="display: none;" />
                         </div>
-                        <input type="hidden" name="new_pricses_2_images[]" class="new-pricses-2-image-url" />
+                        <input type="hidden" name="new_product_images[]" class="new-product-image-url" />
                         <button type="button" class="upload-new-image-button">رفع الصورة</button>
                     </div>
-                    <div class="new-pricses-2-name">
+                    <div class="new-product-name">
                         <label>الأسم الجديد</label>
-                        <input type="text" name="new_pricses_2_names[]" class="new-pricses-2-input" />
+                        <input type="text" name="new_product_names[]" class="new-product-input" />
                     </div>
-                    <div class="new-pricses-2-desc">
+                    <div class="new-product-desc">
                         <label>الوصف الجديد</label>
-                        <textarea name="new_pricses_2_descs[]" class="new-pricses-2-textarea"></textarea>
+                        <textarea name="new_product_descs[]" class="new-product-textarea"></textarea>
                     </div>
-                    <div class="new-pricses-2-price">
+                    <div class="new-product-price">
                         <label>السعر الجديد</label>
-                        <input type="text" name="new_pricses_2_prices[]" class="new-pricses-2-input" />
+                        <input type="text" name="new_product_prices[]" class="new-product-input" />
                     </div>
-                    <div class="new-pricses-2-link">
+                    <div class="new-product-link">
                         <label>التوجه لرابط جديد</label>
-                        <input placeholder="إختياري" type="text" name="new_pricses_2_links[]" class="new-pricses-2-input" />
+                        <input placeholder="إختياري" type="text" name="new_product_links[]" class="new-product-input" />
                     </div>
-                    <button type="button" class="remove-new-pricses-2">الحذف</button>
+                    <button type="button" class="remove-new-product">الحذف</button>
                 </div>
             <?php endif; ?>
         </div>
 
-        <button type="button" id="add-new-pricses-2-button" class="add-new-pricses-2-btn">اضافة منتج جديد</button>
+        <button type="button" id="add-new-product-button" class="add-new-product-btn">اضافة منتج جديد</button>
     </div>
 
     <script type="text/javascript">
         jQuery(document).ready(function($) {
-            $('#add-new-pricses-2-button').on('click', function() {
-                $('#new-pricses-2-fields-container').append(`
-                    <div class="new-pricses-2-pair">
-                        <div class="new-pricses-2-image">
+            $('#add-new-product-button').on('click', function() {
+                $('#new-product-fields-container').append(`
+                    <div class="new-product-pair">
+                        <div class="new-product-image">
                             <label>الصورة</label>
                             <div class="new-image-preview-wrapper">
                                 <img src="" class="new-image-preview" style="display: none;" />
                             </div>
-                            <input type="hidden" name="new_pricses_2_images[]" class="new-pricses-2-image-url" />
+                            <input type="hidden" name="new_product_images[]" class="new-product-image-url" />
                             <button type="button" class="upload-new-image-button">رفع الصورة</button>
                         </div>
-                        <div class="new-pricses-2-name">
+                        <div class="new-product-name">
                             <label>الأسم الجديد</label>
-                            <input type="text" name="new_pricses_2_names[]" class="new-pricses-2-input" />
+                            <input type="text" name="new_product_names[]" class="new-product-input" />
                         </div>
-                        <div class="new-pricses-2-desc">
+                        <div class="new-product-desc">
                             <label>الوصف الجديد</label>
-                            <textarea name="new_pricses_2_descs[]" class="new-pricses-2-textarea"></textarea>
+                            <textarea name="new_product_descs[]" class="new-product-textarea"></textarea>
                         </div>
-                        <div class="new-pricses-2-price">
+                        <div class="new-product-price">
                             <label>السعر الجديد</label>
-                            <input type="text" name="new_pricses_2_prices[]" class="new-pricses-2-input" />
+                            <input type="text" name="new_product_prices[]" class="new-product-input" />
                         </div>
-                        <div class="new-pricses-2-link">
+                        <div class="new-product-link">
                             <label>التوجه لرابط جديد</label>
-                            <input placeholder="إختياري" type="text" name="new_pricses_2_links[]" class="new-pricses-2-input" />
+                            <input placeholder="إختياري" type="text" name="new_product_links[]" class="new-product-input" />
                         </div>
-                        <button type="button" class="remove-new-pricses-2">الحذف</button>
+                        <button type="button" class="remove-new-product">الحذف</button>
                     </div>
                 `);
             });
 
-            // Handle image upload
-            $(document).on('click', '.upload-new-image-button', function(e) {
+            // Handle image uploading with preview
+            $('.new-product-meta-box').on('click', '.upload-new-image-button', function(e) {
                 e.preventDefault();
                 var button = $(this);
-                var file_frame = wp.media({
-                    title: 'اختر صورة',
+                var file_frame = wp.media.frames.file_frame = wp.media({
+                    title: 'حدد او ارفع صورة',
                     button: {
-                        text: 'استخدم هذه الصورة'
+                        text: 'اختيار هذة الصورة'
                     },
                     multiple: false
                 });
@@ -224,15 +224,15 @@ function display_new_product_meta_box($post) {
                 file_frame.on('select', function() {
                     var attachment = file_frame.state().get('selection').first().toJSON();
                     button.prev('.new-image-preview-wrapper').find('.new-image-preview').attr('src', attachment.url).show();
-                    button.prev('.new-pricses-2-image-url').val(attachment.url);
+                    button.prev('.new-product-image-url').val(attachment.url);
                 });
 
                 file_frame.open();
             });
 
             // Handle removing product fields
-            $(document).on('click', '.remove-new-pricses-2', function() {
-                $(this).closest('.new-pricses-2-pair').remove();
+            $('.new-product-meta-box').on('click', '.remove-new-product', function() {
+                $(this).closest('.new-product-pair').remove();
             });
         });
     </script>
@@ -240,35 +240,35 @@ function display_new_product_meta_box($post) {
 }
 
 function save_new_product_meta($post_id) {
-    if (!isset($_POST['new_pricses_2_meta_nonce']) || !wp_verify_nonce($_POST['new_pricses_2_meta_nonce'], basename(__FILE__))) {
+    if (!isset($_POST['new_product_meta_nonce']) || !wp_verify_nonce($_POST['new_product_meta_nonce'], basename(__FILE__))) {
         return;
     }
 
     // Save main title
-    if (isset($_POST['new_pricses_2_main_title'])) {
-        update_post_meta($post_id, 'new_pricses_2_main_title', sanitize_text_field($_POST['new_pricses_2_main_title']));
+    if (isset($_POST['new_prices_main_title'])) {
+        update_post_meta($post_id, 'new_prices_main_title', sanitize_text_field($_POST['new_prices_main_title']));
     }
 
     // Save product data
-    $new_pricses_2_names = $_POST['new_pricses_2_names'];
-    $new_pricses_2_descs = $_POST['new_pricses_2_descs'];
-    $new_pricses_2_prices = $_POST['new_pricses_2_prices'];
-    $new_pricses_2_links = $_POST['new_pricses_2_links'];
-    $new_pricses_2_images = $_POST['new_pricses_2_images'];
+    $new_product_names = $_POST['new_product_names'];
+    $new_product_descs = $_POST['new_product_descs'];
+    $new_product_prices = $_POST['new_product_prices'];
+    $new_product_links = $_POST['new_product_links'];
+    $new_product_images = $_POST['new_product_images'];
 
-    $new_pricses_2_info = [];
-    if (!empty($new_pricses_2_names)) {
-        foreach ($new_pricses_2_names as $index => $name) {
-            $new_pricses_2_info[] = [
+    $new_product_info = [];
+    if (!empty($new_product_names)) {
+        foreach ($new_product_names as $index => $name) {
+            $new_product_info[] = [
                 'name' => sanitize_text_field($name),
-                'desc' => sanitize_textarea_field($new_pricses_2_descs[$index]),
-                'price' => sanitize_text_field($new_pricses_2_prices[$index]),
-                'link' => sanitize_text_field($new_pricses_2_links[$index]),
-                'image' => esc_url($new_pricses_2_images[$index]),
+                'desc' => sanitize_textarea_field($new_product_descs[$index]),
+                'price' => sanitize_text_field($new_product_prices[$index]),
+                'link' => sanitize_text_field($new_product_links[$index]),
+                'image' => esc_url($new_product_images[$index]),
             ];
         }
     }
-    update_post_meta($post_id, '_new_pricses_2_meta_key', $new_pricses_2_info);
+    update_post_meta($post_id, '_new_product_meta_key', $new_product_info);
 }
 add_action('save_post', 'save_new_product_meta');
 
