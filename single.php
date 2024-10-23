@@ -2,6 +2,16 @@
 use Timber\Timber;
 
 
+function convertArabicDateToEnglish($arabicDate) {
+    // Create a DateTime object from the Arabic date string
+    $date = DateTime::createFromFormat('!d F Y', $arabicDate);
+    if ($date) {
+        // Return the date in a standard format (e.g., ISO 8601)
+        return $date->format('Y-m-d\TH:i:sP');
+    }
+    return null; // Return null if conversion fails
+}
+
 
 
 $context = Timber::context();
@@ -48,6 +58,9 @@ if (is_array($meta_value) && isset($meta_value['Product']['image'])) {
     echo 'Product image data is not set correctly.';
     $reviewed_item_image = "No_imagerTT"; // Get existing image URL
 }
+
+
+
 
 $context['product_image'] = $reviewed_item_image;
 $context['product_desc'] =  isset($meta_value['Product']['description']) ? $meta_value['Product']['description'] : '';

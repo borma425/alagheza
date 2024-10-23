@@ -84,10 +84,6 @@ PostDescription ?  PostDescription : homeDescription
 
 
 
-
-
-
-
 {# Define your pros and cons as strings containing HTML lists #}
 {% set pros_html = '<ul>
     <li>2 موتور</li>
@@ -114,9 +110,37 @@ PostDescription ?  PostDescription : homeDescription
   "@context": "https://schema.org",
   "@type": "Product",
   "name": "{{ post.title | trim }}",
-    "review": {
+  "image": "{{ product_image | trim }}",
+  "description": "{{ product_desc | trim }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ product_brand | trim }}"
+  },
+  "sku": "{{ product_sku | trim }}",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EGP",
+    "price": "{{ product_price | trim }}",
+    "url": "{{ post.link | trim }}"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product_total_rating | trim }}",
+    "bestRating": "10",
+    "worstRating": "0",
+    "ratingCount": "{{ product_rating_count | trim }}"
+  },
+  "review": {
     "@type": "Review",
-    "name": "{{ post.title }} review",  // Dynamic name for the review
+    "name": "{{ post.title }} review",
+    "datePublished": "{{ datePublishedTimestamp }}",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "{{ product_total_rating | trim }}",
+      "bestRating": "10",
+      "worstRating": "0"
+    },
+    "reviewBody": "{{ product_reviewBody | trim }}",
     "positiveNotes": {
       "@type": "ItemList",
       "itemListElement": [
@@ -154,47 +178,115 @@ PostDescription ?  PostDescription : homeDescription
 
 
 
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "{{ product_name | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "image": "{{ product_image | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "description": "{{ product_desc | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "brand": {
-    "@type": "Brand",
-    "name": "{{ product_brand | trim }}"  {# Ensure this is trimmed to remove whitespace #}
-  },
-  "sku": "{{ product_sku | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "EGP",
-    "price": "{{ product_price | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-    "url": "{{ post.link | trim }}"  {# Ensure this is trimmed to remove whitespace #}
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-    "bestRating": "10",
-    "worstRating": "0",
-    "ratingCount": "{{ product_rating_count | trim }}"  {# Ensure this is trimmed to remove whitespace #}
-  },
-  "review": {
-    "@type": "Review",
-    "datePublished": "{{ datePublishedTimestamp }}",
-    "reviewRating": {
-      "@type": "Rating",
-      "ratingValue": "{{ product_total_rating | trim }}",  {# Ensure this is trimmed to remove whitespace #}
-      "bestRating": "10",
-      "worstRating": "0"
+  "@type": "ItemList",
+  "name": "Comparison of Multiple Devices",
+  "itemListElement": [
+    {
+      "@type": "Product",
+      "name": "Device A",
+      "image": "https://example.com/device-a.jpg",
+      "description": "Description of Device A.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Brand A"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.5",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "150"
+      },
+      "review": {
+        "@type": "Review",
+        "datePublished": "2024-09-01",
+        "reviewBody": "Review of Device A.",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "4.5",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "positiveNotes": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Excellent performance"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Great battery life"
+            }
+          ]
+        },
+        "negativeNotes": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "A bit expensive"
+            }
+          ]
+        }
+      }
     },
-    "reviewBody": "{{ product_reviewBody | trim }}"  {# Ensure this is trimmed to remove whitespace #}
-  }
+    {
+      "@type": "Product",
+      "name": "Device B",
+      "image": "https://example.com/device-b.jpg",
+      "description": "Description of Device B.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Brand B"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.0",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "100"
+      },
+      "review": {
+        "@type": "Review",
+        "datePublished": "2024-09-05",
+        "reviewBody": "Review of Device B.",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "4.0",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "positiveNotes": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "User-friendly interface"
+            }
+          ]
+        },
+        "negativeNotes": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Limited storage"
+            }
+          ]
+        }
+      }
+    }
+    // يمكنك إضافة المزيد من الأجهزة بنفس النمط
+  ]
 }
 </script>
-
-
-
-
-
-
