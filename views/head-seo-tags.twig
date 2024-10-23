@@ -36,9 +36,56 @@ fn('is_post_type_archive') ?  Title :
 PostDescription ?  PostDescription : homeDescription
 %}
 
-{% set datePublishedTimestamp = post.date | date('U') %}
-{% set dateModifiedTimestamp = post.modified | date('U') %}
+{% set datePublishedTimestamp = post.date|date('c') %}
+{% set dateModifiedTimestamp = post.modified|date('c') %}
+
 {% set articleBody =  post.post_content|shortcodes %}
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ mainTitle }}",
+  "description": "{{ Description }}",
+  "datePublished": "{{ datePublishedTimestamp }}",
+  "dateModified": "{{ dateModifiedTimestamp }}",
+  "inLanguage": "ar",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ post.thumbnail.src }}"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.author.name }}",
+    "url": "{{ post.author.link }}"
+  },
+  "articleSection": "{{ post.category.name }}",  // First category as the article section
+  "keywords": "{% for tag in post.tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}",  // Comma-separated tags as keywords
+  "articleBody": "{{ articleBody| replace({ '"': "'" })  }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ post.link }}"
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {# Define your pros and cons as strings containing HTML lists #}
@@ -103,29 +150,6 @@ PostDescription ?  PostDescription : homeDescription
 </script>
 
 
-
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "{{ mainTitle }}",
-  "description": "{{ Description }}",  // Use a dynamic variable for the article description
-  "datePublished": "{{ datePublishedTimestamp }}",
-  "dateModified": "{{ dateModifiedTimestamp }}",
-  "inLanguage": "ar",
-  "image": {
-    "@type": "ImageObject",
-    "url": "{{ post.thumbnail.src }}"
-  },
-  "articleBody": "{{ articleBody| replace({ '"': "'" })  }}",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ post.link }}"
-  }
-}
-</script>
 
 
 
