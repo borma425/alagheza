@@ -19,9 +19,111 @@ function device_specifications_callback($post) {
 
     wp_nonce_field(basename(__FILE__), 'custom_meta_box_nonce');
     ?>
-    <style>
-    /* Your existing styles */
-    </style>
+<style>
+
+  
+/* Container for the device specifications */
+#device-specifications-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Each specification item */
+.specification-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Input fields and textareas */
+.specification-item input[type="text"],
+.specification-item textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Icon upload button */
+.upload-icon-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Hover effect for buttons */
+.upload-icon-button:hover,
+#add-specification:hover,
+.remove-specification:hover {
+    background-color: #005b8b;
+    color: #fff;
+}
+
+/* Remove button style */
+.remove-specification {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #d63638;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Preview of the icon */
+.device-icon-preview {
+    max-width: 100px;
+    max-height: 100px;
+    margin-top: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    display: none;
+}
+
+/* Button to add another specification */
+#add-specification {
+    padding: 3px 16px;
+    font-size: 16px;
+    background-color: #0073aa;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+}
+
+/* General form field spacing */
+.specification-item input[type="text"],
+.specification-item textarea,
+#add-specification {
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .specification-item {
+        flex-direction: column;
+    }
+}
+
+</style>
 
     <h3>جدول المواصفات</h3>
 
