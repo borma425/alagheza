@@ -153,7 +153,7 @@ function device_specifications_callback($post) {
                     <input type="hidden" name="device_specs[<?php echo esc_attr($key); ?>][icon]" value="<?php echo esc_url($spec['icon']); ?>" class="device-icon-url" />
                     <img src="<?php echo esc_url($spec['icon']); ?>" class="device-icon-preview" style="max-width:100px; max-height:100px; display:<?php echo empty($spec['icon']) ? 'none' : 'block'; ?>" />
                     <button type="button" class="upload-icon-button button">رفع الأيقونه</button>
-                    <button type="button" class="remove-specification button">الحذف</button>
+                    <button type="button" class="remove-specification button">الحذف  للمواصفة </button>
                 </div>
                 <?php
             }
@@ -212,7 +212,7 @@ function device_specifications_callback($post) {
                     <input type="hidden" name="device_specs[` + newIndex + `][icon]" class="device-icon-url" />
                     <img src="" class="device-icon-preview" style="max-width:100px; max-height:100px; display:none;" />
                     <button type="button" class="upload-icon-button button">رفع الأيقونه</button>
-                    <button type="button" class="remove-specification button">الحذف</button>
+                    <button type="button" class="remove-specification button">الحذف  للمواصفة </button>
                 </div>
             `);
         });
