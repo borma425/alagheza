@@ -76,7 +76,7 @@ function add_custom_meta_box() {
           foreach ($transformed_array as $key => $rating) {
               echo '<div class="rating-item">';
               echo '<input type="text" id="wpr-review-item-title-' .++$index.'" name="wp_review_item_title[]" value="' . esc_attr($rating['key']) . '" placeholder="اسم التقييم" />';
-              echo '<input type="number" id="wpr-review-item-star-' .++$index.'"  name="wp_review_item_star[]" value="' . esc_attr($rating['value']) . '" placeholder="(0-5)" />';
+              echo '<input type="text" id="wpr-review-item-star-' .++$index.'"  name="wp_review_item_star[]" value="' . esc_attr($rating['value']) . '" placeholder="(0-5)" />';
               echo '<button type="button" class="remove-rating button">الحذف</button>';
               echo '</div>';
           }
@@ -326,7 +326,7 @@ function add_custom_meta_box() {
               var newRatingIndex = 0;
               $("#add-rating").click(function() {
                   newRatingIndex++; // Increment the index
-                  $("#multi-ratings-container").append("<div class=\'rating-item\'><input type=\'text\' id=\'wpr-review-item-title-" + newRatingIndex + "\' name=\'wp_review_item_title[]\' placeholder=\'اسم التقييم\' /><input type=\'number\' id=\'wpr-review-item-star-" + newRatingIndex + "\' name=\'wp_review_item_star[]\' placeholder=\'(0-5)\' /><button type=\'button\' class=\'remove-rating button\'>الحذف</button></div>");
+                  $("#multi-ratings-container").append("<div class=\'rating-item\'><input type=\'text\' id=\'wpr-review-item-title-" + newRatingIndex + "\' name=\'wp_review_item_title[]\' placeholder=\'اسم التقييم\' /><input type=\'text\' id=\'wpr-review-item-star-" + newRatingIndex + "\' name=\'wp_review_item_star[]\' placeholder=\'(0-5)\' /><button type=\'button\' class=\'remove-rating button\'>الحذف</button></div>");
               });
   
               // Remove Rating
