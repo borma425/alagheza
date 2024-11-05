@@ -115,8 +115,8 @@ function CPT_Redirect_link($cpt_slug=""){
       switch ($cpt_slug) {
   
   
-          case "roms":
-          $path = "roms/";
+          case "sections":
+          $path = "sections/";
             break;
           case "emulators":
           $path = "emulators/";
