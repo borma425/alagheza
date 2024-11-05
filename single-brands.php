@@ -17,6 +17,10 @@ if (!empty($current_post_tags)) {
         return $tag->term_id;
     }, $current_post_tags);
 
+    foreach ($related_posts as $post) {
+        $post->price = get_post_meta($post->ID, 'wp_review_product_price', true);
+    }
+    
     // Query posts with matching tags
     $context['related_posts'] = Timber::get_posts(array(
         'post_type'      => 'post',
