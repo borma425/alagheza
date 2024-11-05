@@ -1,4 +1,4 @@
-{% set brands = fn('CPT_Redirect_link', 'brands') %}
+{% set brands_cpt = fn('CPT_Redirect_link', 'brands') %}
 
 			<!-- start brands section -->
 			<section class="brands">
@@ -24,7 +24,7 @@
 
 					</div>
 					<a
-						href="{{ brands.link }}"
+						href="{{ brands_cpt.link }}"
 						class="btn btn-outline-secondary center"
 						data-category="home">
 						المزيد من العلامات التجارية
