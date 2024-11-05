@@ -25,7 +25,7 @@
 								</div>
 								<div class="product-info">
 									<div class="price-rating">
-										<span class="price">{{ article.price }} </span>
+										<span class="price">{{article.price}} </span>
 										<span class="rating-value" data-rating="9.0" style="background-color: rgb(41, 204, 0);">9.0/10</span>
 									</div>
 									<h3 class="product-title">
@@ -43,21 +43,15 @@
 						
 						
 					</div>
-					<nav aria-label="Page navigation" class="pagination-container">
-						<ul class="pagination">
-							<li class="disabled">
-								<a aria-label="Previous"><span aria-hidden="true">«</span></a>
-							</li>
-							<li class="active"><a>1</a></li>
-							<li><a>2</a></li>
-							<li><a>3</a></li>
-							<li><a>4</a></li>
-							<li><a>5</a></li>
-							<li>
-								<a aria-label="Next"><span aria-hidden="true">»</span></a>
-							</li>
-						</ul>
-					</nav>
+
+
+
+{% include "main/pagination.twig" %}
+
+
+
+
+
 				</div>
 			</section>
             
