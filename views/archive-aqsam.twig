@@ -2,7 +2,8 @@
 
 {% block grid_content %}
 
-{% include "components/main_section.twig" %}
+{% include "components/main_section.twig" with { title: "جميع العلامات التجارية", desc: " الموقع الأول لمراجعة الأجهزة الكهربائية في مصر والشرق الأوسط بناء على اراء المهندسين المحترفين وتجارب المستخدمين السابقين. " } %}
+
 {% include "components/smart-search.twig" %}
 
 <section class="categories">

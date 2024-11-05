@@ -1,7 +1,34 @@
 {% extends "base.twig" %}
 
 {% block grid_content %}
+{% include "components/main_section.twig" with { title: "جميع العلامات التجارية", desc: " الموقع الأول لمراجعة الأجهزة الكهربائية في مصر والشرق الأوسط بناء على اراء المهندسين المحترفين وتجارب المستخدمين السابقين. " } %}
 
+{% include "components/smart-search.twig" %}
+
+<section class="brands">
+				<div class="container">
+					<div class="center-header">
+						<h2 class="title">العلامات التجارية المميزة</h2>
+						<p class="subtitle">
+							نفخر بشراكتنا مع أفضل العلامات التجارية في مجال الأجهزة الكهربائية
+						</p>
+					</div>
+					<div class="brands-grid">
+{% for post in brands %}
+
+						<a href="{{ post.link }}" class="brand-item">
+							<img
+								src="{{ post.thumbnail.src|towebp | default(defaultimg) }}"
+								alt="{{ post.title }}"
+								width="120"
+								height="60"
+								loading="lazy" />
+						</a>
+{% endfor %}
+
+					</div>
+				</div>
+			</section>
 
 
 
