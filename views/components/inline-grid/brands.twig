@@ -1,7 +1,7 @@
 {% set brands_cpt = fn('CPT_Redirect_link', 'brands') %}
 
-			<!-- start brands section -->
-			<section class="brands">
+
+<section class="brands">
 				<div class="container">
 					<div class="center-header">
 						<h2 class="title">العلامات التجارية المميزة</h2>
@@ -21,14 +21,10 @@
 								loading="lazy" />
 						</a>
 {% endfor %}
-
 					</div>
-					<a
-						href="{{ brands_cpt.link }}"
-						class="btn btn-outline-secondary center"
-						data-category="home">
+					<a href="{{ brands_cpt.link }}" class="btn btn-outline-secondary center" data-category="home">
 						المزيد من العلامات التجارية
 					</a>
 				</div>
 			</section>
-			<!-- end brands section -->
+
