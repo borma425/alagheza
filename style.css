@@ -1014,11 +1014,11 @@ form select {
 }
 
 .search-section::before {
-  background: url("../images/robot.png") no-repeat right;
+  background: url("./assets/img/robot.jpg") no-repeat right;
 }
 
 .search-section::after {
-  background: url("../images/robot.png") no-repeat left;
+  background: url("./assets/img/robot.jpg") no-repeat left;
 }
 
 @media (max-width: 768px) {

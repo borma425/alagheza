@@ -1,10 +1,10 @@
-{% set redirect = fn('CPT_Redirect_link', 'sections') %}
+{% set sections = fn('CPT_Redirect_link', 'sections') %}
 			<!-- start categories section -->
 			<section class="categories">
 				<div class="container">
 					<div class="main-title">
 						<h2 class="title">الأقسام</h2>
-						<a href="{{ redirect.link }}" class="link">
+						<a href="{{ sections.link }}" class="link">
 							المزيد من الأقسام
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@
 
 					</div>
 					<a
-						href="{{ redirect.link }}"
+						href="{{ sections.link }}"
 						class="btn btn-outline-secondary center"
 						data-category="home">
 						المزيد من الأقسام

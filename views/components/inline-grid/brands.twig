@@ -1,3 +1,4 @@
+{% set brands = fn('CPT_Redirect_link', 'brands') %}
 
 			<!-- start brands section -->
 			<section class="brands">
@@ -9,57 +10,21 @@
 						</p>
 					</div>
 					<div class="brands-grid">
+{% for post in brands %}
+
 						<div class="brand-item">
 							<img
-								src="/images/brands/brand-1.png"
-								alt="Brand 1"
+								src="{{ post.thumbnail.src|towebp | default(defaultimg) }}"
+								alt="{{ post.title }}"
 								width="120"
 								height="60"
 								loading="lazy" />
 						</div>
-						<div class="brand-item">
-							<img
-								src="/images/brands/brand-1.png"
-								alt="Brand 2"
-								width="120"
-								height="60"
-								loading="lazy" />
-						</div>
-						<div class="brand-item">
-							<img
-								src="/images/brands/brand-1.png"
-								alt="Brand 3"
-								width="120"
-								height="60"
-								loading="lazy" />
-						</div>
-						<div class="brand-item">
-							<img
-								src="/images/brands/brand-1.png"
-								alt="Brand 4"
-								width="120"
-								height="60"
-								loading="lazy" />
-						</div>
-						<div class="brand-item">
-							<img
-								src="/images/brands/brand-1.png"
-								alt="Brand 5"
-								width="120"
-								height="60"
-								loading="lazy" />
-						</div>
-						<div class="brand-item">
-							<img
-								src="/images/brands/brand-1.png"
-								alt="Brand 6"
-								width="120"
-								height="60"
-								loading="lazy" />
-						</div>
+{% endfor %}
+
 					</div>
 					<a
-						href="/all-brands"
+						href="{{ brands.link }}"
 						class="btn btn-outline-secondary center"
 						data-category="home">
 						المزيد من العلامات التجارية

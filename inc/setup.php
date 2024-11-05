@@ -118,8 +118,8 @@ function CPT_Redirect_link($cpt_slug=""){
           case "sections":
           $path = "sections/";
             break;
-          case "emulators":
-          $path = "emulators/";
+          case "brands":
+          $path = "brands/";
             break;
           case "help_center":
           $path = "help_center/";

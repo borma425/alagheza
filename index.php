@@ -20,6 +20,11 @@ $context['aqsam'] = Timber::get_posts(array(
 ));
 
 
+$context['brands'] = Timber::get_posts(array(
+    'post_type' => 'brands', // Slug of the category
+    'posts_per_page' => 5, // Adjust the number of posts as needed
+));
+
 
 
 Timber::render('index-home.twig', $context);
