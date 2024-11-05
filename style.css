@@ -142,14 +142,6 @@ select {
   margin-left: auto;
 }
 
-.container-fluid {
-  width: 100%;
-  padding-right: var(--container-padding);
-  padding-left: var(--container-padding);
-  margin-right: auto;
-  margin-left: auto;
-}
-
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
@@ -171,6 +163,12 @@ select {
 @media (min-width: 1200px) {
   .container {
     max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1320px;
   }
 }
 
@@ -432,6 +430,9 @@ form select {
   z-index: 1000;
   transition: all var(--transition-duration) ease;
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-self: center;
 }
 
 .header .container {

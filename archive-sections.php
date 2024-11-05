@@ -11,4 +11,4 @@ $context["posts"] = Timber::get_posts( array(
     'paged' => $paged,
 )  );
 
-Timber::render('articles.twig', $context);
+Timber::render('archive-aqsam.twig', $context);
