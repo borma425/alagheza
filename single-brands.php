@@ -29,7 +29,10 @@ if (!empty($current_post_tags)) {
             'title' => $post->title,
             'link'  => $post->link,
             'id'    => $post->ID,
+            'thumbnail' => get_the_post_thumbnail_url($post->ID, 'thumbnail'), // Adjust size as needed
+            'description' => get_the_excerpt($post->ID), // or get_post_field('post_content', $post->ID) for full content
         ];
+        
 
         // Retrieve schema options for the current related post
         $meta_key = 'wp_review_schema_options';
