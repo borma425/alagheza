@@ -12,14 +12,14 @@
 					<div class="brands-grid">
 {% for post in brands %}
 
-						<div class="brand-item">
+						<a href="{{ post.link }}" class="brand-item">
 							<img
 								src="{{ post.thumbnail.src|towebp | default(defaultimg) }}"
 								alt="{{ post.title }}"
 								width="120"
 								height="60"
 								loading="lazy" />
-						</div>
+						</a>
 {% endfor %}
 
 					</div>
