@@ -1,0 +1,71 @@
+{% extends "base.twig" %}
+
+{% block grid_content %}
+{% include "components/main_section.twig" with { title: post.title, desc: post.excerpt.length(35).read_more(false) } %}
+
+{% include "components/smart-search.twig" %}
+
+{% if related_posts %}
+<section class="product-showcase">
+				<div class="container">
+					<div class="center-header">
+						<h2 class="title">أحدث مراجعات الأجهزة الكهربائية</h2>
+					</div>
+					<div class="product-grid" id="productGrid">
+                            {% for article in related_posts %}
+						<a href="{{ article.link }}" class="product-link">
+							<div class="product-card">
+								<div class="product-image">
+									<img src="/images/products/product-1.webp" alt="{{article.excerpt.length(35).read_more(false) }}">
+									<button class="compare-button">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
+											<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
+										</svg>
+									</button>
+								</div>
+								<div class="product-info">
+									<div class="price-rating">
+										<span class="price">3,999 ريال</span>
+										<span class="rating-value" data-rating="9.0" style="background-color: rgb(41, 204, 0);">9.0/10</span>
+									</div>
+									<h3 class="product-title">
+										{{article.excerpt.length(35).read_more(false) }}
+									</h3>
+									<p class="product-description">مراجعات هواتف سامسونج</p>
+								</div>
+							</div>
+						</a>
+
+						        {% endfor %}
+						
+						
+						
+						
+						
+					</div>
+					<nav aria-label="Page navigation" class="pagination-container">
+						<ul class="pagination">
+							<li class="disabled">
+								<a aria-label="Previous"><span aria-hidden="true">«</span></a>
+							</li>
+							<li class="active"><a>1</a></li>
+							<li><a>2</a></li>
+							<li><a>3</a></li>
+							<li><a>4</a></li>
+							<li><a>5</a></li>
+							<li>
+								<a aria-label="Next"><span aria-hidden="true">»</span></a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</section>
+            
+            
+            
+            
+            {% endif %}
+
+
+
+{% endblock %}
