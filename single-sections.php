@@ -2,23 +2,19 @@
 
 $context = Timber::context();
 $context['is_front_page'] = false;
-
 $current_post_id = get_the_ID();
-$current_post_tags = wp_get_post_tags($current_post_id);
+$current_post_categories = wp_get_post_categories($current_post_id);
 
-if (!empty($current_post_tags)) {
-    $tag_ids = array_map(function($tag) {
-        return $tag->term_id;
-    }, $current_post_tags);
-
-    // Query posts with matching tags
+if (!empty($current_post_categories)) {
+    // Query posts with matching categories
     $related_posts_data = Timber::get_posts(array(
         'post_type'      => 'post',
         'posts_per_page' => 8,
         'paged'          => $paged,
-        'tag__in'        => $tag_ids,
+        'category__in'   => $current_post_categories, // Use 'category__in' for categories
         'post__not_in'   => array($current_post_id),
     ));
+    
 
     // Initialize an array to hold related posts with prices
     $related_posts = [];
