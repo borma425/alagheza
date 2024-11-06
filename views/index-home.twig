@@ -7,10 +7,14 @@
 {% include "components/inline-grid/aqsam.twig" %}
 
 {% include "components/inline-grid/brands.twig" %}
-{% include "smart-search.twig" %}
-{% include "recent-review-devices.twig" %}
-{% include "advices.twig" %}
+{% include "components/smart-search.twig" %}
+{% include "recent-review-devices.twig" with { related_posts: related_posts } %}
+
+{% include "components/main_advices.twig" %}
 {% include "how-we-review.twig" %}
+
+
+
 
 
 			<!-- end categories section -->
