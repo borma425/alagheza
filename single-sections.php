@@ -4,6 +4,10 @@ $context = Timber::context();
 $context['is_front_page'] = false;
 $current_post_id = get_the_ID();
 $current_post_categories = wp_get_post_categories($current_post_id);
+global $paged;
+if (!isset($paged) || !$paged){
+    $paged = 1;
+}
 
 if (!empty($current_post_categories)) {
     // Query posts with matching categories
@@ -63,6 +67,42 @@ if (!empty($current_post_categories)) {
 
     // Store related posts in the context for rendering
     $context['related_posts'] = $related_posts;
+
+    // Add pagination to context
+
+// Set up pagination
+$current_page = get_query_var('paged') ? get_query_var('paged') : 1; // Current page number
+$total_pages = 3;
+
+// Base URL for pagination
+$base_url = $context['current_url'] . '/page/';
+
+
+
+// Construct the pagination links
+$pagination_links = [];
+for ($i = 1; $i <= $total_pages; $i++) {
+    $pagination_links[] = [
+        'number' => $i,
+        'link' => "{$base_url}{$i}/",
+        'current' => ($i === $current_page),
+    ];
+}
+
+// Create prev and next links
+$prev_link = $current_page > 1 ? "{$base_url}" . ($current_page - 1) . '/' : '';
+$next_link = $current_page < $total_pages ? "{$base_url}" . ($current_page + 1) . '/' : '';
+
+$context['pagination'] = [
+    'prev' => $prev_link,
+    'next' => $next_link,
+    'pages' => $pagination_links,
+];
+
+
+
+
+
 }
 
 Timber::render('single-section.twig', $context);

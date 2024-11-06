@@ -51,8 +51,36 @@
 					</div>
 
 
+{% if pagination.pages is not empty %}
+    <nav class="nav-pagination">
+        <ul class="pagination">
+            {# Previous Page #}
+            {% if pagination.prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ pagination.prev }}" aria-label="Previous">Previous</a>
+                </li>
+            {% endif %}
 
-{% include "main/pagination.twig" %}
+            {# Pagination Pages #}
+            {% for page in pagination.pages %}
+                <li class="page-item {% if page.current %}active{% endif %}">
+                    {% if page.current %}
+                        <span class="page-link">{{ page.number }}</span> {# Ensure you use page.number #}
+                    {% else %}
+                        <a class="page-link" href="{{ page.link }}">{{ page.number }}</a> {# Ensure you use page.number #}
+                    {% endif %}
+                </li>
+            {% endfor %}
+
+            {# Next Page #}
+            {% if pagination.next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ pagination.next }}" aria-label="Next">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
 
 
 

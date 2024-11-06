@@ -1,22 +1,17 @@
 {% set sections = fn('CPT_Redirect_link', 'sections') %}
-			<!-- start categories section -->
-			<section class="categories">
+
+
+
+
+
+
+<section class="categories">
 				<div class="container">
 					<div class="main-title">
 						<h2 class="title">الأقسام</h2>
 						<a href="{{ sections.link }}" class="link">
 							المزيد من الأقسام
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								class="arrow-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
 								<line x1="5" y1="12" x2="19" y2="12"></line>
 								<polyline points="12 5 19 12 12 19"></polyline>
 							</svg>
@@ -24,7 +19,10 @@
 					</div>
 					<div class="categories-grid">
 
+
+
 {% for post in aqsam %}
+
 						<a href="{{ post.link }}" class="category-card">
 							<div class="category-icon">
 								<img
@@ -33,19 +31,21 @@
 									width="64"
 									height="64"
 									loading="lazy" />
-							</div>
+																</div>
 							<h3 class="category-name">{{ post.title }}</h3>
 							<span class="category-number">0{{ loop.index }}</span>
 						</a>
 {% endfor %}
 
+
+
+
+
 					</div>
-					<a
-						href="{{ sections.link }}"
-						class="btn btn-outline-secondary center"
-						data-category="home">
+					<a href="{{ sections.link }}" class="btn btn-outline-secondary center" data-category="home">
 						المزيد من الأقسام
 					</a>
 				</div>
 			</section>
-			<!-- end categories section -->
+
+
