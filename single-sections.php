@@ -14,24 +14,22 @@ if (!empty($current_post_categories)) {
         'category__in'   => $current_post_categories, // Use 'category__in' for categories
         'post__not_in'   => array($current_post_id),
     ));
-    
 
-    // Initialize an array to hold related posts with prices
+    // Initialize an array to hold related posts with additional data
     $related_posts = [];
-    
+
     foreach ($related_posts_data as $post) {
-        // Create a new array to hold post details
+        // Create an array to hold post details
         $post_details = [
-            'title' => $post->title,
-            'link'  => $post->link,
-            'id'    => $post->ID,
-            'thumbnail' => get_the_post_thumbnail_url($post->ID, 'thumbnail'), // Adjust size as needed
+            'title'       => $post->title,
+            'link'        => $post->link,
+            'id'          => $post->ID,
+            'thumbnail'   => get_the_post_thumbnail_url($post->ID, 'thumbnail'), // Adjust size as needed
             'description' => get_the_excerpt($post->ID), // or get_post_field('post_content', $post->ID) for full content
         ];
-        
 
         // Retrieve schema options for the current related post
-        $meta_key = 'wp_review_schema_options';
+        $meta_key   = 'wp_review_schema_options';
         $meta_value = get_post_meta($post->ID, $meta_key, true);
 
         // Ensure $meta_value is an array
@@ -57,7 +55,7 @@ if (!empty($current_post_categories)) {
         $related_posts[] = $post_details;
     }
 
-    // Store related posts in the context
+    // Store related posts in the context for rendering
     $context['related_posts'] = $related_posts;
 }
 
