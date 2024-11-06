@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block grid_content %}
-{% include "components/main_section.twig" with { title: post.title, desc: post.excerpt.length(35).read_more(false) } %}
+{% include "components/main_section.twig" with { title: 'قسم كامل عن : ' ~  post.title , desc: post.excerpt.length(35).read_more(false) } %}
 
 {% include "components/smart-search.twig" %}
 
