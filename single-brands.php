@@ -63,6 +63,7 @@ if (!empty($current_post_tags)) {
 
         // Add the price to the post details
         $post_details['price'] = $product_price;
+        $post_details['total_rating'] = get_post_meta($post->ID, "wp_review_total", true);
 
         // Add the post details to the related posts array
         $related_posts[] = $post_details;
