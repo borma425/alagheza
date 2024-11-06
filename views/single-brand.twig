@@ -9,7 +9,7 @@
 <section class="product-showcase">
 				<div class="container">
 					<div class="center-header">
-						<h2 class="title">أحدث مراجعات الأجهزة </h2>
+						<h2 class="title">أحدث مراجعات  </h2>
 					</div>
 					<div class="product-grid" id="productGrid">
                             {% for article in related_posts %}
@@ -31,7 +31,8 @@
 									<h3 class="product-title">
 										{{article.title }}
 									</h3>
-									<p class="product-description">{{ article.tags(); }}</p>
+						<p class="product-description"> {{ article.first_category }} </p>
+
 								</div>
 							</div>
 						</a>

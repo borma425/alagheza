@@ -24,6 +24,11 @@ if (!empty($current_post_tags)) {
     $related_posts = [];
     
     foreach ($related_posts_data as $post) {
+
+
+        $post_categories = get_the_category($post->ID);
+        $first_category = !empty($post_categories) ? $post_categories[0]->name : ''; // Get the first category name
+
         // Create a new array to hold post details
         $post_details = [
             'title' => $post->title,
@@ -31,6 +36,8 @@ if (!empty($current_post_tags)) {
             'id'    => $post->ID,
             'thumbnail' => get_the_post_thumbnail_url($post->ID, 'thumbnail'), // Adjust size as needed
             'description' => get_the_excerpt($post->ID), // or get_post_field('post_content', $post->ID) for full content
+            'first_category' => $first_category, // Store the first category name
+     
         ];
         
 
