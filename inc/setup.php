@@ -172,3 +172,102 @@ return esc_html__( $tag_choices[$i] );
 }
 
 
+
+
+
+
+
+
+
+
+
+
+  function get_sorted_posts_by_taxonomy($taxonomy = 'post_tag', $post_type = 'sections', $per_page = 6) {
+    // Ensure that the taxonomy is either 'post_tag' or 'category'
+    if (!in_array($taxonomy, ['post_tag', 'category'])) {
+        return; // Invalid taxonomy
+    }
+
+    // Step 1: Get the most-used terms (tags or categories) in the 'post' post type
+    $top_terms = get_terms([
+        'taxonomy'   => $taxonomy,
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+        'fields'     => 'ids',
+        'hide_empty' => true
+    ]);
+
+    if (!empty($top_terms) && !is_wp_error($top_terms)) {
+        // Step 2: Query all posts from the custom post type
+        $sections_query = new WP_Query([
+            'post_type'      => $post_type,
+            'posts_per_page' => -1
+        ]);
+
+        if ($sections_query->have_posts()) {
+            // Step 3: Sort posts by term popularity
+            $sorted_posts = [];
+
+            while ($sections_query->have_posts()) {
+                $sections_query->the_post();
+
+                // Get the terms (tags or categories) for each post
+                $post_terms = wp_get_post_terms(get_the_ID(), $taxonomy, ['fields' => 'ids']);
+
+                // Calculate a score for each post based on term usage in 'post'
+                $score = 0;
+                foreach ($post_terms as $term_id) {
+                    $term_index = array_search($term_id, $top_terms);
+                    if ($term_index !== false) {
+                        // Higher score for terms higher in popularity (top_terms is ordered)
+                        $score += (count($top_terms) - $term_index);
+                    }
+                }
+
+                // Store the post and its score
+                $sorted_posts[] = [
+                    'post'  => get_post(),
+                    'score' => $score
+                ];
+            }
+
+            // Sort posts by score in descending order
+            usort($sorted_posts, function($a, $b) {
+                return $b['score'] - $a['score'];
+            });
+
+            // Limit to 6 posts and convert to Timber\Post objects
+            $timber_posts = array_slice(array_map(function($item) {
+                return Timber::get_post($item['post']->ID);
+            }, $sorted_posts), 0, $per_page)
+            
+            ;
+
+            
+/*             // Pass the sorted posts to Timber context
+            $context[$context_name] = $timber_posts;
+ */
+            // Restore original post data
+            wp_reset_postdata();
+        } else {
+           # $context[$context_name] = [];
+        }
+    } else {
+       # $context[$context_name] = [];
+    }
+
+    // Return the context for rendering
+    return $timber_posts;
+}
+
+
+
+
+
+
+
+
+
+
+
+

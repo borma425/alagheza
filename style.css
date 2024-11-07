@@ -1398,6 +1398,8 @@ form:not(.hero form) select {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .tip-category {

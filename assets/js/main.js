@@ -8,8 +8,6 @@ function queryParamExistUrl(param = '') {
 }
 
 
-
-
 // Header
 document.addEventListener('DOMContentLoaded', () => {
 	const header = document.querySelector('.header');
@@ -50,8 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		dropdownLinks.forEach(link => {
 			link.addEventListener('click', e => {
 				e.stopPropagation(); // Prevent the click from bubbling up to the parent
-				const page = link.getAttribute('data-page');
-				setActivePage(page, item);
+				// Remove the active class from all links
+				navLinks.forEach(link => {
+					link.classList.remove('active');
+				});
 
 				// Close the mobile sidebar when a sub-item is clicked
 				if (window.innerWidth <= 768) {
@@ -72,37 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 	});
-
-	// Manage active links
-	navLinks.forEach(link => {
-		link.addEventListener('click', e => {
-			const page = link.getAttribute('data-page');
-			setActivePage(page);
-		});
-	});
-
-	function setActivePage(page, dropdownItem = null) {
-		navLinks.forEach(link => {
-			if (link.getAttribute('data-page') === page) {
-				link.classList.add('active');
-			} else {
-				link.classList.remove('active');
-			}
-		});
-
-		dropdownItems.forEach(item => {
-			if (item !== dropdownItem) {
-				item.classList.remove('active');
-			}
-		});
-
-		// Keep the dropdown open if a link within it was clicked
-		if (dropdownItem) {
-			dropdownItem.classList.add('active');
-		}
-	}
-
-	setActivePage('home');
 
 	// Close dropdown when clicking outside
 	document.addEventListener('click', e => {
@@ -135,14 +104,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (e.target === searchWindow) {
 			searchWindow.classList.remove('active');
 		}
-	});
-
-	// Prevent form submission (for demonstration purposes)
-	const searchForm = document.querySelector('.search-form');
-	searchForm.addEventListener('submit', function (e) {
-		e.preventDefault();
-		// Here you would typically handle the search functionality
-		console.log('Search submitted:', searchForm.querySelector('input').value);
 	});
 });
 
