@@ -121,8 +121,8 @@ function CPT_Redirect_link($cpt_slug=""){
           case "brands":
           $path = "brands/";
             break;
-          case "help_center":
-          $path = "help_center/";
+          case "advices":
+          $path = "/category/home-electronic-devices-advices/";
             break;
           case "requires_rom":
           $path = "requires-rom/";
