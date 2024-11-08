@@ -1,7 +1,5 @@
 
 function get_price_range($value) {
-    echo "<br><h1>السعر المحدد $value</h1>";
-
     if ($value <= 10000) {
         return [0, 10000]; // From 0 to 10,000
     } elseif ($value <= 20000) {
