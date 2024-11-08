@@ -17,8 +17,8 @@ if (get_query_var('s')) {
     $context["search_word"] = $search;
 
     // Check if all required parameters are set
-    if (isset($_GET['brand'], $_GET['category'], $_GET['price'], $_GET['rating'])) {
-
+  #  if (isset($_GET['brand'], $_GET['category'], $_GET['price'], $_GET['rating'])) {
+if(50 > 3){
 
         $args = array(
             'post_type'      => array('post'),
