@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block grid_content %}
-{% include "components/main_section.twig" with { title: "جميع المقالات عن "  ~ '[' ~ search_word ~ ']' , desc: "هناك مايقارب "  ~ count_results ~ " نتيجة بحث عن الكلمة المستهدفة "  } %}
+{% include "components/main_section.twig" with { title: "جميع المقالات عن "  ~ '[' ~ cat_name ~ ']' , desc: " الموقع الأول لمراجعة الأجهزة الكهربائية في مصر والشرق الأوسط بناء على اراء المهندسين المحترفين وتجارب المستخدمين السابقين. " } %}
 
 {% include "components/smart-search.twig" %}
 
