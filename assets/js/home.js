@@ -1,28 +1,29 @@
 const tabButtons = document.querySelectorAll('.tab-button');
+const productLinks = document.querySelectorAll('.product-link');
 
 function handleTabClick(event) {
-	const clickedTab = event.currentTarget;
-	const category = clickedTab.dataset.category;
+  // Remove active class from all buttons and add to clicked one
+  tabButtons.forEach(btn => btn.classList.remove('active'));
+  event.currentTarget.classList.add('active');
 
-	tabButtons.forEach(btn => btn.classList.remove('active'));
-	clickedTab.classList.add('active');
+  const selectedCategory = event.currentTarget.dataset.category;
+
+  // Show/hide products based on category
+  productLinks.forEach(product => {
+    if (product.dataset.category === selectedCategory) {
+      product.style.display = 'block';
+    } else {
+      product.style.display = 'none';
+    }
+  });
 }
 
+// Add click event to each tab button
 tabButtons.forEach(button => {
-	button.addEventListener('click', handleTabClick);
+  button.addEventListener('click', handleTabClick);
 });
 
-// Initialize with the first category or 'all' if no categories are defined
-const initialCategory =
-	tabButtons.length > 0 ? tabButtons[0].dataset.category : 'all';
-
-// todo: compare functionality
-document.addEventListener('click', event => {
-	if (event.target.closest('.compare-button')) {
-		const productCard = event.target.closest('.product-card');
-		const productTitle =
-			productCard.querySelector('.product-title').textContent;
-		console.log(`Compare clicked for product: ${productTitle}`);
-		// todo: Implement compare logic here
-	}
-});
+// Show initial category (first tab)
+if (tabButtons.length > 0) {
+  tabButtons[0].click();
+}

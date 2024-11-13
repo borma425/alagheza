@@ -28,7 +28,7 @@
 
                             {% for article in related_posts %}
 
-						<a href="{{ article.link }}" class="product-link">
+						<a href="{{ article.link }}" class="product-link" data-category="{{article.first_category}}">
 							<div class="product-card">
 								<div class="product-image">
 									<img src="{{ article.thumbnail | default(defaultimg) }}" alt="{{article.title }}">
