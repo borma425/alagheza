@@ -51,7 +51,6 @@ if(50 > 3){
         $brand = isset($_GET['brand']) ? json_decode(strip_tags((string) wp_unslash($_GET['brand']) ), true) : null;
         $category = isset($_GET['category']) ? json_decode(strip_tags((string) wp_unslash($_GET['category']) ), true)  : null;
         $price = isset($_GET['price']) ? strip_tags((string) wp_unslash($_GET['price'])) : null;
-        $price = 5000;
         $rating = isset($_GET['rating']) ? strip_tags((string) wp_unslash($_GET['rating'])) : null;
 
         // Check and set price range if a price filter is set
