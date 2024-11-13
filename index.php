@@ -27,7 +27,7 @@ $context['brands'] = get_sorted_posts_by_taxonomy('post_tag', 'brands', 6);
 
 $context['related_posts'] = Timber::get_posts(array(
     'post_type' => 'post', // Slug of the category
-    'posts_per_page' => 8, // Adjust the number of posts as needed
+    'posts_per_page' => 4, // Adjust the number of posts as needed
 ));
 
 
