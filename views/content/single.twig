@@ -16,20 +16,6 @@
 
 
 
-{% set gallery_images = post.meta('gallery_images') %}
-{% if gallery_images is not empty %}
-
-        {% for image_id in gallery_images %}
-        {{ image_id }}
-            {% set image = TimberImage(image_id) %}
-							<div class="swiper-slide">
-								<imgsrc="{{ image.src }}" alt="{{ image.alt }}">
-							</div>
-
-        {% endfor %}
- 
-{% endif %}
-
 
 
 
