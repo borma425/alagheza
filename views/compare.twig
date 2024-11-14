@@ -27,6 +27,17 @@
                             </td>
                         {% endfor %}
                     </tr>
+
+
+                    {# Add Total Reviews, Rating and Price Row #}
+                                        <tr>
+                        <td>السعر</td>
+                        {% for device in devices %}
+                            <td>{{ device.price ? device.price : 'غير محدد' }} جنية مصري</td>
+                        {% endfor %}
+                    </tr>
+
+                    
                     {# Collect all unique spec icon URLs #}
                     {% set unique_icons = [] %}
                     {% for device in devices %}
@@ -77,13 +88,6 @@
 
 
 
-                    {# Add Total Reviews, Rating and Price Row #}
-                                        <tr>
-                        <td>السعر</td>
-                        {% for device in devices %}
-                            <td>{{ device.price ? device.price : 'غير محدد' }} جنية مصري</td>
-                        {% endfor %}
-                    </tr>
 <tr>
     <td>إجمالي التقييمات</td>
     {% for device in devices %}
