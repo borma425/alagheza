@@ -43,9 +43,9 @@ function get_one_post_per_category($category_ids) {
 
 // Define the contexts with category names and their posts
 $context['post_contexts'] = [
-    'Home_Appliances' => get_one_post_per_category([10, 875, 11, 9]),
-    'Electronic_Devices' => get_one_post_per_category([12, 876, 13, 9]),
-    'Kitchen_Appliances' => get_one_post_per_category([12, 876, 13, 9]),
+    'Home_Appliances' => get_one_post_per_category([12, 10, 11, 9]),
+    'Electronic_Devices' => get_one_post_per_category([494, 504, 521, 381]),
+    'Kitchen_Appliances' => get_one_post_per_category([88, 278, 386, 272]),
     'Other_Devices' => get_one_post_per_category([12, 876, 13, 9]),
 
 ];
