@@ -47,6 +47,16 @@ function display_qa_section() {
 
 function display_pros_section() {
 
+
+
+
+
+
+
+
+
+
+
 }
 
 function display_cons_section() {

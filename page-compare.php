@@ -1,46 +1,53 @@
 <?php
 
 $context = Timber::context();
+
 $context['is_front_page'] = false;
 
-// Default device data (you can replace this with a real data source)
-$devices_data = [
-    44 => [
-        'name' => 'Samsung Galaxy S24',
-        'image' => 'https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg',
-        'screen' => '6.2 بوصة، Dynamic AMOLED 2X',
-        'processor' => 'Exynos 2400',
-        'camera' => '50 ميجابكسل',
-        'battery' => '4000 مللي أمبير',
-        'os' => 'Android 14 مع One UI 6.1',
-    ],
-    33 => [
-        'name' => 'iPhone 15',
-        'image' => 'https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg',
-        'screen' => '6.1 بوصة، Super Retina XDR OLED',
-        'processor' => 'A16 Bionic',
-        'camera' => '48 ميجابكسل',
-        'battery' => '3349 مللي أمبير',
-        'os' => 'iOS 17',
-    ]
-];
-
-// Check if 'items' parameter exists and is valid
+// Check if 'items' parameter is set in the URL
 if (isset($_GET['items'])) {
-    // Get the items parameter and decode the JSON string
-    $device_ids = json_decode(strip_tags((string) wp_unslash($_GET['items'])), true);
+    // Decode the JSON string and sanitize it
+    $devices = json_decode(strip_tags((string) wp_unslash($_GET['items'])), true);
 
-    // Validate and retrieve device data based on IDs
+    // Initialize an array to store the selected device posts
     $selected_devices = [];
-    foreach ($device_ids as $device_id) {
-        if (isset($devices_data[$device_id])) {
-            $selected_devices[] = $devices_data[$device_id];  // Add device data to the list
+
+    // Loop through each device ID and get the post details
+    foreach ($devices as $device_id) {
+        // Get the post by ID
+        $device_post = Timber::get_post($device_id);
+
+        // Ensure the post exists before adding to the array
+        if ($device_post) {
+            // Retrieve meta data for each device
+            $device_specs = get_post_meta($device_id, 'device_specs', true);
+            $device_specifications_main_title = get_post_meta($device_id, 'device_specifications_main_title', true);
+            $product_thumbnail = get_post_meta($device_id, 'product_thumbnail', true);
+
+            // Prepare specifications array for each device
+            $specifications = [];
+            if (!empty($device_specs)) {
+                foreach ($device_specs as $spec) {
+                    $specifications[] = [
+                        'name' => $spec['name'] ?? '',
+                        'description' => $spec['description'] ?? '',
+                        'icon' => $spec['icon'] ?? '',
+                    ];
+                }
+            }
+
+            // Structure data for each device
+            $selected_devices[] = [
+                'name' => $device_specifications_main_title ?: $device_post->post_title,
+                'image' => $product_thumbnail,
+                'specs' => $specifications
+            ];
         }
     }
 
-    // Pass the selected devices to the context
+    // Add the selected devices to the context
     $context['devices'] = $selected_devices;
 }
 
-// Render the template
+// Render the compare.twig template with the context
 Timber::render('compare.twig', $context);

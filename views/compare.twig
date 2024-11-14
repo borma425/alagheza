@@ -1,10 +1,10 @@
 {% extends "base.twig" %}
 
 {% block grid_content %}
-{% include "components/main_section.twig" with { title: "صفحة المقارنه", desc: " قارن بين جهازين إلكترونيين واكتشف الأفضل لك من حيث الميزات والأداء. اختر بذكاء وكن متأكدًا من قرارك" } %}
+{% include "components/main_section.twig" with { title: "صفحة المقارنه", desc: "قارن بين جهازين إلكترونيين واكتشف الأفضل لك من حيث الميزات والأداء. اختر بذكاء وكن متأكدًا من قرارك" } %}
 
 <section id="comparison" class="container">
-    <h2 class="section-title">مقارنة مع بين جهاز واحد و جهاز اتنين</h2>
+    <h2 class="section-title">مقارنة بين الأجهزة</h2>
     <div class="table-container">
         <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: none;"></button>
         <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
@@ -12,7 +12,7 @@
             <table class="comparison-table">
                 <thead>
                     <tr>
-                        <th>الميزة</th>
+                        <th>الاسماء</th>
                         {% for device in devices %}
                             <th>{{ device.name }}</th>
                         {% endfor %}
@@ -27,36 +27,15 @@
                             </td>
                         {% endfor %}
                     </tr>
-                    <tr>
-                        <td>الشاشة</td>
-                        {% for device in devices %}
-                            <td>{{ device.screen }}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>المعالج</td>
-                        {% for device in devices %}
-                            <td>{{ device.processor }}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>الكاميرا الرئيسية</td>
-                        {% for device in devices %}
-                            <td>{{ device.camera }}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>البطارية</td>
-                        {% for device in devices %}
-                            <td>{{ device.battery }}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>نظام التشغيل</td>
-                        {% for device in devices %}
-                            <td>{{ device.os }}</td>
-                        {% endfor %}
-                    </tr>
+                    {% for spec in devices[0].specs %}
+                        <tr>
+                            <td>{{ spec.name }}</td>
+                            {% for device in devices %}
+                                {% set device_spec = device.specs | filter(s => s.name == spec.name) | first %}
+                                <td>{{ device_spec.description }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
