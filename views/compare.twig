@@ -19,7 +19,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {# Collect all unique spec icon URLs #}
+                    <tr>
+                        <td>صورة الجهاز</td>
+                        {% for device in devices %}
+                            <td>
+                                <img src="{{ device.image }}" width="300" height="200" alt="{{ device.name }}">
+                            </td>
+                        {% endfor %}
+                    </tr>
+                   {# Collect all unique spec icon URLs #}
                     {% set unique_icons = [] %}
                     {% for device in devices %}
                         {% for spec in device.specs %}
