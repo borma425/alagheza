@@ -60,8 +60,8 @@
           </div>
 
           {% else %}
-        	<div class="swiper-slide">
-								<img src="{{ image.src }}" alt="{{ image.alt }}">
+            	<div class="swiper-slide">
+								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
 							</div>
 {% endif %}
 
