@@ -39,7 +39,13 @@
 
                     {% for spec_name in all_specs %}
                         <tr>
-                            <td>{{ spec_name }}</td>
+                            <td>
+                                {% set spec_icon = devices | map(d => d.specs | filter(s => s.name == spec_name) | first.icon) | first %}
+                                {% if spec_icon %}
+                                    <img src="{{ spec_icon }}" width="32" height="32" alt="{{ spec_name }}" style="vertical-align: middle; margin-right: 8px;">
+                                {% endif %}
+                                {{ spec_name }}
+                            </td>
                             {% for device in devices %}
                                 {% set device_spec = device.specs | filter(s => s.name == spec_name) | first %}
                                 <td>{{ device_spec.description | default('غير متوفر') }}</td>
