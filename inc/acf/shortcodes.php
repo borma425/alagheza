@@ -39,6 +39,8 @@ function display_device_specifications() {
 
 function display_qa_section() {
 
+
+
 }
 
 
