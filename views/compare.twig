@@ -19,36 +19,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>صورة الجهاز</td>
-                        {% for device in devices %}
-                            <td>
-                                <img src="{{ device.image }}" width="300" height="200" alt="{{ device.name }}">
-                            </td>
-                        {% endfor %}
-                    </tr>
-
-                    {% set all_specs = [] %}
+                    {# Collect all unique spec icon URLs #}
+                    {% set unique_icons = [] %}
                     {% for device in devices %}
                         {% for spec in device.specs %}
-                            {% if spec.name not in all_specs %}
-                                {% set all_specs = all_specs | merge([spec.name]) %}
+                            {% if spec.icon and spec.icon not in unique_icons %}
+                                {% set unique_icons = unique_icons | merge([spec.icon]) %}
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
 
-                    {% for spec_name in all_specs %}
+                    {# Loop through each unique icon (spec name) #}
+                    {% for icon_url in unique_icons %}
                         <tr>
                             <td>
-                                {% set spec_icon = devices | map(d => d.specs | filter(s => s.name == spec_name) | first.icon) | first %}
-                                {% if spec_icon %}
-                                    <img src="{{ spec_icon }}" width="32" height="32" alt="{{ spec_name }}" style="vertical-align: middle; margin-right: 8px;">
-                                {% endif %}
+                                {# Display icon and spec name #}
+                                {% set spec_name = null %}
+                                {% for device in devices %}
+                                    {% for spec in device.specs %}
+                                        {% if spec.icon == icon_url %}
+                                            {% set spec_name = spec.name %}
+                                            <img src="{{ spec.icon }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
                                 {{ spec_name }}
                             </td>
+
+                            {# Merge values for the same icon (spec name) #}
                             {% for device in devices %}
-                                {% set device_spec = device.specs | filter(s => s.name == spec_name) | first %}
-                                <td>{{ device_spec.description | default('غير متوفر') }}</td>
+                                {% set device_value = 'غير موجود' %}
+                                {% for spec in device.specs %}
+                                    {% if spec.icon == icon_url %}
+                                        {% set device_value = spec.description %}
+                                    {% endif %}
+                                {% endfor %}
+                                <td>{{ device_value }}</td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
