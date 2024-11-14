@@ -56,19 +56,20 @@
 
 
             </div>
-					
+
           </div>
 
           {% else %}
-            	<div class="swiper-slide">
 								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
-							</div>
 {% endif %}
-
+<br>
 					<p class="subtitle">
-						كل ما تريد معرفته عن مواصفات وسعر وعيوب Samsung Galaxy S24
+		    {{ post.excerpt.length(50).read_more(false)  }} 
 					</p>
 				</div>
+
+
+  
 				<main>
 					<article>
 						<section id="article-navigation" class="accordion">
