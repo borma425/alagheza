@@ -31,6 +31,7 @@ function get_one_post_per_category($category_ids) {
             'post_type' => 'post',
             'category__in' => array($category_id),
             'posts_per_page' => 1,
+            'orderby' => 'rand',
         ));
         if (!empty($post)) {
             $posts[] = $post[0]; // Only add the first (unique) post
@@ -50,6 +51,7 @@ $context['post_contexts'] = [
         'post_type' => 'post',
         'category__in' => array(592),
         'posts_per_page' => 4,
+        'orderby' => 'rand',
     )),
 
 ];
