@@ -1,5 +1,4 @@
-<?php
-// Add a custom meta box for the 'roms' post type
+// Add a custom meta box for the 'post' post type
 function my_custom_meta_boxes() {
     add_meta_box(
         'my_gallery_meta_box', // ID
@@ -73,10 +72,20 @@ function my_gallery_meta_box_callback($post) {
     <?php
 }
 
-// Save the meta box data
+// Save the meta box data with removed images properly handled
 function my_save_gallery_meta_box_data($post_id) {
-    if (array_key_exists('gallery_images', $_POST)) {
-        update_post_meta($post_id, 'gallery_images', $_POST['gallery_images']);
+    // Ensure that gallery_images exists and is set in the POST data
+    if (isset($_POST['gallery_images'])) {
+        // Sanitize and process the gallery image IDs
+        $gallery_images = array_map('intval', $_POST['gallery_images']); // Ensure the image IDs are integers
+        
+        // If the gallery_images array is empty, delete the gallery meta
+        if (empty($gallery_images)) {
+            delete_post_meta($post_id, 'gallery_images');
+        } else {
+            // Otherwise, update the gallery meta field with the new image array
+            update_post_meta($post_id, 'gallery_images', $gallery_images);
+        }
     }
 }
 add_action('save_post', 'my_save_gallery_meta_box_data');
