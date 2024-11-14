@@ -81,14 +81,17 @@ function my_save_gallery_meta_box_data($post_id) {
     if (isset($_POST['gallery_images'])) {
         // Sanitize and process the gallery image IDs
         $gallery_images = array_map('intval', $_POST['gallery_images']); // Ensure the image IDs are integers
-        
-        // If the gallery_images array is empty, delete the gallery meta
+
+        // If no images are left (empty array), delete the gallery meta field
         if (empty($gallery_images)) {
             delete_post_meta($post_id, 'gallery_images');
         } else {
             // Otherwise, update the gallery meta field with the new image array
             update_post_meta($post_id, 'gallery_images', $gallery_images);
         }
+    } else {
+        // If the 'gallery_images' field is not set, delete the gallery meta field
+        delete_post_meta($post_id, 'gallery_images');
     }
 }
 add_action('save_post', 'my_save_gallery_meta_box_data');
