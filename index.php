@@ -8,9 +8,6 @@ $context['is_front_page'] = true;
 
 
 
-
-
-
 $args = array(
     'category_name' => 'home-electronic-devices-advices', // Slug of the category
     'posts_per_page' => 6, // Adjust the number of posts as needed

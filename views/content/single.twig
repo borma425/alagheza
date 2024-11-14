@@ -1,16 +1,1049 @@
 {% extends 'base.twig' %}
 
 {% block grid_content %}
-	<article>
-		<h1>{{ post.title }}</h1>
+		<div style="margin-top: 130px" class="main-layout container">
 
-		<img
-            src="{{ post.thumbnail.src }}"
-            alt="{{ post.thumbnail.alt }}"
-        >
+<div class="main-content">
+				<div>
+					<h1 class="title">{{ post.title }}</h1>
+					<div class="swiper-container">
+						<div class="swiper-wrapper" style="transform: translateX(200%);">
+							<div class="swiper-slide">
+								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
+							</div>
 
-          {{ post.post_content|shortcodes }}
 
 
-	</article>
+
+{% set gallery_images = post.meta('gallery_images') %}
+{% if gallery_images is not empty %}
+<div class="bg-white border rounded shadow-sm pt-3 px-4 pb-2 mb-4 entry-content">
+				<div class="overflow-auto mb-4">
+					<div class="row row-small flex-nowrap align-items-end">
+
+        {% for image_id in gallery_images %}
+            {% set image = TimberImage(image_id) %}
+							<div class="swiper-slide">
+								<imgsrc="{{ image.src }}" alt="{{ image.alt }}">
+							</div>
+
+        {% endfor %}
+ 
+{% endif %}
+
+
+
+
+
+
+
+						</div>
+
+						<button class="swiper-button swiper-button-prev">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<polyline points="15 18 9 12 15 6"></polyline>
+							</svg>
+						</button>
+						<button class="swiper-button swiper-button-next">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<polyline points="9 18 15 12 9 6"></polyline>
+							</svg>
+						</button>
+
+						<div class="swiper-pagination"><div class="swiper-pagination-bullet"></div><div class="swiper-pagination-bullet"></div><div class="swiper-pagination-bullet active"></div></div>
+					</div>
+					<p class="subtitle">
+						كل ما تريد معرفته عن مواصفات وسعر وعيوب Samsung Galaxy S24
+					</p>
+				</div>
+				<main>
+					<article>
+						<section id="article-navigation" class="accordion">
+							<div class="accordion-item">
+								<div class="accordion-header">
+									<span>محتويات المقال</span>
+									<span class="accordion-icon">+</span>
+								</div>
+								<ul class="article-nav-list accordion-content">
+									<li>
+										<a href="#specifications">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path>
+											</svg>
+											المواصفات الرئيسية
+										</a>
+									</li>
+									<li>
+										<a href="#pros-cons">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+											</svg>
+											المميزات والعيوب
+										</a>
+									</li>
+									<li>
+										<a href="#review-summary">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+											</svg>
+											ملخص المراجعة
+										</a>
+									</li>
+									<li>
+										<a href="#pricing">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+											</svg>
+											الأسعار
+										</a>
+									</li>
+									<li>
+										<a href="#comparison">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+											</svg>
+											مقارنة مع المنافسين
+										</a>
+									</li>
+									<li>
+										<a href="#faq">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+											</svg>
+											الأسئلة الشائعة
+										</a>
+									</li>
+									<li>
+										<a href="#user-reviews">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+											</svg>
+											آراء المستخدمين
+										</a>
+									</li>
+									<li>
+										<a href="#related-articles">
+											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+												<path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+											</svg>
+											مقالات ذات صلة
+										</a>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section id="specifications" class="specifications">
+							<h2 class="section-title">مواصفات Samsung Galaxy S24</h2>
+							<div class="holder">
+								<img src="https://cdn.shortpixel.ai/spai/q_glossy+ret_img+to_webp/mobizil.com/wp-content/uploads/2024/09/iphone-16-pro-2.jpg" alt="Samsung Galaxy S24">
+								<ul class="feature-list">
+									<li class="feature-item">
+										<img src="/images/single_product_icons/camera.svg" alt="camera" class="feature-icon">
+										<span><b>الكاميرا: </b> 50 ميجابكسل</span>
+									</li>
+
+									<li class="feature-item">
+										<img src="/images/single_product_icons/battery.svg" alt="battery" class="feature-icon">
+										<span><b>البطارية: </b> 4400 مللي أمبير</span>
+									</li>
+
+									<li class="feature-item">
+										<img src="/images/single_product_icons/price.svg" alt="price" class="feature-icon">
+										<span><b>السعر: </b> 55,640 جنيه</span>
+									</li>
+
+									<li class="feature-item">
+										<img src="/images/single_product_icons/ram.svg" alt="ram" class="feature-icon">
+										<span><b>الرامات: </b> 12.0 جيجابايت</span>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section id="pros-cons">
+							<div>
+								<h2 class="section-title">مميزات</h2>
+								<ul class="feature-list pros">
+									<li class="feature-item">
+										شاشة Dynamic AMOLED 2X ذات معدل تحديث عالي (حتى 120Hz)
+									</li>
+									<li class="feature-item">
+										أداء قوي مع معالج Exynos 2400 المتطور
+									</li>
+									<li class="feature-item">
+										كاميرا ذات جودة عالية مع تحسينات في التصوير الليلي
+									</li>
+									<li class="feature-item">
+										تصميم أنيق ومتين مع إطار من الألمنيوم
+									</li>
+									<li class="feature-item">
+										مقاومة للماء والغبار (معايير IP68)
+									</li>
+									<li class="feature-item">دعم شبكات الجيل الخامس 5G</li>
+									<li class="feature-item">
+										ميزات ذكاء اصطناعي متقدمة مدمجة في الهاتف
+									</li>
+								</ul>
+							</div>
+							<div>
+								<h2 class="section-title">عيوب</h2>
+								<ul class="feature-list cons">
+									<li class="feature-item">
+										قد يكون السعر مرتفعًا مقارنة بالمنافسين
+									</li>
+									<li class="feature-item">
+										حجم الهاتف الكبير قد لا يناسب الجميع
+									</li>
+									<li class="feature-item">
+										سعة البطارية قد تكون أقل من المتوقع لبعض المستخدمين
+									</li>
+									<li class="feature-item">
+										لا يزال يفتقر إلى منفذ سماعات 3.5mm
+									</li>
+									<li class="feature-item">
+										لا يوجد إمكانية لتوسيع الذاكرة عبر بطاقة microSD
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section id="review-summary" class="review-summary">
+							<div class="review-header">
+								<!-- Product Info Section -->
+								<div class="product-info">
+									<div class="brand-info">
+										<svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+											<rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+											<polyline points="17 2 12 7 7 2"></polyline>
+										</svg>
+										<span class="brand-name">SAMSUNG</span>
+									</div>
+
+									<h1 class="product-title">
+										مراجعة شاملة لهاتف Samsung Galaxy S24
+									</h1>
+
+									<div class="product-meta">
+										<div class="meta-item">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+												<polyline points="22,6 12,13 2,6"></polyline>
+											</svg>
+											<span class="meta-label">رمز المنتج:</span>
+											<span class="meta-value">SM-S924</span>
+										</div>
+										<div class="meta-item">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+												<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+												<line x1="7" y1="7" x2="7.01" y2="7"></line>
+											</svg>
+											<span class="meta-label">الفئة:</span>
+											<span class="meta-value">هواتف ذكية</span>
+										</div>
+									</div>
+
+									<div class="rating-box">
+										<div class="rating-score">9.0</div>
+										<div class="rating-label">التقييم النهائي</div>
+									</div>
+								</div>
+
+								<!-- Product Details Section -->
+								<div class="product-details">
+									<p class="product-description">
+										يعتبر هاتف Samsung Galaxy S24 أحدث إصدارات سامسونج في فئة
+										الهواتف الرائدة. يتميز بشاشة Dynamic AMOLED 2X مقاس 6.8 بوصة
+										بدقة QHD+ ومعدل تحديث 120 هرتز، مع معالج Snapdragon 8 Gen 3
+										الأحدث من كوالكوم. يقدم الهاتف تجربة تصوير متميزة مع نظام
+										كاميرات متطور يدعم التصوير بدقة 200 ميجابكسل.
+									</p>
+
+									<img src="https://mellow-douhua-911077.netlify.app/includes/images/m3.jpg" alt="Samsung Galaxy S24" class="product-image">
+
+									<div class="holder">
+										<div class="price-tag">
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+												<line x1="12" y1="1" x2="12" y2="23"></line>
+												<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+											</svg>
+											<span class="price-value">4,999</span>
+										</div>
+										<div class="price-tag">
+											<span class="price-value">ريال سعودي</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ratings-card">
+								<h2 class="ratings-title">التقييمات التفصيلية</h2>
+
+								<div class="rating-item">
+									<div class="rating-header">
+										<span class="rating-name">الشاشة</span>
+										<span class="rating-amount">10/10</span>
+									</div>
+									<div class="rating-bar">
+										<div class="rating-fill" data-progress="90" style="width: 90%;"></div>
+									</div>
+								</div>
+
+								<div class="rating-item">
+									<div class="rating-header">
+										<span class="rating-name">البطارية</span>
+										<span class="rating-amount">9/10</span>
+									</div>
+									<div class="rating-bar">
+										<div class="rating-fill" data-progress="100" style="width: 100%;"></div>
+									</div>
+								</div>
+
+								<div class="rating-item">
+									<div class="rating-header">
+										<span class="rating-name">المعالج ونظام التشغيل</span>
+										<span class="rating-amount">10/10</span>
+									</div>
+									<div class="rating-bar">
+										<div class="rating-fill" data-progress="95" style="width: 95%;"></div>
+									</div>
+								</div>
+
+								<div class="rating-item">
+									<div class="rating-header">
+										<span class="rating-name">التصميم</span>
+										<span class="rating-amount">9.5/10</span>
+									</div>
+									<div class="rating-bar">
+										<div class="rating-fill" data-progress="70" style="width: 70%;"></div>
+									</div>
+								</div>
+
+								<div class="rating-item">
+									<div class="rating-header">
+										<span class="rating-name">التصوير</span>
+										<span class="rating-amount">9.5/10</span>
+									</div>
+									<div class="rating-bar">
+										<div class="rating-fill" data-progress="90" style="width: 90%;"></div>
+									</div>
+								</div>
+
+								<div class="rating-item">
+									<div class="rating-header">
+										<span class="rating-name">التخزين</span>
+										<span class="rating-amount">9.5/10</span>
+									</div>
+									<div class="rating-bar">
+										<div class="rating-fill" data-progress="90" style="width: 90%;"></div>
+									</div>
+								</div>
+							</div>
+							<div class="props-and-cons pros">
+								<div class="props-and-cons-header">
+									<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<polyline points="20 6 9 17 4 12"></polyline>
+									</svg>
+									<h2>مميزات</h2>
+								</div>
+								<ul>
+									<li>
+										<span>شاشة AMOLED بدقة عالية وألوان زاهية</span>
+									</li>
+									<li>
+										<span>معالج قوي يوفر أداءً سريعًا وسلسًا</span>
+									</li>
+									<li>
+										<span>كاميرا متقدمة مع دعم تصوير الفيديو بدقة 8K</span>
+									</li>
+									<li>
+										<span>بطارية كبيرة تدعم الشحن السريع والشحن اللاسلكي</span>
+									</li>
+									<li>
+										<span>مقاومة للماء والغبار بمعيار IP68</span>
+									</li>
+								</ul>
+							</div>
+
+							<!-- Cons Section -->
+							<div class="props-and-cons cons">
+								<div class="props-and-cons-header">
+									<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+										<line x1="18" y1="6" x2="6" y2="18"></line>
+										<line x1="6" y1="6" x2="18" y2="18"></line>
+									</svg>
+									<h2>عيوب</h2>
+								</div>
+								<ul>
+									<li>
+										<span>سعر مرتفع مقارنة بالمنافسين</span>
+									</li>
+									<li>
+										<span>عدم وجود منفذ سماعات 3.5 ملم</span>
+									</li>
+									<li>
+										<span>حجم الهاتف قد يكون كبيرًا لبعض المستخدمين</span>
+									</li>
+									<li>
+										<span>لا يوجد تحسين كبير في عمر البطارية مقارنة بالإصدارات
+											السابقة</span>
+									</li>
+								</ul>
+							</div>
+						</section>
+						<section id="pricing">
+							<h2 class="section-title">الأسعار</h2>
+							<div class="table-container">
+								<button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
+								<button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
+								<div class="scroll-container" style="direction: rtl;">
+									<table class="price-table">
+										<thead>
+											<tr>
+												<th>الصوره</th>
+												<th>اسم الجهاز</th>
+												<th>الوصف</th>
+												<th>السعر</th>
+												<th>التفاصيل</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
+												</td>
+												<td>Galaxy S24</td>
+												<td>هاتف سامسونج S24 ببميزات ممتازة</td>
+												<td>799 جنيه مصري</td>
+												<td>
+													<a href="/products/1.html">اعرف اكتر</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<img src="https://mellow-douhua-911077.netlify.app/includes/images/m2.jpg" width="100" alt="device image">
+												</td>
+												<td>Galaxy S24</td>
+												<td>هاتف سامسونج S24 ببميزات ممتازة</td>
+												<td>859 جنيه مصري</td>
+												<td>
+													<a href="/products/1.html">اعرف اكتر</a>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<img src="https://mellow-douhua-911077.netlify.app/includes/images/m3.jpg" width="100" alt="device image">
+												</td>
+												<td>Galaxy S24</td>
+												<td>هاتف سامسونج S24 ببميزات ممتازة</td>
+												<td>979 جنيه مصري</td>
+												<td>
+													<a href="/products/1.html">اعرف اكتر</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</section>
+						<section id="faq">
+							<h2 class="section-title">أسئلة عن هاتف Samsung Galaxy S24</h2>
+							<div class="accordion">
+								<div class="accordion-item">
+									<div class="accordion-header">
+										<span> ما هي مساحة تخزين هاتف سامسونج S24 ؟ </span>
+										<span class="accordion-icon">+</span>
+									</div>
+									<div class="accordion-content">
+										<p>ياتي بمساحة تخزين 256 أو 512 جيجا بايت</p>
+									</div>
+								</div>
+								<div class="accordion-item">
+									<div class="accordion-header">
+										<span> ما هي مساحة تخزين هاتف سامسونج S24 ؟ </span>
+										<span class="accordion-icon">+</span>
+									</div>
+									<div class="accordion-content">
+										<p>ياتي بمساحة تخزين 256 أو 512 جيجا بايت</p>
+									</div>
+								</div>
+							</div>
+						</section>
+						<section class="share-buttons">
+							<h3 class="share-title">شارك المقال</h3>
+							<div class="share-options">
+								<!-- Facebook -->
+								<button class="share-btn facebook" aria-label="Share on Facebook">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+										<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+									</svg>
+								</button>
+
+								<!-- Twitter/X -->
+								<button class="share-btn twitter" aria-label="Share on Twitter">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+										<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+									</svg>
+								</button>
+
+								<!-- WhatsApp -->
+								<button class="share-btn whatsapp" aria-label="Share on WhatsApp">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+										<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
+									</svg>
+								</button>
+
+								<!-- Telegram -->
+								<button class="share-btn telegram" aria-label="Share on Telegram">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+										<path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path>
+									</svg>
+								</button>
+
+								<!-- Copy Link -->
+								<button class="share-btn copy-link" aria-label="Copy Link" id="copyLinkBtn">
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+										<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+									</svg>
+									<span class="copy-text">نسخ الرابط</span>
+								</button>
+							</div>
+						</section>
+						<div class="article-meta">
+							<div class="meta-container">
+								<!-- Left side: Author info -->
+								<div class="author-section">
+									<div class="author-info">
+										<div class="author-name-wrapper">
+											<span class="author-name">أحمد محمد</span>
+											<span class="author-title">محرر تقني</span>
+										</div>
+									</div>
+								</div>
+
+								<!-- Right side: Update info -->
+								<div class="update-info">
+									<div class="update-badge">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+											<path d="M23 4v6h-6"></path>
+											<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+										</svg>
+										آخر تحديث
+									</div>
+									<time datetime="2024-02-15" class="update-date">١٥ فبراير ٢٠٢٤</time>
+								</div>
+							</div>
+						</div>
+					</article>
+				</main>
+
+				<div class="section-holder">
+					<section id="comparison">
+						<h2 class="section-title">مقارنة مع المنافسين</h2>
+						<div class="table-container">
+							<button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
+							<button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
+							<div class="scroll-container" style="direction: rtl;">
+								<table class="comparison-table">
+									<thead>
+										<tr>
+											<th>الميزة</th>
+											<th>Samsung Galaxy S24</th>
+											<th>iPhone 15</th>
+											<th>Google Pixel 8</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>صورة الجهاز</td>
+											<td>
+												<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
+											</td>
+											<td>
+												<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
+											</td>
+											<td>
+												<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
+											</td>
+										</tr>
+										<tr>
+											<td>الشاشة</td>
+											<td>
+												6.2 بوصة، <br>
+												Dynamic AMOLED 2X
+											</td>
+											<td>
+												6.1 بوصة،<br>
+												Super Retina XDR OLED
+											</td>
+											<td>
+												6.2 بوصة،<br>
+												Dynamic AMOLED 2X
+											</td>
+										</tr>
+										<tr>
+											<td>المعالج</td>
+											<td>Exynos 2400</td>
+											<td>A16 Bionic</td>
+											<td>Google Tensor G3</td>
+										</tr>
+										<tr>
+											<td>الكاميرا الرئيسية</td>
+											<td>50 ميجابكسل</td>
+											<td>48 ميجابكسل</td>
+											<td>50 ميجابكسل</td>
+										</tr>
+										<tr>
+											<td>البطارية</td>
+											<td>4000 مللي أمبير</td>
+											<td>3349 مللي أمبير</td>
+											<td>4575 مللي أمبير</td>
+										</tr>
+										<tr>
+											<td>نظام التشغيل</td>
+											<td>
+												Android 14 <br>
+												مع One UI 6.1
+											</td>
+											<td>iOS 17</td>
+											<td>Android 14</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</section>
+					<section id="user-reviews">
+						<h2 class="section-title">اكتب مراجعتك</h2>
+						<form id="reviewForm">
+							<label for="title">عنوان المراجعة:</label>
+							<input type="text" id="title" name="title" required="">
+
+							<label for="review">المراجعة:</label>
+							<textarea id="review" name="review" rows="5" required=""></textarea>
+
+							<label for="name">الاسم:</label>
+							<input type="text" id="name" name="name" required="">
+
+							<label for="email">البريد الإلكتروني:</label>
+							<input type="email" id="email" name="email" required="">
+
+							<button class="btn btn-primary" type="submit">
+								إرسال المراجعة
+							</button>
+						</form>
+						<br>
+						<h2 class="section-title">آراء المستخدمين</h2>
+						<div class="user-review">
+							<h6>أحمد محمد</h6>
+							<p>
+								اشتريت Galaxy S24 منذ شهر وأنا سعيد جدًا به. الكاميرا رائعة
+								والأداء سريع جدًا. الشاشة ممتازة لمشاهدة الفيديوهات والألعاب.
+								البطارية تدوم ليوم كامل مع الاستخدام المتوسط. أنصح به بشدة!
+							</p>
+						</div>
+						<div class="user-review">
+							<h6>سارة علي</h6>
+							<p>
+								الهاتف جيد بشكل عام، لكن البطارية قد تنفد سريعًا مع الاستخدام
+								الكثيف. الكاميرا ممتازة خاصة في الإضاءة المنخفضة. أتمنى لو كان
+								هناك خيار لتوسيع الذاكرة.
+							</p>
+						</div>
+					</section>
+					<section id="related-articles">
+						<h2 class="section-title">مقالات ذات صلة</h2>
+						<div class="product-grid">
+							<a href="/products/2.html" class="product-link">
+								<div class="product-card">
+									<div class="product-image">
+										<img src="/images/products/product-1.webp" alt="مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين">
+										<button class="compare-button">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
+												<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
+											</svg>
+										</button>
+									</div>
+									<div class="product-info">
+										<div class="price-rating">
+											<span class="price">3,999 ريال</span>
+											<span class="rating-value" data-rating="5.0" style="background-color: rgb(204, 204, 0);">5.0/10</span>
+										</div>
+										<h3 class="product-title">
+											مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين
+										</h3>
+										<p class="product-description">مراجعات هواتف سامسونج</p>
+									</div>
+								</div>
+							</a>
+							<a href="/products/1.html" class="product-link">
+								<div class="product-card">
+									<div class="product-image">
+										<img src="/images/products/product-1.webp" alt="مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين">
+										<button class="compare-button">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
+												<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
+											</svg>
+										</button>
+									</div>
+									<div class="product-info">
+										<div class="price-rating">
+											<span class="price">3,999 ريال</span>
+											<span class="rating-value" data-rating="2.0" style="background-color: rgb(204, 82, 0);">2.0/10</span>
+										</div>
+										<h3 class="product-title">
+											مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين
+										</h3>
+										<p class="product-description">مراجعات هواتف سامسونج</p>
+									</div>
+								</div>
+							</a>
+							<a href="/products/1.html" class="product-link">
+								<div class="product-card">
+									<div class="product-image">
+										<img src="/images/products/product-1.webp" alt="مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين">
+										<button class="compare-button">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
+												<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
+											</svg>
+										</button>
+									</div>
+									<div class="product-info">
+										<div class="price-rating">
+											<span class="price">3,999 ريال</span>
+											<span class="rating-value" data-rating="9.0" style="background-color: rgb(41, 204, 0);">9.0/10</span>
+										</div>
+										<h3 class="product-title">
+											مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين
+										</h3>
+										<p class="product-description">مراجعات هواتف سامسونج</p>
+									</div>
+								</div>
+							</a>
+							<a href="/products/1.html" class="product-link">
+								<div class="product-card">
+									<div class="product-image">
+										<img src="/images/products/product-1.webp" alt="مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين">
+										<button class="compare-button">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
+												<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
+											</svg>
+										</button>
+									</div>
+									<div class="product-info">
+										<div class="price-rating">
+											<span class="price">3,999 ريال</span>
+											<span class="rating-value" data-rating="9.0" style="background-color: rgb(41, 204, 0);">9.0/10</span>
+										</div>
+										<h3 class="product-title">
+											مواصفات و سعر و عيوب سامسونج نوت 10 بلس وآراء المستخدمين
+										</h3>
+										<p class="product-description">مراجعات هواتف سامسونج</p>
+									</div>
+								</div>
+							</a>
+						</div>
+					</section>
+				</div>
+			</div>
+
+
+<aside class="sidebar">
+				<div class="sidebar-section">
+					<h3>البحث الذكي</h3>
+					<form class="search-form">
+						<div class="form-body">
+							<select class="custom-select" aria-label="اختر القسم">
+								<option selected="" disabled="">القسم</option>
+								<option value="1">الهواتف الذكية</option>
+								<option value="2">الحواسيب المحمولة</option>
+								<option value="3">الأجهزة اللوحية</option>
+							</select>
+							<select class="custom-select" aria-label="اختر العلامة التجارية">
+								<option selected="" disabled="">العلامة التجارية</option>
+								<option value="1">Apple</option>
+								<option value="2">Samsung</option>
+								<option value="3">Huawei</option>
+							</select>
+							<select class="custom-select" aria-label="اختر نطاق السعر">
+								<option selected="" disabled="">السعر</option>
+								<option value="1">أقل من 1000 ريال</option>
+								<option value="2">1000 - 3000 ريال</option>
+								<option value="3">أكثر من 3000 ريال</option>
+							</select>
+							<select class="custom-select" aria-label="اختر التقييم">
+								<option selected="" disabled="">التقييم</option>
+								<option value="1">5 نجوم</option>
+								<option value="2">4 نجوم وأعلى</option>
+								<option value="3">3 نجوم وأعلى</option>
+							</select>
+						</div>
+						<button type="submit" class="search-button">ابحث</button>
+					</form>
+				</div>
+				<div class="sidebar-section">
+					<h3>التصنيفات</h3>
+					<div class="categories-grid">
+						<a href="/singlecategory.html" class="category-card">
+							<div class="category-icon">
+								<img src="/images/categories/washing_machines.png" alt="الغسالات" width="64" height="64" loading="lazy">
+							</div>
+							<h3 class="category-name">الغسالات</h3>
+						</a>
+						<a href="/singlecategory.html" class="category-card">
+							<div class="category-icon">
+								<img src="/images/categories/stove.png" alt="البوتاجازات" width="64" height="64" loading="lazy">
+							</div>
+							<h3 class="category-name">البوتاجازات</h3>
+						</a>
+					</div>
+					<a href="/all-category.html" class="btn btn-outline-secondary center" data-category="home">
+						المزيد من الأقسام
+					</a>
+				</div>
+				<div class="sidebar-section">
+					<h3>العلامات التجارية</h3>
+					<div class="brands-grid">
+						<a href="/singlebrand.html" class="brand-item">
+							<img src="/images/brands/brand-1.png" alt="Brand 1" width="120" height="60" loading="lazy">
+						</a>
+						<a href="/singlebrand.html" class="brand-item">
+							<img src="/images/brands/brand-1.png" alt="Brand 2" width="120" height="60" loading="lazy">
+						</a>
+						<a href="/singlebrand.html" class="brand-item">
+							<img src="/images/brands/brand-1.png" alt="Brand 4" width="120" height="60" loading="lazy">
+						</a>
+					</div>
+					<a href="/all-brands.html" class="btn btn-outline-secondary center" data-category="home">
+						المزيد من العلامات التجارية
+					</a>
+				</div>
+			</aside>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+		<script>
+			// accordion functionality
+			document.querySelectorAll('.accordion-header').forEach(header => {
+				header.addEventListener('click', () => {
+					const item = header.parentElement;
+					const isActive = item.classList.contains('active');
+
+					// Close all accordion items
+					document.querySelectorAll('.accordion-item').forEach(accItem => {
+						accItem.classList.remove('active');
+						accItem.querySelector('.accordion-icon').textContent = '+';
+					});
+
+					if (!isActive) {
+						item.classList.add('active');
+						header.querySelector('.accordion-icon').textContent = '-';
+					}
+				});
+			});
+		</script>
+		<script>
+			document.querySelectorAll('.rating-fill').forEach(fill => {
+				const progress = fill.getAttribute('data-progress');
+				fill.style.width = `${progress}%`;
+			});
+		</script>
+		<script>
+			class ImageSwiper {
+				constructor(container) {
+					this.container = container;
+					this.wrapper = container.querySelector('.swiper-wrapper');
+					this.slides = container.querySelectorAll('.swiper-slide');
+					this.nextButton = container.querySelector('.swiper-button-next');
+					this.prevButton = container.querySelector('.swiper-button-prev');
+					this.pagination = container.querySelector('.swiper-pagination');
+
+					this.currentIndex = 0;
+					this.slideCount = this.slides.length;
+
+					this.init();
+				}
+
+				init() {
+					// Create pagination bullets
+					this.slides.forEach((_, index) => {
+						const bullet = document.createElement('div');
+						bullet.classList.add('swiper-pagination-bullet');
+						if (index === 0) bullet.classList.add('active');
+						bullet.addEventListener('click', () => this.goToSlide(index));
+						this.pagination.appendChild(bullet);
+					});
+
+					// Add event listeners
+					this.nextButton.addEventListener('click', () => this.nextSlide());
+					this.prevButton.addEventListener('click', () => this.prevSlide());
+
+					// Add touch support
+					let touchStartX = 0;
+					let touchEndX = 0;
+
+					this.container.addEventListener('touchstart', e => {
+						touchStartX = e.touches[0].clientX;
+					});
+
+					this.container.addEventListener('touchend', e => {
+						touchEndX = e.changedTouches[0].clientX;
+						if (touchStartX - touchEndX > 50) {
+							this.nextSlide();
+						} else if (touchEndX - touchStartX > 50) {
+							this.prevSlide();
+						}
+					});
+
+					// Optional: Add keyboard support
+					document.addEventListener('keydown', e => {
+						if (e.key === 'ArrowLeft') this.prevSlide();
+						if (e.key === 'ArrowRight') this.nextSlide();
+					});
+
+					// Optional: Auto play
+					this.startAutoPlay();
+				}
+
+				goToSlide(index) {
+					this.currentIndex = index;
+					this.updateSlider();
+				}
+
+				nextSlide() {
+					this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+					this.updateSlider();
+				}
+
+				prevSlide() {
+					this.currentIndex =
+						(this.currentIndex - 1 + this.slideCount) % this.slideCount;
+					this.updateSlider();
+				}
+
+				updateSlider() {
+					// Update slider position
+					this.wrapper.style.transform = `translateX(${
+						this.currentIndex * 100
+					}%)`;
+
+					// Update pagination
+					const bullets = this.pagination.querySelectorAll(
+						'.swiper-pagination-bullet',
+					);
+					bullets.forEach((bullet, index) => {
+						if (index === this.currentIndex) {
+							bullet.classList.add('active');
+						} else {
+							bullet.classList.remove('active');
+						}
+					});
+
+					// Add fade effect
+					this.slides.forEach((slide, index) => {
+						if (index === this.currentIndex) {
+							slide.classList.add('fade');
+						} else {
+							slide.classList.remove('fade');
+						}
+					});
+				}
+
+				startAutoPlay() {
+					setInterval(() => {
+						this.nextSlide();
+					}, 5000); // Change slide every 5 seconds
+				}
+			}
+
+			// Initialize the swiper
+			document.addEventListener('DOMContentLoaded', () => {
+				const swiper = new ImageSwiper(
+					document.querySelector('.swiper-container'),
+				);
+			});
+		</script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				// Initialize each table container
+				document
+					.querySelectorAll('.table-container')
+					.forEach(function (tableWrapper) {
+						const scrollContainer =
+							tableWrapper.querySelector('.scroll-container');
+						const leftButton = tableWrapper.querySelector('.scroll-left');
+						const rightButton = tableWrapper.querySelector('.scroll-right');
+
+						function checkScroll() {
+							const scrollLeft = Math.abs(scrollContainer.scrollLeft);
+							const scrollWidth = scrollContainer.scrollWidth;
+							const clientWidth = scrollContainer.clientWidth;
+							const maxScroll = scrollWidth - clientWidth;
+
+							// Update button visibility
+							leftButton.style.display =
+								scrollLeft < maxScroll ? 'block' : 'none';
+							rightButton.style.display = scrollLeft > 0 ? 'block' : 'none';
+						}
+
+						function handleResize() {
+							// Get table width for this specific container
+							const tableWidth =
+								scrollContainer.querySelector('table').offsetWidth;
+							const containerWidth = scrollContainer.offsetWidth;
+
+							// Hide buttons if no scroll needed
+							if (tableWidth <= containerWidth) {
+								leftButton.style.display = 'none';
+								rightButton.style.display = 'none';
+							} else {
+								checkScroll();
+							}
+						}
+
+						// Set RTL direction
+						scrollContainer.style.direction = 'rtl';
+
+						// Add scroll button click handlers
+						rightButton.addEventListener('click', function () {
+							scrollContainer.scrollBy({
+								left: 200,
+								behavior: 'smooth',
+							});
+						});
+
+						leftButton.addEventListener('click', function () {
+							scrollContainer.scrollBy({
+								left: -200,
+								behavior: 'smooth',
+							});
+						});
+
+						// Add event listeners for this container
+						scrollContainer.addEventListener('scroll', checkScroll);
+						window.addEventListener('resize', handleResize);
+
+						// Initialize scroll state
+						handleResize();
+					});
+			});
+		</script>
+
+
+
+
+
+
+
 {% endblock %}
