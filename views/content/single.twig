@@ -9,6 +9,10 @@
 					<div class="swiper-container">
 						<div class="swiper-wrapper" style="transform: translateX(200%);">
 
+            	<div class="swiper-slide">
+								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
+							</div>
+
 
 {% set gallery_images = post.meta('gallery_images') %}
 {% if gallery_images is not empty %}
@@ -16,7 +20,7 @@
         {% for image_id in gallery_images %}
             {% set image = TimberImage(image_id) %}
 							<div class="swiper-slide">
-								<imgsrc="{{ image.src }}" alt="{{ image.alt }}">
+								<img src="{{ image.src }}" alt="{{ image.alt }}">
 							</div>
 
         {% endfor %}
