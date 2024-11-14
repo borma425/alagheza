@@ -16,6 +16,19 @@
 
 
 
+{% set gallery_images = post.meta('gallery_images') %}
+{% if gallery_images is not empty %}
+
+        {% for image_id in gallery_images %}
+            {% set image = TimberImage(image_id) %}
+							<div class="swiper-slide">
+								<imgsrc="{{ image.src }}" alt="{{ image.alt }}">
+							</div>
+
+        {% endfor %}
+ 
+{% endif %}
+
 
 
 
@@ -35,8 +48,13 @@
 							</svg>
 						</button>
 
-						<div class="swiper-pagination"><div class="swiper-pagination-bullet"></div><div class="swiper-pagination-bullet"></div><div class="swiper-pagination-bullet active"></div></div>
-					</div>
+						<div class="swiper-pagination">
+            <div class="swiper-pagination-bullet"></div>
+
+            
+            </div>
+					
+          </div>
 					<p class="subtitle">
 						كل ما تريد معرفته عن مواصفات وسعر وعيوب Samsung Galaxy S24
 					</p>
