@@ -55,7 +55,10 @@ if (tabButtons.length > 0) {
        if (clickedButtons.length === 2) {
          setTimeout(() => {
            // Show the IDs of the two clicked buttons
-           alert(`You clicked: ${clickedButtons[0]} and ${clickedButtons[1]}`);
+           var baseUrl = window.location.origin + window.location.pathname;
+           // Redirect to the compare page with the query parameters
+           window.location.href = baseUrl + "/compare/?items=[" + clickedButtons[0] + "," + clickedButtons[1] + "]";
+
          }, 2000);
 
 
