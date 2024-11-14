@@ -46,7 +46,11 @@ $context['post_contexts'] = [
     'Home_Appliances' => get_one_post_per_category([12, 10, 11, 9]),
     'Electronic_Devices' => get_one_post_per_category([494, 504, 521, 381]),
     'Kitchen_Appliances' => get_one_post_per_category([88, 278, 386, 272]),
-    'Other_Devices' => get_one_post_per_category([12, 876, 13, 9]),
+    'Other_Devices' => Timber::get_posts(array(
+        'post_type' => 'post',
+        'category__in' => array(592),
+        'posts_per_page' => 4,
+    )),
 
 ];
 
