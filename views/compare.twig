@@ -69,6 +69,49 @@
                             {% endfor %}
                         </tr>
                     {% endfor %}
+
+
+
+
+
+
+
+
+                    {# Add Total Reviews, Rating and Price Row #}
+                                        <tr>
+                        <td>السعر</td>
+                        {% for device in devices %}
+                            <td>{{ device.price ? device.price : 'غير محدد' }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>إجمالي التقييمات</td>
+                        {% for device in devices %}
+                            <td>{{ device.total_review }}</td>
+                        {% endfor %}
+                    </tr>
+<tr>
+    <td>التقييمات</td>
+    {% for device in devices %}
+        <td>
+            {% for rating in device.ratings %}
+                <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">{{ rating.key }}:</span>
+                    <span>
+                        {# Display star icons based on the rating value #}
+                        {% for i in 1..5 %}
+                            <span style="color: {% if i <= rating.value %} #FFD700 {% else %} #ccc {% endif %};">
+                                &#9733; {# Star icon #}
+                            </span>
+                        {% endfor %}
+                    </span>
+                </div>
+            {% endfor %}
+        </td>
+    {% endfor %}
+</tr>
+
+
                 </tbody>
             </table>
         </div>

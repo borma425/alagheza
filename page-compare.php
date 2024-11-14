@@ -1,53 +1,75 @@
 <?php
+  
+  function wp_review_get_review_items( $post_id = null ) {
+    if ( ! $post_id ) {
+        $post_id = get_the_ID();
+    }
+
+    $items = get_post_meta( $post_id, 'wp_review_item', true );
+
+    return apply_filters( 'wp_review_items', $items );
+}
 
 $context = Timber::context();
 
-$context['is_front_page'] = false;
-
 // Check if 'items' parameter is set in the URL
 if (isset($_GET['items'])) {
-    // Decode the JSON string and sanitize it
     $devices = json_decode(strip_tags((string) wp_unslash($_GET['items'])), true);
 
-    // Initialize an array to store the selected device posts
     $selected_devices = [];
 
-    // Loop through each device ID and get the post details
     foreach ($devices as $device_id) {
-        // Get the post by ID
         $device_post = Timber::get_post($device_id);
 
-        // Ensure the post exists before adding to the array
         if ($device_post) {
-            // Retrieve meta data for each device
+            // Get device meta data
             $device_specs = get_post_meta($device_id, 'device_specs', true);
             $device_specifications_main_title = get_post_meta($device_id, 'device_specifications_main_title', true);
             $product_thumbnail = get_post_meta($device_id, 'product_thumbnail', true);
 
-            // Prepare specifications array for each device
-            $specifications = [];
-            if (!empty($device_specs)) {
-                foreach ($device_specs as $spec) {
-                    $specifications[] = [
-                        'name' => $spec['name'] ?? '',
-                        'description' => $spec['description'] ?? '',
-                        'icon' => $spec['icon'] ?? '',
+            // Get the review data
+            $total_review = get_post_meta($device_id, 'wp_review_total', true);
+            $items = wp_review_get_review_items($device_id);
+            $transformed_array = [];
+
+            if (is_array($items)) {
+                foreach ($items as $item) {
+                    $unique_key = (string) time() . uniqid();
+                    $transformed_array[$unique_key] = [
+                        'key' => $item['wp_review_item_title'],
+                        'value' => $item['wp_review_item_star'],
                     ];
                 }
             }
 
-            // Structure data for each device
+            // Get the price
+            $meta_key   = 'wp_review_schema_options';
+            $meta_value = get_post_meta($device_id, $meta_key, true);
+            if (!is_array($meta_value)) {
+                $decoded = json_decode($meta_value, true);
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $meta_value = $decoded;
+                } else {
+                    $meta_value = [];
+                }
+            }
+
+            $product_price = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
+
+            // Prepare device data
             $selected_devices[] = [
                 'name' => $device_specifications_main_title ?: $device_post->post_title,
                 'image' => $product_thumbnail,
-                'specs' => $specifications
+                'specs' => $device_specs,
+                'total_review' => $total_review,
+                'ratings' => $transformed_array,
+                'price' => $product_price,
             ];
         }
     }
 
-    // Add the selected devices to the context
     $context['devices'] = $selected_devices;
 }
 
-// Render the compare.twig template with the context
 Timber::render('compare.twig', $context);
+
