@@ -27,12 +27,22 @@
                             </td>
                         {% endfor %}
                     </tr>
-                    {% for spec in devices[0].specs %}
+
+                    {% set all_specs = [] %}
+                    {% for device in devices %}
+                        {% for spec in device.specs %}
+                            {% if spec.name not in all_specs %}
+                                {% set all_specs = all_specs | merge([spec.name]) %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% for spec_name in all_specs %}
                         <tr>
-                            <td>{{ spec.name }}</td>
+                            <td>{{ spec_name }}</td>
                             {% for device in devices %}
-                                {% set device_spec = device.specs | filter(s => s.name == spec.name) | first %}
-                                <td>{{ device_spec.description }}</td>
+                                {% set device_spec = device.specs | filter(s => s.name == spec_name) | first %}
+                                <td>{{ device_spec.description | default('غير متوفر') }}</td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
