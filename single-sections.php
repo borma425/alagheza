@@ -66,7 +66,7 @@ if (!empty($current_post_categories)) {
     }
 
     // Store related posts in the context for rendering
-    $context['related_posts'] = $related_posts;
+    $context['posts'] = $related_posts;
 
     // Add pagination to context
 

@@ -7,61 +7,7 @@
 
 
 
-
-{% if posts %}
-<section class="product-showcase">
-				<div class="container">
-					<div class="center-header">
-						<h2 class="title">أحدث مراجعات  </h2>
-					</div>
-					<div class="product-grid" id="productGrid">
-                            {% for article in posts %}
-						<a href="{{ article.link }}" class="product-link">
-							<div class="product-card">
-								<div class="product-image">
-									<img src="{{ article.thumbnail | default(defaultimg) }}" alt="{{article.title }}">
-									<button class="compare-button">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
-											<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
-										</svg>
-									</button>
-								</div>
-								<div class="product-info">
-									<div class="price-rating">
-										<span class="price">{{article.price}} </span>
-{% if article.total_rating %}
-
-<span class="rating-value" data-rating="{{ article.total_rating }}" 
-      style="background-color: {% if article.total_rating > 3 %}rgb(41, 204, 0){% else %}rgb(204, 82, 0){% endif %};">
-    {{ article.total_rating }}/5
-</span>			
-            {% endif %}
-						</div>
-									<h3 class="product-title">
-										{{article.title }}
-									</h3>
-									<p class="product-description"> {{ article.first_category }} </p>
-								</div>
-							</div>
-						</a>
-
-						        {% endfor %}
-
-					</div>
-
-
-
-
-
-
-
-				</div>
-			</section>
-            
-            
-            
-            
-            {% endif %}
+{% include "components/grid/article-card.twig" with { title: "  أحدث المراجعات " } %}
 
 
 {% endblock %}

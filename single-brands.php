@@ -70,7 +70,7 @@ if (!empty($current_post_tags)) {
     }
 
     // Store related posts in the context
-    $context['related_posts'] = $related_posts;
+    $context['posts'] = $related_posts;
 }
 
 Timber::render('single-brand.twig', $context);
