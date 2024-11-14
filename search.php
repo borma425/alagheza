@@ -18,7 +18,7 @@ if (get_query_var('s')) {
 
     // Check if all required parameters are set
   #  if (isset($_GET['brand'], $_GET['category'], $_GET['price'], $_GET['rating'])) {
-if(50 > 3){
+    if (isset($_GET['brand']) || isset($_GET['category']) || isset($_GET['price']) || isset($_GET['rating'])) {
 
         $args = array(
             'post_type'      => array('post'),
