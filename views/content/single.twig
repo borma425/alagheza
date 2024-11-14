@@ -13,14 +13,6 @@
 								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
 							</div>
 
-            	<div class="swiper-slide">
-								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
-							</div>
-            	<div class="swiper-slide">
-								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
-							</div>
-
-
 
 {% set gallery_images = post.meta('gallery_images') %}
 {% if gallery_images is not empty %}
