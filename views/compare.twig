@@ -27,7 +27,7 @@
                             </td>
                         {% endfor %}
                     </tr>
-                   {# Collect all unique spec icon URLs #}
+                    {# Collect all unique spec icon URLs #}
                     {% set unique_icons = [] %}
                     {% for device in devices %}
                         {% for spec in device.specs %}
@@ -40,14 +40,16 @@
                     {# Loop through each unique icon (spec name) #}
                     {% for icon_url in unique_icons %}
                         <tr>
-                            <td>
-                                {# Display icon and spec name #}
+                            <td style=" display: flex; ">
+                                {# Display icon and spec name only once for each icon URL #}
                                 {% set spec_name = null %}
+                                {% set icon_displayed = false %}
                                 {% for device in devices %}
                                     {% for spec in device.specs %}
-                                        {% if spec.icon == icon_url %}
+                                        {% if spec.icon == icon_url and not icon_displayed %}
                                             {% set spec_name = spec.name %}
                                             <img src="{{ spec.icon }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
+                                            {% set icon_displayed = true %}
                                         {% endif %}
                                     {% endfor %}
                                 {% endfor %}
