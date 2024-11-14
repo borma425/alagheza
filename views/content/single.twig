@@ -6,6 +6,15 @@
 <div class="main-content">
 				<div>
 					<h1 class="title">{{ post.title }}</h1>
+
+
+
+
+
+{% set gallery_images = post.meta('gallery_images') %}
+{% if gallery_images is not empty %}
+
+
 					<div class="swiper-container">
 						<div class="swiper-wrapper" style="transform: translateX(200%);">
 
@@ -14,8 +23,6 @@
 							</div>
 
 
-{% set gallery_images = post.meta('gallery_images') %}
-{% if gallery_images is not empty %}
 
         {% for image_id in gallery_images %}
             {% set image = TimberImage(image_id) %}
@@ -25,7 +32,6 @@
 
         {% endfor %}
  
-{% endif %}
 
 
 
@@ -52,6 +58,13 @@
             </div>
 					
           </div>
+
+          {% else %}
+        	<div class="swiper-slide">
+								<img src="{{ image.src }}" alt="{{ image.alt }}">
+							</div>
+{% endif %}
+
 					<p class="subtitle">
 						كل ما تريد معرفته عن مواصفات وسعر وعيوب Samsung Galaxy S24
 					</p>
