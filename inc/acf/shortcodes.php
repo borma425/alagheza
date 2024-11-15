@@ -377,58 +377,43 @@ echo '</div>';
 
 
 
+<?php
+// Get pros and cons from the post meta
+$wp_review_pros = get_post_meta($post->ID, 'wp_review_pros', true);
+$wp_review_cons = get_post_meta($post->ID, 'wp_review_cons', true);
+?>
 
-							<div class="props-and-cons pros">
-								<div class="props-and-cons-header">
-									<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-										<polyline points="20 6 9 17 4 12"></polyline>
-									</svg>
-									<h2>مميزات</h2>
-								</div>
-								<ul>
-									<li>
-										<span>شاشة AMOLED بدقة عالية وألوان زاهية</span>
-									</li>
-									<li>
-										<span>معالج قوي يوفر أداءً سريعًا وسلسًا</span>
-									</li>
-									<li>
-										<span>كاميرا متقدمة مع دعم تصوير الفيديو بدقة 8K</span>
-									</li>
-									<li>
-										<span>بطارية كبيرة تدعم الشحن السريع والشحن اللاسلكي</span>
-									</li>
-									<li>
-										<span>مقاومة للماء والغبار بمعيار IP68</span>
-									</li>
-								</ul>
-							</div>
+<!-- Pros Section -->
+<div class="props-and-cons pros">
+    <div class="props-and-cons-header">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <h2>مميزات</h2>
+    </div>
+    <?php if (!empty($wp_review_pros)) : ?>
+        <?php echo $wp_review_pros; // Output the pros HTML directly ?>
+    <?php else : ?>
+        <p>لا توجد مميزات مضافة.</p>
+    <?php endif; ?>
+</div>
 
-							<!-- Cons Section -->
-							<div class="props-and-cons cons">
-								<div class="props-and-cons-header">
-									<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-										<line x1="18" y1="6" x2="6" y2="18"></line>
-										<line x1="6" y1="6" x2="18" y2="18"></line>
-									</svg>
-									<h2>عيوب</h2>
-								</div>
-								<ul>
-									<li>
-										<span>سعر مرتفع مقارنة بالمنافسين</span>
-									</li>
-									<li>
-										<span>عدم وجود منفذ سماعات 3.5 ملم</span>
-									</li>
-									<li>
-										<span>حجم الهاتف قد يكون كبيرًا لبعض المستخدمين</span>
-									</li>
-									<li>
-										<span>لا يوجد تحسين كبير في عمر البطارية مقارنة بالإصدارات
-											السابقة</span>
-									</li>
-								</ul>
-							</div>
+<!-- Cons Section -->
+<div class="props-and-cons cons">
+    <div class="props-and-cons-header">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <h2>عيوب</h2>
+    </div>
+    <?php if (!empty($wp_review_cons)) : ?>
+        <?php echo $wp_review_cons; // Output the cons HTML directly ?>
+    <?php else : ?>
+        <p>لا توجد عيوب مضافة.</p>
+    <?php endif; ?>
+</div>
+
 						</section>
     <?php
     return ob_get_clean();
