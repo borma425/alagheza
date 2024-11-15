@@ -169,10 +169,7 @@ function display_more_products_prices_section() {
 }
 
 function display_review_section($post_id) {
-    // Ensure $post_id is provided or fallback to current post
-    if (!$post_id) {
-        $post_id = get_the_ID();
-    }
+    global $post;
 
     // Retrieve custom meta fields
     $wp_review_heading = get_post_meta($post->ID, 'wp_review_heading', true);
@@ -189,6 +186,8 @@ function display_review_section($post_id) {
     $product_desc = isset($meta_value['Product']['description']) ? $meta_value['Product']['description'] : '';
     $product_price = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
     $product_priceCurrency = isset($meta_value['Product']['priceCurrency']) ? $meta_value['Product']['priceCurrency'] : '';
+    $product_brand = isset($meta_value['Product']['brand']) ? $meta_value['Product']['brand'] : '';
+    $product_sku = isset($meta_value['Product']['sku']) ? $meta_value['Product']['sku'] : '';
 
     ob_start();
     ?>
@@ -197,38 +196,82 @@ function display_review_section($post_id) {
 								<!-- Product Info Section -->
 								<div class="product-info">
 									<div class="brand-info">
-										<svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="#1a73e8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-											<rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
-											<polyline points="17 2 12 7 7 2"></polyline>
-										</svg>
-										<span class="brand-name">SAMSUNG</span>
+<svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="20" 
+    height="15" 
+    viewBox="0 0 20 15" 
+    class="brand-logo">
+  <rect x="0" y="0" width="20" height="4" fill="#333" stroke="#1a73e8" stroke-width="1" />
+  <rect x="0" y="6" width="15" height="4" fill="#666" stroke="#1a73e8" stroke-width="1" />
+  <rect x="0" y="12" width="10" height="3" fill="#999" stroke="#1a73e8" stroke-width="1" />
+</svg>
+
+									<span class="brand-name"><?php echo !empty(get_the_category()) ? get_the_category()[0]->name : 'No categories found'; ?></span>
 									</div>
+
 									<h6 class="product-title">
 
                                     <?php echo esc_attr($wp_review_heading); ?>
                                 </h6>
 
 									<div class="product-meta">
-										<div class="meta-item">
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-												<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-												<polyline points="22,6 12,13 2,6"></polyline>
+
+                                    <div class="meta-item">
+     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 6h18M3 12h18M3 18h18"></path>
+    </svg>
+    <span class="meta-label">اسم المنتج:</span>
+    <span class="meta-value"><?= $product_name ?></span>
+  </div>
+
+
+  <div class="meta-item">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 16v-4"></path>
+      <path d="M12 8h.01"></path>
+    </svg>
+    <span class="meta-label">الماركة:</span>
+    <span class="meta-value"><?= $product_brand ?></span>
+  </div>
+
+  <div class="meta-item">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="4" width="20" height="16" fill="none" stroke="#6b7280"></rect>
+      <line x1="4" y1="6" x2="4" y2="18" stroke-width="1.5"></line>
+      <line x1="6" y1="6" x2="6" y2="18" stroke-width="1"></line>
+      <line x1="8" y1="6" x2="8" y2="18" stroke-width="2"></line>
+      <line x1="10" y1="6" x2="10" y2="18" stroke-width="1"></line>
+      <line x1="12" y1="6" x2="12" y2="18" stroke-width="1.5"></line>
+      <line x1="14" y1="6" x2="14" y2="18" stroke-width="2"></line>
+      <line x1="16" y1="6" x2="16" y2="18" stroke-width="1"></line>
+      <line x1="18" y1="6" x2="18" y2="18" stroke-width="1.5"></line>
+    </svg>
+    <span class="meta-label">كود المنتج:</span>
+    <span class="meta-value"><?= $product_sku ?></span>
+  </div>
+
+  <div class="meta-item">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+												<line x1="12" y1="1" x2="12" y2="23"></line>
+												<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
 											</svg>
-											<span class="meta-label">رمز المنتج:</span>
-											<span class="meta-value">SM-S924</span>
-										</div>
-										<div class="meta-item">
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-												<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-												<line x1="7" y1="7" x2="7.01" y2="7"></line>
-											</svg>
-											<span class="meta-label">الفئة:</span>
-											<span class="meta-value">هواتف ذكية</span>
-										</div>
+    <span class="meta-label">السعر:</span>
+    <span class="meta-value"><?= $product_price ?></span>
+  </div>
+
+  <div class="meta-item">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l4 4h-3v10h-2V6H8l4-4z"></path>
+    </svg>
+    <span class="meta-label">العملة:</span>
+    <span class="meta-value"><?= $product_priceCurrency ?></span>
+  </div>
 									</div>
 
 									<div class="rating-box">
-										<div class="rating-score">9.0</div>
+										<div class="rating-score"><?php echo $wp_review_total ?></div>
 										<div class="rating-label">التقييم النهائي</div>
 									</div>
 								</div>
@@ -236,14 +279,31 @@ function display_review_section($post_id) {
 								<!-- Product Details Section -->
 								<div class="product-details">
 									<p class="product-description">
-										يعتبر هاتف Samsung Galaxy S24 أحدث إصدارات سامسونج في فئة
-										الهواتف الرائدة. يتميز بشاشة Dynamic AMOLED 2X مقاس 6.8 بوصة
-										بدقة QHD+ ومعدل تحديث 120 هرتز، مع معالج Snapdragon 8 Gen 3
-										الأحدث من كوالكوم. يقدم الهاتف تجربة تصوير متميزة مع نظام
-										كاميرات متطور يدعم التصوير بدقة 200 ميجابكسل.
+<?= $product_desc ?>
 									</p>
 
-									<img src="https://mellow-douhua-911077.netlify.app/includes/images/m3.jpg" alt="Samsung Galaxy S24" class="product-image">
+									<?php
+
+                                    // Ensure the structure is correct
+if (is_array($meta_value) && isset($meta_value['Product']['image'])) {
+    $image_data = $meta_value['Product']['image'];
+    $image_url = isset($image_data['url']) ? $image_data['url'] : ''; // Get image URL
+
+    // Check if image URL exists and output it
+    if (!empty($image_url)) {
+        $reviewed_item_image = $image_url; // Set image URL
+    } else {
+        $reviewed_item_image = "No_image_URL"; // Fallback when image is missing
+    }
+} else {
+    echo 'Product image data is not set correctly.';
+    $reviewed_item_image = "No_image_URL"; // Fallback image
+}
+
+// Output the image as an <img> tag
+echo '<img src="' . esc_url($reviewed_item_image) . '" alt="'.$product_desc.'" class="product-image" />';
+
+?>
 
 									<div class="holder">
 										<div class="price-tag">
@@ -251,77 +311,73 @@ function display_review_section($post_id) {
 												<line x1="12" y1="1" x2="12" y2="23"></line>
 												<path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
 											</svg>
-											<span class="price-value">4,999</span>
+											<span class="price-value"><?php echo $product_price ?> </span>
 										</div>
 										<div class="price-tag">
-											<span class="price-value">ريال سعودي</span>
+											<span class="price-value"><?php echo $product_priceCurrency ?></span>
 										</div>
 									</div>
+
+<p class="product-description">
+<?= $wp_review_desc ?>
+	</p>
+
+
 								</div>
 							</div>
-							<div class="ratings-card">
-								<h2 class="ratings-title">التقييمات التفصيلية</h2>
 
-								<div class="rating-item">
-									<div class="rating-header">
-										<span class="rating-name">الشاشة</span>
-										<span class="rating-amount">10/10</span>
-									</div>
-									<div class="rating-bar">
-										<div class="rating-fill" data-progress="90" style="width: 90%;"></div>
-									</div>
-								</div>
 
-								<div class="rating-item">
-									<div class="rating-header">
-										<span class="rating-name">البطارية</span>
-										<span class="rating-amount">9/10</span>
-									</div>
-									<div class="rating-bar">
-										<div class="rating-fill" data-progress="100" style="width: 100%;"></div>
-									</div>
-								</div>
 
-								<div class="rating-item">
-									<div class="rating-header">
-										<span class="rating-name">المعالج ونظام التشغيل</span>
-										<span class="rating-amount">10/10</span>
-									</div>
-									<div class="rating-bar">
-										<div class="rating-fill" data-progress="95" style="width: 95%;"></div>
-									</div>
-								</div>
 
-								<div class="rating-item">
-									<div class="rating-header">
-										<span class="rating-name">التصميم</span>
-										<span class="rating-amount">9.5/10</span>
-									</div>
-									<div class="rating-bar">
-										<div class="rating-fill" data-progress="70" style="width: 70%;"></div>
-									</div>
-								</div>
 
-								<div class="rating-item">
-									<div class="rating-header">
-										<span class="rating-name">التصوير</span>
-										<span class="rating-amount">9.5/10</span>
-									</div>
-									<div class="rating-bar">
-										<div class="rating-fill" data-progress="90" style="width: 90%;"></div>
-									</div>
-								</div>
+<?php
+        $items = get_post_meta( $post->ID, 'wp_review_item', true );
+    
+        $items = apply_filters( 'wp_review_items', $items );
+        $transformed_array = [];
 
-								<div class="rating-item">
-									<div class="rating-header">
-										<span class="rating-name">التخزين</span>
-										<span class="rating-amount">9.5/10</span>
-									</div>
-									<div class="rating-bar">
-										<div class="rating-fill" data-progress="90" style="width: 90%;"></div>
-									</div>
-								</div>
-							</div>
+if (is_array($items)) {
+    // Loop through the items to build the new array
+    foreach ($items as $item) {
+        $unique_key = (string) time() . uniqid(); // Generate a unique key for each item
+        
+        // Assign the title and star rating for each item
+        $transformed_array[$unique_key] = [
+            'key' => $item['wp_review_item_title'],
+            'value' => $item['wp_review_item_star'],
+        ];
+    }
+}
+
+echo '<div class="ratings-card">';
+echo '<h2 class="ratings-title">'.$wp_review_desc_title .'</h2>';
+
+foreach ($transformed_array as $key => $rating) {
+    $rating_name = esc_html($rating['key']);
+    $rating_value = esc_html($rating['value']);
+    $rating_percent = ($rating_value / 5) * 100; // Assuming rating is out of 5 stars
+
+    // Display each rating item
+    echo '<div class="rating-item">';
+    echo '<div class="rating-header">';
+    echo '<span class="rating-name">' . $rating_name . '</span>';
+    echo '<span class="rating-amount">' . $rating_value . '/5</span>'; 
+    echo '</div>';
+    echo '<div class="rating-bar">';
+    echo '<div class="rating-fill" data-progress="' . $rating_percent . '" style="width: ' . $rating_percent . '%;"></div>';
+    echo '</div>';
+    echo '</div>';
+}
+
+echo '</div>';
+?>
+
+
+
+
+
+
+
 							<div class="props-and-cons pros">
 								<div class="props-and-cons-header">
 									<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
