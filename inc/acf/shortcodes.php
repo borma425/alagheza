@@ -165,7 +165,78 @@ function display_cons_section() {
 
 
 function display_more_products_prices_section() {
+    global $post; // Make sure to use the current post object to get the data
 
+    // Fetch the product sections meta field
+    $sections = get_post_meta($post->ID, '_product_sections', true);
+
+    // Check if the sections exist
+    if (empty($sections)) {
+        return ''; // Return empty if no sections are available
+    }
+
+    // Start the section container
+    $output = '';
+
+    // Loop through each section
+    foreach ($sections as $section) {
+        // Section title
+        $section_title = isset($section['title']) ? esc_html($section['title']) : 'القسم';
+
+        // Start the HTML structure for each section
+        $output .= '<section class="pricing-section">
+                        <h2 class="section-title">' . $section_title . '</h2>
+                        <div class="table-container">
+                            <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
+                            <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
+                            <div class="scroll-container" style="direction: rtl;">
+                                <table class="price-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الصوره</th>
+                                            <th>اسم الجهاز</th>
+                                            <th>الوصف</th>
+                                            <th>السعر</th>
+                                            <th>التفاصيل</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>';
+
+        // Loop through each subsection (product) in the current section
+        if (!empty($section['subsections'])) {
+            foreach ($section['subsections'] as $subsection) {
+                $image = isset($subsection['image']) ? esc_url($subsection['image']) : '';
+                $name = isset($subsection['name']) ? esc_html($subsection['name']) : '';
+                $desc = isset($subsection['desc']) ? esc_html($subsection['desc']) : '';
+                $price = isset($subsection['price']) ? esc_html($subsection['price']) : '';
+                $link = isset($subsection['link']) ? esc_url($subsection['link']) : '';
+
+                // Generate a table row for each subsection (product)
+                $output .= '<tr>';
+                $output .= '<td><img src="' . $image . '" width="100" alt="' . $name . '"></td>';
+                $output .= '<td>' . $name . '</td>';
+                $output .= '<td>' . $desc . '</td>';
+                $output .= '<td>' . $price . '</td>';
+                if (!empty($link)) {
+                    $output .= '<td><a href="' . esc_url($link) . '">اعرف اكتر</a></td>';
+                } else {
+                    $output .= '<td></td>'; // Empty cell if no link
+                }
+
+                $output .= '</tr>';
+            }
+        }
+
+        // Close the table and section container for this section
+        $output .= '</tbody>
+                    </table>
+                </div>
+            </div>
+        </section>';
+    }
+
+    // Return the generated HTML
+    return $output;
 }
 
 function display_review_section($post_id) {
