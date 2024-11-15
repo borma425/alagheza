@@ -203,7 +203,6 @@ function display_review_section($post_id) {
 										</svg>
 										<span class="brand-name">SAMSUNG</span>
 									</div>
-
 									<h6 class="product-title">
 
                                     <?php echo esc_attr($wp_review_heading); ?>
