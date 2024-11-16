@@ -253,7 +253,7 @@
                         <td>صورة الجهاز</td>
                         {% for device in comparison_table %}
                             <td>
-                                <img src="{{ device.image }}" width="100" height="100" alt="{{ device.name }}">
+                                <a href="{{ device.link }}"><img src="{{ device.image }}" width="100" height="100" alt="{{ device.name }}"></a>
                             </td>
                         {% endfor %}
                     </tr>

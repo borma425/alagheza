@@ -193,6 +193,8 @@ function get_comparison_table_data($current_product_id) {
             'specs' => $device_specs,
             'total_review' => $total_review,
             'price' => $product_price,
+            'link' => $device_post->link,
+
         ];
     }
     wp_reset_postdata();
