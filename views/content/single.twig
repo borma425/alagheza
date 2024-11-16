@@ -510,37 +510,40 @@
 				<div class="sidebar-section">
 					<h3>التصنيفات</h3>
 					<div class="categories-grid">
-						<a href="/singlecategory.html" class="category-card">
+
+{% for post in sidebar_sections %}
+
+						<a href="{{ post.link }}" class="category-card">
 							<div class="category-icon">
-								<img src="/images/categories/washing_machines.png" alt="الغسالات" width="64" height="64" loading="lazy">
+								<img src="{{ post.thumbnail.src | default(defaultimg) }}" alt="{{ post.title }}" width="64" height="64" loading="lazy">
 							</div>
-							<h3 class="category-name">الغسالات</h3>
+							<h3 class="category-name">{{ post.title }}</h3>
 						</a>
-						<a href="/singlecategory.html" class="category-card">
-							<div class="category-icon">
-								<img src="/images/categories/stove.png" alt="البوتاجازات" width="64" height="64" loading="lazy">
-							</div>
-							<h3 class="category-name">البوتاجازات</h3>
-						</a>
+{% endfor %}
+
 					</div>
-					<a href="/all-category.html" class="btn btn-outline-secondary center" data-category="home">
+					<a href="{{ sections_cpt.link }}" class="btn btn-outline-secondary center" data-category="home">
 						المزيد من الأقسام
 					</a>
 				</div>
 				<div class="sidebar-section">
 					<h3>العلامات التجارية</h3>
 					<div class="brands-grid">
-						<a href="/singlebrand.html" class="brand-item">
-							<img src="/images/brands/brand-1.png" alt="Brand 1" width="120" height="60" loading="lazy">
+
+{% for post in sidebar_brands %}
+
+						<a href="{{ post.link }}" class="brand-item">
+							<img
+								src="{{ post.thumbnail.src | default(defaultimg) }}"
+								alt="{{ post.title }}"
+								width="120"
+								height="60"
+								loading="lazy" />
 						</a>
-						<a href="/singlebrand.html" class="brand-item">
-							<img src="/images/brands/brand-1.png" alt="Brand 2" width="120" height="60" loading="lazy">
-						</a>
-						<a href="/singlebrand.html" class="brand-item">
-							<img src="/images/brands/brand-1.png" alt="Brand 4" width="120" height="60" loading="lazy">
-						</a>
+{% endfor %}
+
 					</div>
-					<a href="/all-brands.html" class="btn btn-outline-secondary center" data-category="home">
+					<a href="{{ brands_cpt.link }}" class="btn btn-outline-secondary center" data-category="home">
 						المزيد من العلامات التجارية
 					</a>
 				</div>

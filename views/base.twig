@@ -1,3 +1,5 @@
+{% set brands_cpt = fn('CPT_Redirect_link', 'brands') %}
+{% set sections_cpt = fn('CPT_Redirect_link', 'sections') %}
 
 {% set defaultimg = fn('asset_url',"no_image_1200x627.png","/img/default/") | relative %}
 {% set medium_logo  =  site.theme.theme_mod('basic-logos-callout-medium_logo') | default(defaultimg) %}

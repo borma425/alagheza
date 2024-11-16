@@ -167,6 +167,7 @@ function get_comparison_table_data($current_product_id) {
     if (!$comparable_products->have_posts()) {
         return [];
     }
+    $meta_key = 'wp_review_schema_options';
 
     $devices = [];
     while ($comparable_products->have_posts()) {
@@ -192,22 +193,10 @@ function get_comparison_table_data($current_product_id) {
             }
         }
 
-        // Get the price
-        $meta_key   = 'wp_review_schema_options';
-        $meta_value = get_post_meta($device_id, $meta_key, true);
-        if (!is_array($meta_value)) {
-            $decoded = json_decode($meta_value, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $meta_value = $decoded;
-            } else {
-                $meta_value = [];
-            }
-        }
 
         $product_price = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
 
         // جلب السعر
-        $meta_key = 'wp_review_schema_options';
         $meta_value = get_post_meta($device_id, $meta_key, true);
         $meta_value = is_array($meta_value) ? $meta_value : json_decode($meta_value, true);
         $product_price = $meta_value['Product']['price'] ?? '';
@@ -230,5 +219,38 @@ function get_comparison_table_data($current_product_id) {
 }
 
 $context['comparison_table'] = get_comparison_table_data(get_the_ID());
+
+
+
+
+
+
+
+
+$context['sidebar_sections'] = Timber::get_posts([
+    'post_type' => 'sections',
+    'posts_per_page' => 2,
+    'tax_query' => [
+        [
+            'taxonomy' => 'post_tag',
+            'field' => 'slug',
+            'terms' => 'article',
+        ]
+    ]
+]);
+
+
+$context['sidebar_brands'] = Timber::get_posts([
+    'post_type' => 'brands',
+    'posts_per_page' => 2,
+    'tax_query' => [
+        [
+            'taxonomy' => 'post_tag',
+            'field' => 'slug',
+            'terms' => 'article',
+        ]
+    ]
+]);
+
 
 Timber::render('content/single.twig', $context);
