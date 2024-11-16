@@ -37,7 +37,7 @@ if (!empty($current_post_categories)) {
             'title'       => $post->title,
             'link'        => $post->link,
             'id'          => $post->ID,
-            'thumbnail'   => get_the_post_thumbnail_url($post->ID, 'thumbnail'), // Adjust size as needed
+            'thumbnail'   => get_the_post_thumbnail_url($post->ID, 'medium'), // Adjust size as needed
             'description' => get_the_excerpt($post->ID), // or get_post_field('post_content', $post->ID) for full content
             'first_category' => $first_category, // Store the first category name
         ];
