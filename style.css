@@ -1585,6 +1585,7 @@ table tbody tr:nth-child(even) {
 
 table tbody td {
   text-wrap: nowrap;
+  text-align: center;
 }
 
 table tbody tr:hover {
