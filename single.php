@@ -179,6 +179,32 @@ function get_comparison_table_data($current_product_id) {
         $device_specifications_main_title = get_post_meta($device_id, 'device_specifications_main_title', true);
         $product_thumbnail = get_post_meta($device_id, 'product_thumbnail', true);
         $total_review = get_post_meta($device_id, 'wp_review_total', true);
+        $items = wp_review_get_review_items($device_id);
+        $transformed_array = [];
+
+        if (is_array($items)) {
+            foreach ($items as $item) {
+                $unique_key = (string) time() . uniqid();
+                $transformed_array[$unique_key] = [
+                    'key' => $item['wp_review_item_title'],
+                    'value' => $item['wp_review_item_star'],
+                ];
+            }
+        }
+
+        // Get the price
+        $meta_key   = 'wp_review_schema_options';
+        $meta_value = get_post_meta($device_id, $meta_key, true);
+        if (!is_array($meta_value)) {
+            $decoded = json_decode($meta_value, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $meta_value = $decoded;
+            } else {
+                $meta_value = [];
+            }
+        }
+
+        $product_price = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
 
         // جلب السعر
         $meta_key = 'wp_review_schema_options';
@@ -194,6 +220,7 @@ function get_comparison_table_data($current_product_id) {
             'total_review' => $total_review,
             'price' => $product_price,
             'link' => $device_post->link,
+            'ratings' => $transformed_array,
 
         ];
     }

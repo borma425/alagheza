@@ -327,7 +327,27 @@
                     {% endfor %}
 
 
-      
+
+<tr>
+    <td>التقييمات</td>
+    {% for device in comparison_table %}
+        <td>
+            {% for rating in device.ratings %}
+                <div style="display: flex; align-items: center;">
+                    <span style="margin-right: 8px;">{{ rating.key }}:</span>
+                    <span>
+                        {# Display star icons based on the rating value #}
+                        {% for i in 1..5 %}
+                            <span style="color: {% if i <= rating.value %} #FFD700 {% else %} #ccc {% endif %};">
+                                &#9733; {# Star icon #}
+                            </span>
+                        {% endfor %}
+                    </span>
+                </div>
+            {% endfor %}
+        </td>
+    {% endfor %}
+</tr>
     </tbody>
 </table>
 {% else %}
