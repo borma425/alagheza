@@ -88,6 +88,15 @@ $context['has_shortcode_qa_section'] = has_shortcode($post_content, "qa_section"
 
 
 
+function wp_review_get_review_items( $post_id = null ) {
+    if ( ! $post_id ) {
+        $post_id = get_the_ID();
+    }
+
+    $items = get_post_meta( $post_id, 'wp_review_item', true );
+
+    return apply_filters( 'wp_review_items', $items );
+}
 
 
 
@@ -95,24 +104,25 @@ $context['has_shortcode_qa_section'] = has_shortcode($post_content, "qa_section"
 
 
 
+function get_comparable_products($current_product_id) {
+    // جلب التصنيفات المرتبطة بالمقال الحالي
+    $categories = wp_get_post_terms($current_product_id, 'category', ['fields' => 'ids']);
+    $first_category = !empty($categories) ? $categories[0] : null;
 
+    // جلب بيانات السعر والتقييم
+    $current_price = floatval(get_post_meta($current_product_id, 'wp_review_product_price', true));
+    $current_rating = floatval(get_post_meta($current_product_id, 'wp_review_total', true));
 
-
-function get_comparable_products($current_post_id) {
-    $tags = wp_get_post_terms($current_post_id, 'post_tag', ['fields' => 'ids']);
-    $first_tag = !empty($tags) ? $tags[0] : null;
-
-    $current_price = floatval(get_post_meta($current_post_id, 'wp_review_product_price', true));
-    $current_rating = floatval(get_post_meta($current_post_id, 'wp_review_total', true));
-    // Check if the values are being retrieved correctly
+    // التحقق من أن القيم موجودة
     if (!$current_price || !$current_rating) {
         echo 'Price or rating is missing for the current product.';
         return new WP_Query();
     }
 
+    // إعداد استعلام WP_Query
     $args = [
         'post_type' => 'post',
-        'post__not_in' => [$current_post_id],
+        'post__not_in' => [$current_product_id],
         'posts_per_page' => 2,
         'meta_query' => [
             'relation' => 'AND',
@@ -131,9 +141,9 @@ function get_comparable_products($current_post_id) {
         ],
         'tax_query' => [
             [
-                'taxonomy' => 'post_tag',
+                'taxonomy' => 'category', // استخدام التصنيفات بدلاً من الوسوم
                 'field' => 'term_id',
-                'terms' => $first_tag,
+                'terms' => $first_category, // التصنيف الأول
             ],
         ],
     ];
@@ -141,36 +151,55 @@ function get_comparable_products($current_post_id) {
     return new WP_Query($args);
 }
 
-// Display as table
-$current_post_id = get_the_ID();
-$comparable_products = get_comparable_products($current_post_id);
 
-if ($comparable_products->have_posts()) {
-    echo '<table border="1" cellpadding="10" cellspacing="0">';
-    echo '<tr>';
-    echo '<th>Product Name</th>';
-    echo '<th>Price (in pounds)</th>';
-    echo '<th>Rating</th>';
-    echo '</tr>';
-    
-    // Loop through the comparable products
-    while ($comparable_products->have_posts()) : $comparable_products->the_post();
-        $product_price = get_post_meta(get_the_ID(), 'wp_review_product_price', true);
-        $product_rating = get_post_meta(get_the_ID(), 'wp_review_total', true);
 
-        echo '<tr>';
-        echo '<td>' . get_the_title() . '</td>';
-        echo '<td>' . esc_html($product_price) . '</td>';
-        echo '<td>' . esc_html($product_rating) . '</td>';
-        echo '</tr>';
-    endwhile;
-    
-    echo '</table>';
+
+
+
+
+
+
+
+function get_comparison_table_data($current_product_id) {
+    // استدعاء المنتجات القابلة للمقارنة
+    $comparable_products = get_comparable_products($current_product_id);
+
+    if (!$comparable_products->have_posts()) {
+        return [];
+    }
+
+    $devices = [];
+    while ($comparable_products->have_posts()) {
+        $comparable_products->the_post();
+        $device_id = get_the_ID();
+
+        // جلب البيانات
+        $device_post = Timber::get_post($device_id);
+        $device_specs = get_post_meta($device_id, 'device_specs', true);
+        $device_specifications_main_title = get_post_meta($device_id, 'device_specifications_main_title', true);
+        $product_thumbnail = get_post_meta($device_id, 'product_thumbnail', true);
+        $total_review = get_post_meta($device_id, 'wp_review_total', true);
+
+        // جلب السعر
+        $meta_key = 'wp_review_schema_options';
+        $meta_value = get_post_meta($device_id, $meta_key, true);
+        $meta_value = is_array($meta_value) ? $meta_value : json_decode($meta_value, true);
+        $product_price = $meta_value['Product']['price'] ?? '';
+
+        // تجهيز البيانات
+        $devices[] = [
+            'name' => $device_specifications_main_title ?: $device_post->post_title,
+            'image' => $product_thumbnail ?: get_the_post_thumbnail_url($device_id, 'medium'),
+            'specs' => $device_specs,
+            'total_review' => $total_review,
+            'price' => $product_price,
+        ];
+    }
     wp_reset_postdata();
-} else {
-    echo '<p>No comparable products found.</p>';
+
+    return $devices;
 }
 
-
+$context['comparison_table'] = get_comparison_table_data(get_the_ID());
 
 Timber::render('content/single.twig', $context);

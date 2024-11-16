@@ -237,72 +237,102 @@
 							<button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
 							<button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
 							<div class="scroll-container" style="direction: rtl;">
-								<table class="comparison-table">
-									<thead>
-										<tr>
-											<th>الميزة</th>
-											<th>Samsung Galaxy S24</th>
-											<th>iPhone 15</th>
-											<th>Google Pixel 8</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>صورة الجهاز</td>
-											<td>
-												<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
-											</td>
-											<td>
-												<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
-											</td>
-											<td>
-												<img src="https://mellow-douhua-911077.netlify.app/includes/images/m1.jpg" width="100" alt="device image">
-											</td>
-										</tr>
-										<tr>
-											<td>الشاشة</td>
-											<td>
-												6.2 بوصة، <br>
-												Dynamic AMOLED 2X
-											</td>
-											<td>
-												6.1 بوصة،<br>
-												Super Retina XDR OLED
-											</td>
-											<td>
-												6.2 بوصة،<br>
-												Dynamic AMOLED 2X
-											</td>
-										</tr>
-										<tr>
-											<td>المعالج</td>
-											<td>Exynos 2400</td>
-											<td>A16 Bionic</td>
-											<td>Google Tensor G3</td>
-										</tr>
-										<tr>
-											<td>الكاميرا الرئيسية</td>
-											<td>50 ميجابكسل</td>
-											<td>48 ميجابكسل</td>
-											<td>50 ميجابكسل</td>
-										</tr>
-										<tr>
-											<td>البطارية</td>
-											<td>4000 مللي أمبير</td>
-											<td>3349 مللي أمبير</td>
-											<td>4575 مللي أمبير</td>
-										</tr>
-										<tr>
-											<td>نظام التشغيل</td>
-											<td>
-												Android 14 <br>
-												مع One UI 6.1
-											</td>
-											<td>iOS 17</td>
-											<td>Android 14</td>
-										</tr>
-									</tbody>
-								</table>
+							{% if comparison_table|length > 0 %}
+<table class="comparison-table">
+    <thead>
+        <tr>
+            <th>الميزة</th>
+            {% for device in comparison_table %}
+                <th>{{ device.name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+                    <tr>
+                        <td>صورة الجهاز</td>
+                        {% for device in comparison_table %}
+                            <td>
+                                <img src="{{ device.image }}" width="300" height="200" alt="{{ device.name }}">
+                            </td>
+                        {% endfor %}
+                    </tr>
+                                        <tr>
+                        <td>السعر</td>
+                        {% for device in comparison_table %}
+                            <td>{{ device.price ? device.price : 'غير محدد' }} جنية مصري</td>
+                        {% endfor %}
+                    </tr>
+<tr>
+    <td>إجمالي التقييمات</td>
+    {% for device in comparison_table %}
+        <td>
+            {% set total_review = device.total_review %}
+            {# Display the total review score as stars #}
+            <div style="display: flex; align-items: center;">
+                <span style="margin-right: 8px;">{{ total_review }}:</span>
+                <span>
+                    {# Display star icons based on the total review score #}
+                    {% for i in 1..5 %}
+                        <span style="color: {% if i <= total_review %} #FFD700 {% else %} #ccc {% endif %};">
+                            &#9733; {# Star icon #}
+                        </span>
+                    {% endfor %}
+                </span>
+            </div>
+        </td>
+    {% endfor %}
+</tr>
+                    {# Collect all unique spec icon URLs #}
+                    {% set unique_icons = [] %}
+                    {% for device in comparison_table %}
+                        {% for spec in device.specs %}
+                            {% if spec.icon and spec.icon not in unique_icons %}
+                                {% set unique_icons = unique_icons | merge([spec.icon]) %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {# Loop through each unique icon (spec name) #}
+                    {% for icon_url in unique_icons %}
+                        <tr>
+                            <td style=" display: flex; ">
+                                {# Display icon and spec name only once for each icon URL #}
+                                {% set spec_name = null %}
+                                {% set icon_displayed = false %}
+                                {% for device in comparison_table %}
+                                    {% for spec in device.specs %}
+                                        {% if spec.icon == icon_url and not icon_displayed %}
+                                            {% set spec_name = spec.name %}
+                                            <img src="{{ spec.icon }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
+                                            {% set icon_displayed = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                             &nbsp;
+   {{ spec_name }}
+                            </td>
+
+                            {# Merge values for the same icon (spec name) #}
+                            {% for device in comparison_table %}
+                                {% set device_value = 'غير موجود' %}
+                                {% for spec in device.specs %}
+                                    {% if spec.icon == icon_url %}
+                                        {% set device_value = spec.description %}
+                                    {% endif %}
+                                {% endfor %}
+                                <td>{{ device_value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+
+
+      
+    </tbody>
+</table>
+{% else %}
+    <p>لا توجد بيانات للمقارنة.</p>
+{% endif %}
+
 							</div>
 						</div>
 					</section>
