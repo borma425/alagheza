@@ -16,7 +16,6 @@ function remove_tags_meta_boxbrands() {
     foreach ($cpt_id as $post_type) {
         remove_meta_box('postcustom', $post_type, 'normal');
         remove_meta_box('authordiv', $post_type, 'normal');
-        remove_meta_box('commentsdiv', $post_type, 'normal');
         remove_meta_box('pageparentdiv', $post_type, 'normal');
         remove_meta_box('formatdiv', $post_type, 'normal');
         // Remove editor support for the post types
