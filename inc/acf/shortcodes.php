@@ -184,7 +184,7 @@ function display_more_products_prices_section() {
         $section_title = isset($section['title']) ? esc_html($section['title']) : 'القسم';
 
         // Start the HTML structure for each section
-        $output .= '<section class="pricing-section">
+        $output .= '<section id="pricing" class="pricing-section">
                         <h2 class="section-title">' . $section_title . '</h2>
                         <div class="table-container">
                             <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>

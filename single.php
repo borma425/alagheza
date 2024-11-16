@@ -77,5 +77,12 @@ if (!empty($current_post_categories)) {
 
 }
 
+$post_content = $post->post_content;
+
+$context['has_shortcode_specifications_section'] = has_shortcode($post_content, "specifications_section");
+$context['has_shortcode_pros_section'] = has_shortcode($post_content, "pros_section");
+$context['has_shortcode_review_section'] = has_shortcode($post_content, "review_section");
+$context['has_shortcode_more_products_prices_section'] = has_shortcode($post_content, "more_products_prices_section");
+$context['has_shortcode_qa_section'] = has_shortcode($post_content, "qa_section");
 
 Timber::render('content/single.twig', $context);

@@ -81,6 +81,8 @@
 									<span class="accordion-icon">+</span>
 								</div>
 								<ul class="article-nav-list accordion-content">
+								{% if has_shortcode_specifications_section %}
+
 									<li>
 										<a href="#specifications">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -89,14 +91,20 @@
 											المواصفات الرئيسية
 										</a>
 									</li>
+									{% endif %}
+								{% if has_shortcode_pros_section %}
+
 									<li>
-										<a href="#pros-cons">
+										<a href="#pros">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 												<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 											</svg>
 											المميزات والعيوب
 										</a>
 									</li>
+									{% endif %}
+								{% if has_shortcode_review_section %}
+
 									<li>
 										<a href="#review-summary">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -105,6 +113,9 @@
 											ملخص المراجعة
 										</a>
 									</li>
+									{% endif %}
+								{% if has_shortcode_more_products_prices_section %}
+
 									<li>
 										<a href="#pricing">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -113,6 +124,8 @@
 											الأسعار
 										</a>
 									</li>
+									{% endif %}
+
 									<li>
 										<a href="#comparison">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -121,6 +134,8 @@
 											مقارنة مع المنافسين
 										</a>
 									</li>
+								{% if has_shortcode_qa_section %}
+
 									<li>
 										<a href="#faq">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -129,8 +144,10 @@
 											الأسئلة الشائعة
 										</a>
 									</li>
+									{% endif %}
+
 									<li>
-										<a href="#user-reviews">
+										<a href="#respond">
 											<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 												<path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
 											</svg>
