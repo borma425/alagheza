@@ -1,8 +1,4 @@
 <?php
-function get_c_meta($meta_key) {
-    global $post; // Declare global $post here
-    return $post ? get_post_meta($post->ID, $meta_key, true) : '';
-}
 
 
 add_shortcode('specifications_section', 'display_device_specifications');
@@ -16,12 +12,18 @@ add_shortcode('review_section', 'display_review_section');
 
 
 function display_device_specifications() {
-    global $post;
+    // Get the current post ID
+    $post_id = get_the_ID();
 
-    // Retrieve meta data
-    $specifications_main_title = get_post_meta($post->ID, 'device_specifications_main_title', true);
-    $product_thumbnail = get_post_meta($post->ID, 'product_thumbnail', true);
-    $device_specs = get_post_meta($post->ID, 'device_specs', true);
+    // Retrieve meta data in a single call
+    $specifications_main_title = get_post_meta($post_id, 'device_specifications_main_title', true);
+    $product_thumbnail = get_post_meta($post_id, 'product_thumbnail', true);
+    $device_specs = get_post_meta($post_id, 'device_specs', true);
+
+    // Early exit if specifications are not set
+    if (empty($specifications_main_title) || empty($device_specs)) {
+        return ''; // No need to output anything if main title or device specs are missing
+    }
 
     // Start building the HTML for the specifications section
     ob_start();
@@ -33,16 +35,16 @@ function display_device_specifications() {
                 <img src="<?php echo esc_url($product_thumbnail); ?>" alt="<?php echo esc_attr($specifications_main_title); ?>">
             <?php endif; ?>
             <ul class="feature-list">
-                <?php if (!empty($device_specs)) : ?>
-                    <?php foreach ($device_specs as $spec): ?>
+                <?php foreach ($device_specs as $spec): ?>
+                    <?php if (!empty($spec['name']) && !empty($spec['description'])): ?>
                         <li class="feature-item">
                             <?php if (!empty($spec['icon'])): ?>
                                 <img src="<?php echo esc_url($spec['icon']); ?>" alt="<?php echo esc_attr($spec['name']); ?>" class="feature-icon">
                             <?php endif; ?>
                             <span><b><?php echo esc_html($spec['name']); ?>:</b> <?php echo esc_html($spec['description']); ?></span>
                         </li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </ul>
         </div>
     </section>
@@ -56,188 +58,198 @@ function display_device_specifications() {
 
 
 function display_qa_section() {
+    // Check if it's a singular post
     if (!is_singular('post')) {
         return ''; // Only display on single posts
     }
 
-    global $post;
+    // Get the current post ID
+    $post_id = get_the_ID();
 
-    // Retrieve saved meta data
-    $qa_title = get_post_meta($post->ID, 'qa_title', true);
-    $qa_data = get_post_meta($post->ID, '_qa_meta_key', true);
+    // Retrieve meta data
+    $qa_title = get_post_meta($post_id, 'qa_title', true);
+    $qa_data = get_post_meta($post_id, '_qa_meta_key', true);
     $qa_data = is_array($qa_data) ? $qa_data : [];
 
-    // Fallback title if no custom title is set
+    // Fallback for title if not set
     $qa_title = !empty($qa_title) ? esc_html($qa_title) : 'أسئلة شائعة';
 
-    // If there's no Q&A data, display a message or return empty
+    // Early exit if there's no Q&A data
     if (empty($qa_data)) {
         return '<section id="faq"><h2 class="section-title">' . $qa_title . '</h2><p>لا توجد أسئلة وأجوبة مضافة.</p></section>';
     }
 
     // Start building the output
-    $output = '<section id="faq">';
-    $output .= '<h2 class="section-title">' . esc_html($qa_title) . '</h2>';
-    $output .= '<div class="accordion">';
-
-    // Loop through the Q&A data and create accordion items
-    foreach ($qa_data as $qa) {
-        $question = esc_html($qa['question']);
-        $answer = esc_html($qa['answer']);
-
-        $output .= '
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <span>' . $question . '</span>
-                <span class="accordion-icon">+</span>
-            </div>
-            <div class="accordion-content">
-                <p>' . $answer . '</p>
-            </div>
-        </div>';
-    }
-
-    $output .= '</div>';
-    $output .= '</section>';
-
-    return $output;
+    ob_start();
+    ?>
+    <section id="faq">
+        <h2 class="section-title"><?php echo esc_html($qa_title); ?></h2>
+        <div class="accordion">
+            <?php foreach ($qa_data as $qa): ?>
+                <?php if (!empty($qa['question']) && !empty($qa['answer'])): ?>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span><?php echo esc_html($qa['question']); ?></span>
+                            <span class="accordion-icon">+</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><?php echo esc_html($qa['answer']); ?></p>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <?php
+    // Return the output buffer content
+    return ob_get_clean();
 }
-
-
 
 
 
 function display_pros_section() {
+    // Check if it's a singular post
     if (!is_singular('post')) {
         return ''; // Only display in single posts
     }
 
-    global $post;
-    $pros_main_title = get_post_meta($post->ID, 'single_pros_main_title', true);
-    $pros_content = get_post_meta($post->ID, 'single_pros', true);
+    // Get the current post ID
+    $post_id = get_the_ID();
+
+    // Retrieve meta data
+    $pros_main_title = get_post_meta($post_id, 'single_pros_main_title', true);
+    $pros_content = get_post_meta($post_id, 'single_pros', true);
 
     // Fallbacks if no data is set
-    $pros_main_title = $pros_main_title ? esc_html($pros_main_title) : 'مميزات';
-    $pros_content = $pros_content ?: '<li>لا توجد مميزات مدخلة</li>';
+    $pros_main_title = !empty($pros_main_title) ? esc_html($pros_main_title) : 'مميزات';
+    $pros_content = !empty($pros_content) ? $pros_content : '<ul><li>لا توجد مميزات مدخلة</li></ul>';
 
-    // Add classes to ul and li elements
-    $pros_content = str_replace('<ul>', '<ul class="feature-list pros">', $pros_content);
-    $pros_content = str_replace('<li>', '<li >', $pros_content);
 
     // Render the Pros section
-    return '
+    ob_start();
+    ?>
     <section id="pros">
         <div>
-            <h2 class="section-title">' . esc_html($pros_main_title) . '</h2>
-            ' . $pros_content . '
+            <h2 class="section-title"><?php echo esc_html($pros_main_title); ?></h2>
+            <?php echo $pros_content; ?>
         </div>
-    </section>';
+    </section>
+    <?php
+    return ob_get_clean();
 }
 
-
 function display_cons_section() {
+    // Check if it's a singular post
     if (!is_singular('post')) {
         return ''; // Only display in single posts
     }
 
-    global $post;
-    $cons_main_title = get_post_meta($post->ID, 'single_cons_main_title', true);
-    $cons_content = get_post_meta($post->ID, 'single_cons', true);
+    // Get the current post ID
+    $post_id = get_the_ID();
+
+    // Retrieve meta data
+    $cons_main_title = get_post_meta($post_id, 'single_cons_main_title', true);
+    $cons_content = get_post_meta($post_id, 'single_cons', true);
 
     // Fallbacks if no data is set
-    $cons_main_title = $cons_main_title ? esc_html($cons_main_title) : 'عيوب';
-    $cons_content = $cons_content ?: '<li>لا توجد عيوب مدخلة</li>';
-
-    // Add classes to ul and li elements
-    $cons_content = str_replace('<ul>', '<ul class="feature-list cons">', $cons_content);
-    $cons_content = str_replace('<li>', '<li class="feature-item">', $cons_content);
+    $cons_main_title = !empty($cons_main_title) ? esc_html($cons_main_title) : 'عيوب';
+    $cons_content = !empty($cons_content) ? $cons_content : '<ul><li>لا توجد عيوب مدخلة</li></ul>';
 
     // Render the Cons section
-    return '
+    ob_start();
+    ?>
     <section id="cons">
         <div>
-            <h2 class="section-title">' . esc_html($cons_main_title) . '</h2>
-            ' . $cons_content . '
+            <h2 class="section-title"><?php echo esc_html($cons_main_title); ?></h2>
+            <?php echo $cons_content; ?>
         </div>
-    </section>';
+    </section>
+    <?php
+    return ob_get_clean();
 }
-
 
 
 function display_more_products_prices_section() {
-    global $post; // Make sure to use the current post object to get the data
+    // Get the current post ID
+    $post_id = get_the_ID();
 
     // Fetch the product sections meta field
-    $sections = get_post_meta($post->ID, '_product_sections', true);
+    $sections = get_post_meta($post_id, '_product_sections', true);
 
-    // Check if the sections exist
+    // Return empty if no sections are available
     if (empty($sections)) {
-        return ''; // Return empty if no sections are available
+        return ''; 
     }
 
-    // Start the section container
-    $output = '';
+    // Start output buffering
+    ob_start();
 
     // Loop through each section
     foreach ($sections as $section) {
-        // Section title
-        $section_title = isset($section['title']) ? esc_html($section['title']) : 'القسم';
+        // Get section title
+        $section_title = !empty($section['title']) ? esc_html($section['title']) : 'القسم';
 
-        // Start the HTML structure for each section
-        $output .= '<section id="pricing" class="pricing-section">
-                        <h2 class="section-title">' . $section_title . '</h2>
-                        <div class="table-container">
-                            <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
-                            <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
-                            <div class="scroll-container" style="direction: rtl;">
-                                <table class="price-table">
-                                    <thead>
-                                        <tr>
-                                            <th>الصوره</th>
-                                            <th>اسم الجهاز</th>
-                                            <th>الوصف</th>
-                                            <th>السعر</th>
-                                            <th>التفاصيل</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>';
+        // Start section HTML
+        ?>
+        <section id="pricing" class="pricing-section">
+            <h2 class="section-title"><?php echo $section_title; ?></h2>
+            <div class="table-container">
+                <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
+                <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
+                <div class="scroll-container" style="direction: rtl;">
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>الصوره</th>
+                                <th>اسم الجهاز</th>
+                                <th>الوصف</th>
+                                <th>السعر</th>
+                                <th>التفاصيل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Loop through each product in the subsection
+                            if (!empty($section['subsections'])) {
+                                foreach ($section['subsections'] as $subsection) {
+                                    // Sanitize each value before output
+                                    $image = !empty($subsection['image']) ? esc_url($subsection['image']) : '';
+                                    $name = !empty($subsection['name']) ? esc_html($subsection['name']) : '';
+                                    $desc = !empty($subsection['desc']) ? esc_html($subsection['desc']) : '';
+                                    $price = !empty($subsection['price']) ? esc_html($subsection['price']) : '';
+                                    $link = !empty($subsection['link']) ? esc_url($subsection['link']) : '';
 
-        // Loop through each subsection (product) in the current section
-        if (!empty($section['subsections'])) {
-            foreach ($section['subsections'] as $subsection) {
-                $image = isset($subsection['image']) ? esc_url($subsection['image']) : '';
-                $name = isset($subsection['name']) ? esc_html($subsection['name']) : '';
-                $desc = isset($subsection['desc']) ? esc_html($subsection['desc']) : '';
-                $price = isset($subsection['price']) ? esc_html($subsection['price']) : '';
-                $link = isset($subsection['link']) ? esc_url($subsection['link']) : '';
-
-                // Generate a table row for each subsection (product)
-                $output .= '<tr>';
-                $output .= '<td><img src="' . $image . '" width="100" alt="' . $name . '"></td>';
-                $output .= '<td>' . $name . '</td>';
-                $output .= '<td>' . $desc . '</td>';
-                $output .= '<td>' . $price . '</td>';
-                if (!empty($link)) {
-                    $output .= '<td><a href="' . esc_url($link) . '">اعرف اكتر</a></td>';
-                } else {
-                    $output .= '<td></td>'; // Empty cell if no link
-                }
-
-                $output .= '</tr>';
-            }
-        }
-
-        // Close the table and section container for this section
-        $output .= '</tbody>
+                                    // Output a row for each product
+                                    ?>
+                                    <tr>
+                                        <td><img src="<?php echo $image; ?>" width="100" alt="<?php echo esc_attr($name); ?>"></td>
+                                        <td><?php echo $name; ?></td>
+                                        <td><?php echo $desc; ?></td>
+                                        <td><?php echo $price; ?></td>
+                                        <td>
+                                            <?php if (!empty($link)) : ?>
+                                                <a href="<?php echo $link; ?>">اعرف اكتر</a>
+                                            <?php else : ?>
+                                                <span>-</span> <!-- Placeholder if no link is provided -->
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
-        </section>';
+        </section>
+        <?php
     }
 
     // Return the generated HTML
-    return $output;
+    return ob_get_clean();
 }
+
 
 function display_review_section($post_id) {
     global $post;
