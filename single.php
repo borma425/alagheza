@@ -123,7 +123,7 @@ function get_comparable_products($current_product_id) {
     $args = [
         'post_type' => 'post',
         'post__not_in' => [$current_product_id],
-        'posts_per_page' => 2,
+        'posts_per_page' => 3,
         'meta_query' => [
             'relation' => 'AND',
             [
