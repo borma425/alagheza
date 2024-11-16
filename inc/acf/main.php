@@ -2,7 +2,7 @@
 function remove_tags_meta_box_banner() {
 
 /*  remove_post_type_support("post", 'editor'); */
- remove_meta_box('revisionsdiv', 'post', 'normal');
+
 
 }
 
