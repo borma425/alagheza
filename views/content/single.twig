@@ -168,132 +168,132 @@
 						</section>
 <br><br>
           {{ post.post_content|shortcodes }}
-
-					<section id="comparison">
-						<h2 class="section-title">مقارنة مع المنافسين</h2>
-						<div class="table-container">
-							<button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
-							<button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
-							<div class="scroll-container" style="direction: rtl;">
-							{% if comparison_table|length > 0 %}
-<table class="comparison-table">
-    <thead>
-        <tr>
-            <th>الميزة</th>
-            {% for device in comparison_table %}
-                <th>{{ device.name }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-                    <tr>
-                        <td>صورة الجهاز</td>
-                        {% for device in comparison_table %}
-                            <td>
-                                <a target="_blank" href="{{ device.link }}"><img src="{{ device.image }}" width="100" height="100" alt="{{ device.name }}"></a>
-                            </td>
-                        {% endfor %}
-                    </tr>
-                                        <tr>
-                        <td>السعر</td>
-                        {% for device in comparison_table %}
-                            <td>{{ device.price ? device.price : 'غير محدد' }} جنية مصري</td>
-                        {% endfor %}
-                    </tr>
-<tr>
-    <td>إجمالي التقييمات</td>
-    {% for device in comparison_table %}
-        <td>
-            {% set total_review = device.total_review %}
-            {# Display the total review score as stars #}
-            <div style="display: flex; align-items: center;">
-                <span style="margin-right: 8px;">{{ total_review }}:</span>
-                <span>
-                    {# Display star icons based on the total review score #}
-                    {% for i in 1..5 %}
-                        <span style="color: {% if i <= total_review %} #FFD700 {% else %} #ccc {% endif %};">
-                            &#9733; {# Star icon #}
-                        </span>
-                    {% endfor %}
-                </span>
-            </div>
-        </td>
-    {% endfor %}
-</tr>
-                    {# Collect all unique spec icon URLs #}
-                    {% set unique_icons = [] %}
-                    {% for device in comparison_table %}
-                        {% for spec in device.specs %}
-                            {% if spec.icon and spec.icon not in unique_icons %}
-                                {% set unique_icons = unique_icons | merge([spec.icon]) %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-
-                    {# Loop through each unique icon (spec name) #}
-                    {% for icon_url in unique_icons %}
+<section id="comparison">
+    <h2 class="section-title">مقارنة مع المنافسين</h2>
+    <div class="table-container">
+        <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
+        <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
+        <div class="scroll-container" style="direction: rtl;">
+            {% if comparison_table|length > 0 %}
+                <table class="comparison-table">
+                    <thead>
                         <tr>
-                            <td style=" display: flex; ">
-                                {# Display icon and spec name only once for each icon URL #}
-                                {% set spec_name = null %}
-                                {% set icon_displayed = false %}
-                                {% for device in comparison_table %}
-                                    {% for spec in device.specs %}
-                                        {% if spec.icon == icon_url and not icon_displayed %}
-                                            {% set spec_name = spec.name %}
-                                            <img src="{{ spec.icon }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
-                                            {% set icon_displayed = true %}
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
-                             &nbsp;
-   {{ spec_name }}
-                            </td>
-
-                            {# Merge values for the same icon (spec name) #}
+                            <th>الميزة</th>
                             {% for device in comparison_table %}
-                                {% set device_value = 'غير موجود' %}
-                                {% for spec in device.specs %}
-                                    {% if spec.icon == icon_url %}
-                                        {% set device_value = spec.description %}
-                                    {% endif %}
-                                {% endfor %}
-                                <td>{{ device_value }}</td>
+                                <th>{{ device.name }}</th>
                             {% endfor %}
                         </tr>
-                    {% endfor %}
+                    </thead>
+                    <tbody>
+                        {# Device Image Row #}
+                        <tr>
+                            <td>صورة الجهاز</td>
+                            {% for device in comparison_table %}
+                                <td>
+                                    <a target="_blank" href="{{ device.link }}">
+                                        <img src="{{ device.image }}" width="100" height="100" alt="{{ device.name }}">
+                                    </a>
+                                </td>
+                            {% endfor %}
+                        </tr>
 
+                        {# Price Row #}
+                        <tr>
+                            <td>السعر</td>
+                            {% for device in comparison_table %}
+                                <td>{{ device.price ? device.price : 'غير محدد' }} جنية مصري</td>
+                            {% endfor %}
+                        </tr>
 
+                        {# Total Reviews Row #}
+                        <tr>
+                            <td>إجمالي التقييمات</td>
+                            {% for device in comparison_table %}
+                                <td>
+                                    {% set total_review = device.total_review %}
+                                    <div style="display: flex; align-items: center;">
+                                        <span style="margin-right: 8px;">{{ total_review }}:</span>
+                                        <span>
+                                            {% for i in 1..5 %}
+                                                <span style="color: {% if i <= total_review %} #FFD700 {% else %} #ccc {% endif %};">
+                                                    &#9733;
+                                                </span>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
 
-<tr>
-    <td>التقييمات</td>
-    {% for device in comparison_table %}
-        <td>
-            {% for rating in device.ratings %}
-                <div style="display: flex; align-items: center;">
-                    <span style="margin-right: 8px;">{{ rating.key }}:</span>
-                    <span>
-                        {# Display star icons based on the rating value #}
-                        {% for i in 1..5 %}
-                            <span style="color: {% if i <= rating.value %} #FFD700 {% else %} #ccc {% endif %};">
-                                &#9733; {# Star icon #}
-                            </span>
+                        {# Collect unique spec icons manually #}
+                        {% set unique_icons = [] %}
+                        {% for device in comparison_table %}
+                            {% for spec in device.specs %}
+                                {% if spec.icon and spec.icon not in unique_icons %}
+                                    {% set unique_icons = unique_icons | merge([spec.icon]) %}
+                                {% endif %}
+                            {% endfor %}
                         {% endfor %}
-                    </span>
-                </div>
-            {% endfor %}
-        </td>
-    {% endfor %}
-</tr>
-    </tbody>
-</table>
-{% else %}
-    <p>لا توجد بيانات للمقارنة.</p>
-{% endif %}
 
-							</div>
-						</div>
-					</section>
+                        {# Loop through each unique icon #}
+                        {% for icon_url in unique_icons %}
+                            <tr>
+                                <td style="display: flex;">
+                                    {% set spec_name = null %}
+                                    {% set icon_displayed = false %}
+                                    {% for device in comparison_table %}
+                                        {% for spec in device.specs %}
+                                            {% if spec.icon == icon_url and not icon_displayed %}
+                                                {% set spec_name = spec.name %}
+                                                <img src="{{ spec.icon }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
+                                                {% set icon_displayed = true %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                    &nbsp;{{ spec_name }}
+                                </td>
+
+                                {# Display spec values for each device #}
+                                {% for device in comparison_table %}
+                                    {% set device_value = 'غير موجود' %}
+                                    {% for spec in device.specs %}
+                                        {% if spec.icon == icon_url %}
+                                            {% set device_value = spec.description %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td>{{ device_value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+
+                        {# Ratings Row #}
+                        <tr>
+                            <td>التقييمات</td>
+                            {% for device in comparison_table %}
+                                <td>
+                                    {% for rating in device.ratings %}
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="margin-right: 8px;">{{ rating.key }}:</span>
+                                            <span>
+                                                {% for i in 1..5 %}
+                                                    <span style="color: {% if i <= rating.value %} #FFD700 {% else %} #ccc {% endif %};">
+                                                        &#9733;
+                                                    </span>
+                                                {% endfor %}
+                                            </span>
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <p>لا توجد بيانات للمقارنة.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
 
 
 						<section class="share-buttons">
