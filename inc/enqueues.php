@@ -14,7 +14,7 @@ if( !is_singular("post") ) {
     wp_enqueue_style( 'home-style', asset_url('home.css','/css/'), [], $ver, 'all' );
 }
 
-if (is_singular("post")) {
+if (is_singular("post") || is_page() ) {
     wp_enqueue_style('content-css', asset_url('content.css','/css/') ,[],$ver );
     wp_enqueue_script("content-js", asset_url('content.js','/js/'), [], $ver, true );
 

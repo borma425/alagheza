@@ -115,7 +115,6 @@ function get_comparable_products($current_product_id) {
 
     // التحقق من أن القيم موجودة
     if (!$current_price || !$current_rating) {
-        echo 'Price or rating is missing for the current product.';
         return new WP_Query();
     }
 
