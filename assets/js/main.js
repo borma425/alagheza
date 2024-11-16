@@ -269,33 +269,3 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
-const closeBtn = document.querySelector('.close-btn');
-const bannerTexts = document.querySelectorAll('.banner-text');
-
-let currentIndex = 0;
-
-function showBanner(index) {
-	bannerTexts.forEach((text, i) => {
-		text.style.display = i === index ? 'flex' : 'none';
-	});
-}
-
-prevBtn.addEventListener('click', () => {
-	currentIndex = (currentIndex - 1 + bannerTexts.length) % bannerTexts.length;
-	showBanner(currentIndex);
-});
-
-nextBtn.addEventListener('click', () => {
-	currentIndex = (currentIndex + 1) % bannerTexts.length;
-	showBanner(currentIndex);
-});
-
-closeBtn.addEventListener('click', () => {
-	document.querySelector('.banner-container').style.display = 'none';
-});
-
-// Initially show the first banner
-showBanner(currentIndex);

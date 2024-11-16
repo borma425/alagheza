@@ -33,7 +33,74 @@ PostDescription ?  PostDescription : homeDescription
 {% set articleBody =  post.post_content|shortcodes %}
 
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Main info -->
+<meta charset='UTF-8'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<meta property='og:locale' content='ar_AR' />
+<meta property='og:type' content='website' />
+<meta property='og:site_name' content='{{homeName}}' />
+<meta itemprop='name' content='{{homeName}}'/>
+<meta content='unsafe-url' name='referrer'/>
+<meta content='true' name='MSSmartTagsPreventParsing'/>
+
+{% if not fn('is_search') %}
+
+<meta content='index, follow' name='googlebot'/>
+<meta content='follow, all' name='Googlebot-Image'/>
+<meta content='follow, all' name='msnbot'/>
+<meta content='follow, all' name='Slurp'/>
+<meta content='follow, all' name='ZyBorg'/>
+<meta content='follow, all' name='Scooter'/>
+<meta content='telephone=no,date=no,address=no,email=no,url=no' name='format-detection'/>
+<meta content='index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' name='googlebot'/>
+{% endif %}
+
+
+<!-- Favicon Style -->
+
+			<link rel="icon" href="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-270x270.png" />
+
+
+
+<!-- Url canonical -->
+<meta content='{{ current_url }}' property='og:url'/>
+<link href='{{ current_url }}' rel='canonical'/>
+<meta itemprop='url' content='{{ current_url }}'/>
+
+
+<!-- Twitter Graph -->
+<meta content='{{ Title }}' name='twitter:title'/>
+<meta content='{{ Description }}'  name='twitter:description' property='og:description' itemprop='description'/>
+<meta name='twitter:card' content='summary_large_image' />
+<meta name='twitter:image' content='{{ thumbnail }}' />
+
+
+<!-- Featured Image -->
+<meta content='{{ thumbnail }}' property='og:image'/>
+<meta content='1200' property='og:image:width'/>
+<meta content='630' property='og:image:height'/>
+<meta property='og:image:alt' content='{{ Description }}' />
+<meta property='og:image:secure_url' content='{{ thumbnail }}' />
+<link href='{{ thumbnail }}' rel='image_src'/>
+
+
+<!-- Descripcion -->
+<meta content='{{ Description }}'  property='og:description'/>
+<meta content='{{ Description }}'  name='description'/>
+<!-- Title -->
+<meta content='{{ Title }}' property='og:title'/>
+
+
+<title>{{ Title }}</title>
+
+
 
 <script type="application/ld+json">
 {

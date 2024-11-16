@@ -4,6 +4,8 @@ Allow: /wp-content/uploads/
 Allow: /top-sites/
 Allow: /best-icons/
 
+Disallow: /sections/*
+Disallow: /brands/*
 Disallow: /author/*
 Disallow: /wp-content/plugins/
 Disallow: /wp-admin/
@@ -20,7 +22,6 @@ Disallow: /*&category=
 Disallow: /*&brand=
 Disallow: /*&price=
 Disallow: /*&rating=
-
 Disallow: /?post_type=
 Disallow: /?replytocom=
 Disallow: /*/?replytocom=

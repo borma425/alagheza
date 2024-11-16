@@ -57,7 +57,121 @@
             </div>
 
           </div>
+		<script>
+			class ImageSwiper {
+				constructor(container) {
+					this.container = container;
+					this.wrapper = container.querySelector('.swiper-wrapper');
+					this.slides = container.querySelectorAll('.swiper-slide');
+					this.nextButton = container.querySelector('.swiper-button-next');
+					this.prevButton = container.querySelector('.swiper-button-prev');
+					this.pagination = container.querySelector('.swiper-pagination');
 
+					this.currentIndex = 0;
+					this.slideCount = this.slides.length;
+
+					this.init();
+				}
+
+				init() {
+					// Create pagination bullets
+					this.slides.forEach((_, index) => {
+						const bullet = document.createElement('div');
+						bullet.classList.add('swiper-pagination-bullet');
+						if (index === 0) bullet.classList.add('active');
+						bullet.addEventListener('click', () => this.goToSlide(index));
+						this.pagination.appendChild(bullet);
+					});
+
+					// Add event listeners
+					this.nextButton.addEventListener('click', () => this.nextSlide());
+					this.prevButton.addEventListener('click', () => this.prevSlide());
+
+					// Add touch support
+					let touchStartX = 0;
+					let touchEndX = 0;
+
+					this.container.addEventListener('touchstart', e => {
+						touchStartX = e.touches[0].clientX;
+					});
+
+					this.container.addEventListener('touchend', e => {
+						touchEndX = e.changedTouches[0].clientX;
+						if (touchStartX - touchEndX > 50) {
+							this.nextSlide();
+						} else if (touchEndX - touchStartX > 50) {
+							this.prevSlide();
+						}
+					});
+
+					// Optional: Add keyboard support
+					document.addEventListener('keydown', e => {
+						if (e.key === 'ArrowLeft') this.prevSlide();
+						if (e.key === 'ArrowRight') this.nextSlide();
+					});
+
+					// Optional: Auto play
+					this.startAutoPlay();
+				}
+
+				goToSlide(index) {
+					this.currentIndex = index;
+					this.updateSlider();
+				}
+
+				nextSlide() {
+					this.currentIndex = (this.currentIndex + 1) % this.slideCount;
+					this.updateSlider();
+				}
+
+				prevSlide() {
+					this.currentIndex =
+						(this.currentIndex - 1 + this.slideCount) % this.slideCount;
+					this.updateSlider();
+				}
+
+				updateSlider() {
+					// Update slider position
+					this.wrapper.style.transform = `translateX(${
+						this.currentIndex * 100
+					}%)`;
+
+					// Update pagination
+					const bullets = this.pagination.querySelectorAll(
+						'.swiper-pagination-bullet',
+					);
+					bullets.forEach((bullet, index) => {
+						if (index === this.currentIndex) {
+							bullet.classList.add('active');
+						} else {
+							bullet.classList.remove('active');
+						}
+					});
+
+					// Add fade effect
+					this.slides.forEach((slide, index) => {
+						if (index === this.currentIndex) {
+							slide.classList.add('fade');
+						} else {
+							slide.classList.remove('fade');
+						}
+					});
+				}
+
+				startAutoPlay() {
+					setInterval(() => {
+						this.nextSlide();
+					}, 5000); // Change slide every 5 seconds
+				}
+			}
+
+			// Initialize the swiper
+			document.addEventListener('DOMContentLoaded', () => {
+				const swiper = new ImageSwiper(
+					document.querySelector('.swiper-container'),
+				);
+			});
+		</script>
           {% else %}
 								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
 {% endif %}
@@ -378,11 +492,12 @@
 							<div class="product-card">
 								<div class="product-image">
 									<img src="{{ article.thumbnail | default(defaultimg) }}" alt="{{article.title }}">
-									<button class="compare-button" id="{{ article.id }}">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
-											<path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
-										</svg>
-									</button>
+<button class="compare-button" id="{{ article.id }}" aria-label="Compare">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
+        <path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
+    </svg>
+</button>
+
 								</div>
 								<div class="product-info">
 									<div class="price-rating">
@@ -593,121 +708,7 @@
 				fill.style.width = `${progress}%`;
 			});
 		</script>
-		<script>
-			class ImageSwiper {
-				constructor(container) {
-					this.container = container;
-					this.wrapper = container.querySelector('.swiper-wrapper');
-					this.slides = container.querySelectorAll('.swiper-slide');
-					this.nextButton = container.querySelector('.swiper-button-next');
-					this.prevButton = container.querySelector('.swiper-button-prev');
-					this.pagination = container.querySelector('.swiper-pagination');
 
-					this.currentIndex = 0;
-					this.slideCount = this.slides.length;
-
-					this.init();
-				}
-
-				init() {
-					// Create pagination bullets
-					this.slides.forEach((_, index) => {
-						const bullet = document.createElement('div');
-						bullet.classList.add('swiper-pagination-bullet');
-						if (index === 0) bullet.classList.add('active');
-						bullet.addEventListener('click', () => this.goToSlide(index));
-						this.pagination.appendChild(bullet);
-					});
-
-					// Add event listeners
-					this.nextButton.addEventListener('click', () => this.nextSlide());
-					this.prevButton.addEventListener('click', () => this.prevSlide());
-
-					// Add touch support
-					let touchStartX = 0;
-					let touchEndX = 0;
-
-					this.container.addEventListener('touchstart', e => {
-						touchStartX = e.touches[0].clientX;
-					});
-
-					this.container.addEventListener('touchend', e => {
-						touchEndX = e.changedTouches[0].clientX;
-						if (touchStartX - touchEndX > 50) {
-							this.nextSlide();
-						} else if (touchEndX - touchStartX > 50) {
-							this.prevSlide();
-						}
-					});
-
-					// Optional: Add keyboard support
-					document.addEventListener('keydown', e => {
-						if (e.key === 'ArrowLeft') this.prevSlide();
-						if (e.key === 'ArrowRight') this.nextSlide();
-					});
-
-					// Optional: Auto play
-					this.startAutoPlay();
-				}
-
-				goToSlide(index) {
-					this.currentIndex = index;
-					this.updateSlider();
-				}
-
-				nextSlide() {
-					this.currentIndex = (this.currentIndex + 1) % this.slideCount;
-					this.updateSlider();
-				}
-
-				prevSlide() {
-					this.currentIndex =
-						(this.currentIndex - 1 + this.slideCount) % this.slideCount;
-					this.updateSlider();
-				}
-
-				updateSlider() {
-					// Update slider position
-					this.wrapper.style.transform = `translateX(${
-						this.currentIndex * 100
-					}%)`;
-
-					// Update pagination
-					const bullets = this.pagination.querySelectorAll(
-						'.swiper-pagination-bullet',
-					);
-					bullets.forEach((bullet, index) => {
-						if (index === this.currentIndex) {
-							bullet.classList.add('active');
-						} else {
-							bullet.classList.remove('active');
-						}
-					});
-
-					// Add fade effect
-					this.slides.forEach((slide, index) => {
-						if (index === this.currentIndex) {
-							slide.classList.add('fade');
-						} else {
-							slide.classList.remove('fade');
-						}
-					});
-				}
-
-				startAutoPlay() {
-					setInterval(() => {
-						this.nextSlide();
-					}, 5000); // Change slide every 5 seconds
-				}
-			}
-
-			// Initialize the swiper
-			document.addEventListener('DOMContentLoaded', () => {
-				const swiper = new ImageSwiper(
-					document.querySelector('.swiper-container'),
-				);
-			});
-		</script>
 		<script>
 			document.addEventListener('DOMContentLoaded', function () {
 				// Initialize each table container
