@@ -1,0 +1,33 @@
+# The rules of this file were written strictly by Yehia
+User-Agent: *
+Allow: /wp-content/uploads/
+Allow: /top-sites/
+Allow: /best-icons/
+
+Disallow: /author/*
+Disallow: /wp-content/plugins/
+Disallow: /wp-admin/
+Disallow: /readme.html
+Disallow: /refer/
+Disallow: /category/
+Disallow: /*/page/*
+Disallow: /ads/
+Disallow: /tag/
+Disallow: /?s=
+Disallow: /?p=
+Disallow: /*?s=
+Disallow: /*&category=
+Disallow: /*&brand=
+Disallow: /*&price=
+Disallow: /*&rating=
+
+Disallow: /?post_type=
+Disallow: /?replytocom=
+Disallow: /*/?replytocom=
+Disallow: /product/
+
+
+# Crawl delay for Some bots
+Crawl-delay: 120
+
+Sitemap: https://alagheza.com/sitemap.xml

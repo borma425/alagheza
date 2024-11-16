@@ -12,11 +12,10 @@ require(get_theme_file_path('inc/view-page-source.php'));
 require(get_theme_file_path('inc/setup.php'));
 require(get_theme_file_path('inc/enqueues.php'));
 require(get_theme_file_path('inc/shortcodes.php'));
-
+require(get_theme_file_path('inc/custom_post_type.php'));
 
 
 if( is_admin() ) {
-    require(get_theme_file_path('inc/custom_post_type.php'));
     require(get_theme_file_path('inc/customizer/main.php'));
     require(get_theme_file_path('inc/acf/main.php'));
 

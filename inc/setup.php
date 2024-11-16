@@ -58,6 +58,13 @@ add_filter( 'timber/context', function( $context ) {
 
 
 
+
+
+
+
+
+
+
     return $context;
 
 } );
@@ -163,6 +170,16 @@ function get_tag_name_with_index($i){
 return esc_html__( $tag_choices[$i] );
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
   function get_sorted_posts_by_taxonomy($taxonomy = 'post_tag', $post_type = 'sections', $per_page = 6) {
