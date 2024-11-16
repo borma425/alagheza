@@ -141,8 +141,35 @@ if (get_query_var('s')) {
     // Get the posts based on the constructed arguments
     $context["posts"] = Timber::get_posts($args);
 
+/* 
+    $total_pages = 3; // Example total pages, you can calculate this based on your query results
+
+    // Base URL for pagination
+    $base_url = home_url("/page/");
+    $base_url_concat = is_search() ? "?s=" . get_query_var('s') : (is_home() ? 1 : 2);
+
+    // Construct the pagination links
+    $pagination_links = [];
+    for ($i = 1; $i <= $total_pages; $i++) {
+        $pagination_links[] = [
+            'number' => $i,
+            'link' => "{$base_url}{$i}/$base_url_concat",
+            'current' => ($i === $current_page),
+        ];
+    }
+
+    // Create prev and next links
+    $prev_link = $current_page > 1 ? "{$base_url}" . ($current_page - 1) . '/'  . $base_url_concat : '';
+    $next_link = $current_page < $total_pages ? "{$base_url}" . ($current_page + 1) . '/'. $base_url_concat : '';
+    
+    $context['pagination'] = [
+        'prev' => $prev_link,
+        'next' => $next_link,
+        'pages' => $pagination_links,
+    ];
 
 
+ */
     // Render the template with the context
     Timber::render('search/results.twig', $context);
 

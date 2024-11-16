@@ -14,7 +14,7 @@ if (!empty($current_post_tags)) {
     // Query posts with matching tags
     $related_posts_data = Timber::get_posts(array(
         'post_type'      => 'post',
-        'posts_per_page' => 8,
+        'posts_per_page' => 40,
         'paged'          => $paged,
         'tag__in'        => $tag_ids,
         'post__not_in'   => array($current_post_id),

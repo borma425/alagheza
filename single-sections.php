@@ -15,7 +15,7 @@ if (!empty($current_post_categories)) {
     // Query posts with matching categories
     $related_posts_data = Timber::get_posts(array(
         'post_type'      => 'post',
-        'posts_per_page' => 8,
+        'posts_per_page' => 40,
         'paged'          => $paged,
         'category__in'   => $current_post_categories, // Use 'category__in' for categories
         'post__not_in'   => array($current_post_id),
