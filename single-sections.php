@@ -2,6 +2,8 @@
 
 $context = Timber::context();
 $context['is_front_page'] = false;
+
+
 $current_post_id = get_the_ID();
 $current_post_categories = wp_get_post_categories($current_post_id);
 global $paged;
