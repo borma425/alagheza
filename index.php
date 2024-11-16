@@ -15,10 +15,7 @@ $args = array(
 
 $context['advice_posts'] = Timber::get_posts($args);
 
-
-
 $context['aqsam'] = get_sorted_posts_by_taxonomy('category', 'sections', 6);
-
 
 $context['brands'] = get_sorted_posts_by_taxonomy('post_tag', 'brands', 6);
 

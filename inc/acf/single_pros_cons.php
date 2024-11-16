@@ -112,6 +112,23 @@ if (isset($_POST['single_pros_editor'])) {
         $pros_list = $pros_content; // Keep the original content if it has <li>
     }
 
+    $pros_list = preg_replace_callback(
+        '/<ul([^>]*?)>/', // This pattern matches the opening <ul> tag with any attributes
+        function ($matches) {
+            // Check if the class 'feature-list pros' is already in the <ul> tag
+            if (strpos($matches[1], 'feature-list pros') === false) {
+                // Add the 'feature-list pros' class if it's not already present
+                return '<ul class="feature-list pros" ' . $matches[1] . '>';
+            }
+            // If class is already present, return the tag as is
+            return '<ul ' . $matches[1] . '>';
+        },
+        $pros_list
+    );
+    
+    // Now add the 'feature-item' class to each <li> tag
+    $pros_list = preg_replace('/<li([^>]*?)>/', '<li class="feature-item" $1>', $pros_list);
+
     update_post_meta($post_id, 'single_pros', $pros_list);
 }
 
@@ -127,6 +144,23 @@ if (isset($_POST['single_cons_editor'])) {
         $cons_list = $cons_content; // Keep the original content if it has <li>
     }
 
+    $cons_list = preg_replace_callback(
+        '/<ul([^>]*?)>/', // This pattern matches the opening <ul> tag with any attributes
+        function ($matches) {
+            // Check if the class 'feature-list cons' is already in the <ul> tag
+            if (strpos($matches[1], 'feature-list cons') === false) {
+                // Add the 'feature-list cons' class if it's not already present
+                return '<ul class="feature-list cons" ' . $matches[1] . '>';
+            }
+            // If class is already present, return the tag as is
+            return '<ul ' . $matches[1] . '>';
+        },
+        $cons_list
+    );
+    
+    // Now add the 'feature-item' class to each <li> tag
+    $cons_list = preg_replace('/<li([^>]*?)>/', '<li class="feature-item" $1>', $cons_list);
+    
     update_post_meta($post_id, 'single_cons', $cons_list);
 }
 

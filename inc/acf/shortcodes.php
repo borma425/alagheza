@@ -122,7 +122,7 @@ function display_pros_section() {
 
     // Add classes to ul and li elements
     $pros_content = str_replace('<ul>', '<ul class="feature-list pros">', $pros_content);
-    $pros_content = str_replace('<li>', '<li class="feature-item">', $pros_content);
+    $pros_content = str_replace('<li>', '<li >', $pros_content);
 
     // Render the Pros section
     return '
