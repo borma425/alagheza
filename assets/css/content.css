@@ -97,31 +97,30 @@
     color: var(--primary-color);
     margin-bottom: 1rem;
   }
-  
   main h1 {
-    font-size: 2.5rem;
-  }
-  
-  main h2 {
-    font-size: 2rem;
-  }
-  
-  main h3 {
-    font-size: 1.75rem;
-  }
-  
-  main h4 {
-    font-size: 1.5rem;
-  }
-  
-  main h5 {
-    font-size: 1.25rem;
-  }
-  
-  main h6 {
-    font-size: 1rem;
-  }
-  
+    font-size: 2.5rem !important;
+}
+
+main h2 {
+    font-size: 2rem !important;
+}
+
+main h3 {
+    font-size: 1.75rem !important;
+}
+
+main h4 {
+    font-size: 1.5rem !important;
+}
+
+main h5 {
+    font-size: 1.25rem !important;
+}
+
+main h6 {
+    font-size: 1rem !important;
+}
+
   /* Paragraphs */
   main p {
     font-size: 1.1rem;
