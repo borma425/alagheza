@@ -85,7 +85,14 @@ if (get_query_var('s')) {
             } elseif ($rating == '3') {
                 $args['meta_query'][] = array(
                     'key'     => 'wp_review_total', // Replace with the actual ACF field key for rating
-                    'value'   => [3, 5],
+                    'value'   => [3, 4],
+                    'compare' => 'BETWEEN',
+                    'type'    => 'NUMERIC',
+                );
+            } elseif ($rating == '4') {
+                $args['meta_query'][] = array(
+                    'key'     => 'wp_review_total', // Replace with the actual ACF field key for rating
+                    'value'   => [4, 5],
                     'compare' => 'BETWEEN',
                     'type'    => 'NUMERIC',
                 );
