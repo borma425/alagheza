@@ -24,12 +24,19 @@
 									<div class="price-rating">
 										<span class="price">{{article.price}}</span>
 {% if article.total_rating %}
+    <span class="rating-value" 
+          style="background-color: 
+            {% if article.total_rating | round >= 4 %}
+                rgb(41, 204, 0) 
+            {% elseif article.total_rating | round >= 3 %}
+                rgb(204, 204, 0) 
+            {% else %}
+                rgb(204, 82, 0) 
+            {% endif %};">
+        {{ article.total_rating  }}/5
+    </span>
+{% endif %}
 
-<span class="rating-value" data-rating="{{ article.total_rating }}" 
-      style="background-color: {% if article.total_rating > 3 %}rgb(41, 204, 0){% else %}rgb(204, 82, 0){% endif %};">
-    {{ article.total_rating }}/5
-</span>			
-            {% endif %}
 						</div>
 									<h3 class="product-title">
 										{{article.title }}
