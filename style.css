@@ -1729,3 +1729,12 @@ table tbody tr:hover {
     transform: translateY(0);
   }
 }
+
+
+.compare-button.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+.compare-button.selected svg {
+  fill: white;
+}

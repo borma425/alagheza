@@ -1,196 +1,161 @@
-
-// Header
 document.addEventListener('DOMContentLoaded', () => {
 	const header = document.querySelector('.header');
 	const navToggle = document.querySelector('.nav-toggle');
 	const navSidebar = document.querySelector('.nav-sidebar');
 	const dropdownItems = document.querySelectorAll('.has-dropdown');
 	const navLinks = document.querySelectorAll('.nav-link');
-
+	const mediaQueryThreshold = 768;
+  
+	// Throttle scroll event for performance
+	let scrollTimeout;
+	const onScroll = () => {
+	  if (window.scrollY > 50) {
+		header.classList.add('sticky');
+	  } else {
+		header.classList.remove('sticky');
+	  }
+	};
+  
 	window.addEventListener('scroll', () => {
-		if (window.scrollY > 50) {
-			header.classList.add('sticky');
-		} else {
-			header.classList.remove('sticky');
-		}
+	  if (!scrollTimeout) {
+		scrollTimeout = setTimeout(() => {
+		  onScroll();
+		  scrollTimeout = null;
+		}, 50); // Adjust scroll delay as needed
+	  }
 	});
-
-	navToggle.addEventListener('click', () => {
-		navSidebar.classList.toggle('active');
-		navToggle.classList.toggle('active');
-	});
-
+  
+	// Handle nav toggle for mobile
+	const toggleNav = () => {
+	  navSidebar.classList.toggle('active');
+	  navToggle.classList.toggle('active');
+	};
+  
+	navToggle.addEventListener('click', toggleNav);
+  
+	// Dropdown toggle for mobile menu
 	dropdownItems.forEach(item => {
-		const dropdownToggle = item.querySelector('a');
-		const dropdown = item.querySelector('.dropdown');
-
-		dropdownToggle.addEventListener('click', e => {
-			if (window.innerWidth <= 768) {
-				e.preventDefault();
-				item.classList.toggle('active');
-				dropdown.style.display = item.classList.contains('active')
-					? 'block'
-					: 'none';
-			}
-		});
-
-		// Add event listeners to dropdown links
-		const dropdownLinks = dropdown.querySelectorAll('a');
-		dropdownLinks.forEach(link => {
-			link.addEventListener('click', e => {
-				e.stopPropagation(); // Prevent the click from bubbling up to the parent
-				// Remove the active class from all links
-				navLinks.forEach(link => {
-					link.classList.remove('active');
-				});
-
-				// Close the mobile sidebar when a sub-item is clicked
-				if (window.innerWidth <= 768) {
-					navSidebar.classList.remove('active');
-					navToggle.classList.remove('active');
-				}
-			});
-		});
-	});
-
-	window.addEventListener('resize', () => {
-		if (window.innerWidth > 768) {
+	  const dropdownToggle = item.querySelector('a');
+	  const dropdown = item.querySelector('.dropdown');
+  
+	  dropdownToggle.addEventListener('click', (e) => {
+		if (window.innerWidth <= mediaQueryThreshold) {
+		  e.preventDefault();
+		  const isActive = item.classList.toggle('active');
+		  dropdown.style.display = isActive ? 'block' : 'none';
+		}
+	  });
+  
+	  // Close dropdown on link click
+	  const dropdownLinks = dropdown.querySelectorAll('a');
+	  dropdownLinks.forEach(link => {
+		link.addEventListener('click', (e) => {
+		  e.stopPropagation();
+		  navLinks.forEach(link => link.classList.remove('active'));
+		  if (window.innerWidth <= mediaQueryThreshold) {
 			navSidebar.classList.remove('active');
 			navToggle.classList.remove('active');
-			dropdownItems.forEach(item => {
-				item.classList.remove('active');
-				item.querySelector('.dropdown').style.display = '';
-			});
-		}
+		  }
+		});
+	  });
 	});
-
+  
+	// Debounce resize event
+	let resizeTimeout;
+	const onResize = () => {
+	  if (window.innerWidth > mediaQueryThreshold) {
+		navSidebar.classList.remove('active');
+		navToggle.classList.remove('active');
+		dropdownItems.forEach(item => {
+		  item.classList.remove('active');
+		  item.querySelector('.dropdown').style.display = '';
+		});
+	  }
+	};
+  
+	window.addEventListener('resize', () => {
+	  if (!resizeTimeout) {
+		resizeTimeout = setTimeout(() => {
+		  onResize();
+		  resizeTimeout = null;
+		}, 200); // Adjust resize delay as needed
+	  }
+	});
+  
 	// Close dropdown when clicking outside
-	document.addEventListener('click', e => {
-		if (!e.target.closest('.has-dropdown')) {
-			dropdownItems.forEach(item => {
-				item.classList.remove('active');
-				if (window.innerWidth <= 768) {
-					item.querySelector('.dropdown').style.display = 'none';
-				}
-			});
-		}
+	document.addEventListener('click', (e) => {
+	  if (!e.target.closest('.has-dropdown')) {
+		dropdownItems.forEach(item => {
+		  item.classList.remove('active');
+		  if (window.innerWidth <= mediaQueryThreshold) {
+			item.querySelector('.dropdown').style.display = 'none';
+		  }
+		});
+	  }
 	});
-});
+  });
 
 
 
-
-
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
 	const searchToggle = document.querySelector('.search-toggle');
 	const searchWindow = document.getElementById('searchWindow');
 	const closeSearch = document.querySelector('.close-search');
-
-	searchToggle.addEventListener('click', function () {
-		searchWindow.classList.add('active');
+  
+	// Toggle search window visibility
+	const toggleSearchWindow = (action) => {
+	  searchWindow.classList[action]('active');
+	};
+  
+	searchToggle.addEventListener('click', () => toggleSearchWindow('add'));
+	closeSearch.addEventListener('click', () => toggleSearchWindow('remove'));
+  
+	// Close search window if clicked outside
+	searchWindow.addEventListener('click', (e) => {
+	  if (e.target === searchWindow) {
+		toggleSearchWindow('remove');
+	  }
 	});
-
-	closeSearch.addEventListener('click', function () {
-		searchWindow.classList.remove('active');
-	});
-
-	// Close search window when clicking outside of it
-	searchWindow.addEventListener('click', function (e) {
-		if (e.target === searchWindow) {
-			searchWindow.classList.remove('active');
-		}
-	});
-});
-
-document.querySelectorAll('.rating-value').forEach(el => {
-	const rating = parseFloat(el.dataset.rating);
-	const hue = rating * 12; // This will give a range from 0 (red) to 120 (green)
-	el.style.backgroundColor = `hsl(${hue}, 100%, 40%)`;
-});
+  });
 
 
 
-// Store selected products for comparison
-let selectedProducts = [];
-const MAX_PRODUCTS = 2;
+// Track clicked button IDs
+let clickedButtons = [];
 
-// Function to handle compare button click
-function handleCompareClick(event) {
-	event.preventDefault();
-	event.stopPropagation();
+// Select all the buttons with the class 'compare-button'
+const buttons = document.querySelectorAll('.compare-button');
 
-	const productCard = event.target.closest('.product-card');
-	const productLink = productCard.closest('.product-link');
-	const productId = productLink
-		.getAttribute('href')
-		.split('/')
-		.pop()
-		.split('.')[0];
-	const productTitle = productCard
-		.querySelector('.product-title')
-		.textContent.trim();
-	const compareButton = productCard.querySelector('.compare-button');
+// Add event listeners to each button
+buttons.forEach(button => {
+ button.addEventListener('click', function(event) {
 
-	// Check if product is already selected
-	const productIndex = selectedProducts.findIndex(p => p.id === productId);
+		   event.stopPropagation();
+	 event.preventDefault();
+	// Store the ID of the clicked button
+	clickedButtons.push(button.id);
 
-	if (productIndex === -1) {
-		// Product not selected - add it if we haven't reached max
-		if (selectedProducts.length < MAX_PRODUCTS) {
-			selectedProducts.push({
-				id: productId,
-				title: productTitle,
-			});
+				// Update button style to show selected state
+		 button.classList.add('selected');
+		 // Change icon to checkmark
+		 button.innerHTML = `
+			 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+				 <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+			 </svg>
+		 `;
 
-			// Update button style to show selected state
-			compareButton.classList.add('selected');
-			// Change icon to checkmark
-			compareButton.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                    <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
-                </svg>
-            `;
 
-			// If we now have 2 products, redirect to compare page
-			if (selectedProducts.length === MAX_PRODUCTS) {
-				const queryString = selectedProducts
-					.map(p => `product${selectedProducts.indexOf(p) + 1}=${p.id}`)
-					.join('&');
-				window.location.href = `/compare.html?${queryString}`;
-			}
-		}
-	} else {
-		// Product already selected - remove it
-		selectedProducts.splice(productIndex, 1);
+	// If two buttons are clicked, trigger the alert after 2 seconds
+	if (clickedButtons.length === 2) {
+	  setTimeout(() => {
+		// Show the IDs of the two clicked buttons
+		var baseUrl = window.location.origin + window.location.pathname;
+		// Redirect to the compare page with the query parameters
+		window.location.href = baseUrl + "/compare/?items=[" + clickedButtons[0] + "," + clickedButtons[1] + "]";
 
-		// Reset button style
-		compareButton.classList.remove('selected');
-		// Restore original compare icon
-		compareButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
-                <path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z" />
-            </svg>
-        `;
+	  }, 2000);
+
+
 	}
-}
-
-// Add click event listeners to all compare buttons
-document.addEventListener('DOMContentLoaded', () => {
-	const compareButtons = document.querySelectorAll('.compare-button');
-	compareButtons.forEach(button => {
-		button.addEventListener('click', handleCompareClick);
-	});
+  });
 });
-
-// Add some CSS for the selected state
-const style = document.createElement('style');
-style.textContent = `
-    .compare-button.selected {
-        background-color: #4CAF50;
-        color: white;
-    }
-    .compare-button.selected svg {
-        fill: white;
-    }
-`;
-document.head.appendChild(style);
