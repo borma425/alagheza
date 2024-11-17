@@ -236,7 +236,7 @@ main h6 {
   
   .title {
     color: #1a73e8;
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
     margin-bottom: 10px;
   }
   
