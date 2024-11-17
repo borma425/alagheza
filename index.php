@@ -54,4 +54,14 @@ $context['post_contexts'] = [
 ];
 
 
-Timber::render('index-home.twig', $context);
+function enable_comments_globally() {
+    global $wpdb;
+
+    // تحديث حالة التعليقات لجميع المقالات
+    $wpdb->query("
+        UPDATE {$wpdb->posts}
+        SET comment_status = 'open'
+        WHERE post_type = 'post'
+    ");
+}
+add_action('init', 'enable_comments_globally');
