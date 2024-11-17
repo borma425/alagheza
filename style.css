@@ -1729,3 +1729,8 @@ table tbody tr:hover {
     transform: translateY(0);
   }
 }
+
+
+section > section {
+  all: unset;
+}

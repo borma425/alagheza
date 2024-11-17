@@ -139,37 +139,57 @@ if (get_query_var('s')) {
 
 
     // Get the posts based on the constructed arguments
-    $context["posts"] = Timber::get_posts($args);
+    $posts = Timber::get_posts($args);
 
-/* 
-    $total_pages = 3; // Example total pages, you can calculate this based on your query results
+    // Initialize an array to hold related posts with prices
+    $related_posts = [];
 
-    // Base URL for pagination
-    $base_url = home_url("/page/");
-    $base_url_concat = is_search() ? "?s=" . get_query_var('s') : (is_home() ? 1 : 2);
+    foreach ($posts as $post) {
 
-    // Construct the pagination links
-    $pagination_links = [];
-    for ($i = 1; $i <= $total_pages; $i++) {
-        $pagination_links[] = [
-            'number' => $i,
-            'link' => "{$base_url}{$i}/$base_url_concat",
-            'current' => ($i === $current_page),
+
+        $post_categories = get_the_category($post->ID);
+        $first_category = !empty($post_categories) ? $post_categories[0]->name : ''; // Get the first category name
+
+        // Create a new array to hold post details
+        $post_details = [
+            'title' => $post->title,
+            'link'  => $post->link,
+            'id'    => $post->ID,
+            'thumbnail' => get_the_post_thumbnail_url($post->ID, 'full'), // Adjust size as needed
+            'description' => get_the_excerpt($post->ID), // or get_post_field('post_content', $post->ID) for full content
+            'first_category' => $first_category, // Store the first category name
+     
         ];
+        
+
+        // Retrieve schema options for the current related post
+        $meta_key = 'wp_review_schema_options';
+        $meta_value = get_post_meta($post->ID, $meta_key, true);
+
+        // Ensure $meta_value is an array
+        if (!is_array($meta_value)) {
+            // Attempt to decode if it's JSON
+            $decoded = json_decode($meta_value, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $meta_value = $decoded;
+            } else {
+                // Handle the error appropriately
+                $meta_value = [];
+                error_log("Meta key '{$meta_key}' for post ID {$post->ID} is not an array or valid JSON.");
+            }
+        }
+
+        // Get the product price from the schema options
+        $product_price = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
+
+        // Add the price to the post details
+        $post_details['price'] = $product_price;
+        $post_details['total_rating'] = get_post_meta($post->ID, "wp_review_total", true);
+
+        // Add the post details to the related posts array
+        $related_posts[] = $post_details;
     }
-
-    // Create prev and next links
-    $prev_link = $current_page > 1 ? "{$base_url}" . ($current_page - 1) . '/'  . $base_url_concat : '';
-    $next_link = $current_page < $total_pages ? "{$base_url}" . ($current_page + 1) . '/'. $base_url_concat : '';
-    
-    $context['pagination'] = [
-        'prev' => $prev_link,
-        'next' => $next_link,
-        'pages' => $pagination_links,
-    ];
-
-
- */
+    $context["posts"] = $related_posts;
     // Render the template with the context
     Timber::render('search/results.twig', $context);
 
