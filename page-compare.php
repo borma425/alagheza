@@ -54,7 +54,7 @@ if (isset($_GET['items'])) {
                 }
             }
 
-            $product_price = isset($meta_value['Product']['price']) ? preg_replace('/\D/', '', $meta_value['Product']['price']) . " جنية مصري " : '';
+            $product_price = isset($meta_value['Product']['price']) && $total_review ? preg_replace('/\D/', '', $meta_value['Product']['price']) . " جنية مصري " : '';
 
             // Prepare device data
             $selected_devices[] = [

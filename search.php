@@ -179,12 +179,13 @@ if (get_query_var('s')) {
             }
         }
 
+        $total_ratingg = get_post_meta($post->ID, "wp_review_total", true);
         // Get the product price from the schema options
-        $product_price = isset($meta_value['Product']['price']) ? preg_replace('/\D/', '', $meta_value['Product']['price']) . " جنية مصري " : '';
+        $product_price = isset(  $meta_value['Product']['price']) && $total_ratingg ? preg_replace('/\D/', '', $meta_value['Product']['price']) . " جنية مصري " : '';
 
         // Add the price to the post details
         $post_details['price'] = $product_price;
-        $post_details['total_rating'] = get_post_meta($post->ID, "wp_review_total", true);
+        $post_details['total_rating'] = $total_ratingg;
 
         // Add the post details to the related posts array
         $related_posts[] = $post_details;
