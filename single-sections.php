@@ -57,7 +57,7 @@ if (!empty($current_post_categories)) {
         }
 
         // Get the product price from the schema options
-        $product_price = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
+        $product_price = isset($meta_value['Product']['price']) ? preg_replace('/\D/', '', $meta_value['Product']['price']) . " جنية مصري " : '';
 
         // Add the price to the post details
         $post_details['price'] = $product_price;
