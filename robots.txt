@@ -1,9 +1,9 @@
 # The rules of this file were written strictly by Yehia
 User-Agent: *
 Allow: /wp-content/uploads/
-Allow: /top-sites/
-Allow: /best-icons/
 
+
+Disallow: /compare/*
 Disallow: /sections/*
 Disallow: /brands/*
 Disallow: /author/*
