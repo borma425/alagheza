@@ -101,26 +101,7 @@ function display_qa_section() {
         </div>
     </section>
 
-		<script>
-			// accordion functionality
-			document.querySelectorAll('.accordion-header').forEach(header => {
-				header.addEventListener('click', () => {
-					const item = header.parentElement;
-					const isActive = item.classList.contains('active');
 
-					// Close all accordion items
-					document.querySelectorAll('.accordion-item').forEach(accItem => {
-						accItem.classList.remove('active');
-						accItem.querySelector('.accordion-icon').textContent = '+';
-					});
-
-					if (!isActive) {
-						item.classList.add('active');
-						header.querySelector('.accordion-icon').textContent = '-';
-					}
-				});
-			});
-		</script>
     <?php
     // Return the output buffer content
     return ob_get_clean();
