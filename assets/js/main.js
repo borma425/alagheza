@@ -1,12 +1,3 @@
-function queryParamExistUrl(param = '') {
-    param_value = new URLSearchParams(window.location.search).get(param);
-    if (param_value != null){
-     return param_value
-    }else{
-     return false
-    }
-}
-
 
 // Header
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,6 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 });
 
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
 	const searchToggle = document.querySelector('.search-toggle');
 	const searchWindow = document.getElementById('searchWindow');
@@ -113,77 +108,7 @@ document.querySelectorAll('.rating-value').forEach(el => {
 	el.style.backgroundColor = `hsl(${hue}, 100%, 40%)`;
 });
 
-class Pagination {
-	constructor(element) {
-		this.pagination = element;
-		this.pageItems = this.pagination.querySelectorAll(
-			'li:not(:first-child):not(:last-child)',
-		);
-		this.prevButton = this.pagination.querySelector('li:first-child');
-		this.nextButton = this.pagination.querySelector('li:last-child');
-		this.currentPage = 1;
 
-		this.init();
-	}
-
-	init() {
-		this.updatePagination();
-		this.addEventListeners();
-	}
-
-	updatePagination() {
-		this.pageItems.forEach((item, index) => {
-			item.classList.toggle('active', index + 1 === this.currentPage);
-		});
-
-		this.prevButton.classList.toggle('disabled', this.currentPage === 1);
-		this.nextButton.classList.toggle(
-			'disabled',
-			this.currentPage === this.pageItems.length,
-		);
-
-		// Dispatch a custom event when page changes
-		const event = new CustomEvent('pageChange', {
-			detail: {
-				currentPage: this.currentPage,
-				totalPages: this.pageItems.length,
-			},
-		});
-		this.pagination.dispatchEvent(event);
-	}
-
-	addEventListeners() {
-		this.pagination.addEventListener('click', e => {
-			if (e.target.tagName === 'A') {
-				if (
-					e.target.getAttribute('aria-label') === 'Previous' &&
-					this.currentPage > 1
-				) {
-					this.currentPage--;
-				} else if (
-					e.target.getAttribute('aria-label') === 'Next' &&
-					this.currentPage < this.pageItems.length
-				) {
-					this.currentPage++;
-				} else if (!isNaN(e.target.textContent)) {
-					this.currentPage = parseInt(e.target.textContent);
-				}
-				this.updatePagination();
-			}
-		});
-	}
-}
-
-// Initialize all pagination components when DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-	// Find all pagination elements
-	const paginationElements = document.querySelectorAll('.pagination');
-
-	// Initialize each pagination component
-	const paginationInstances = Array.from(paginationElements).map(
-		element => new Pagination(element),
-	);
-});
 
 // Store selected products for comparison
 let selectedProducts = [];
