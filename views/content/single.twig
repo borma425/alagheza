@@ -282,13 +282,15 @@
 						</section>
 <br><br>
           {{ post.post_content|shortcodes }}
+
+            {% if comparison_table|length > 0 %}
+
 <section id="comparison">
     <h2 class="section-title">مقارنة بين الأجهزة</h2>
     <div class="table-container">
         <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
         <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
         <div class="scroll-container" style="direction: rtl;">
-            {% if comparison_table|length > 0 %}
                 <table class="comparison-table">
                     <thead>
                         <tr>
@@ -402,12 +404,11 @@
                         </tr>
                     </tbody>
                 </table>
-            {% else %}
-                <p>لا توجد بيانات للمقارنة.</p>
-            {% endif %}
+
         </div>
     </div>
 </section>
+            {% endif %}
 
 
 						<section class="share-buttons">
@@ -503,12 +504,18 @@
 									<div class="price-rating">
 										<span class="price">{{article.price}} </span>
 {% if article.total_rating %}
-
-<span class="rating-value" data-rating="{{ article.total_rating }}" 
-      style="background-color: {% if article.total_rating > 3 %}rgb(41, 204, 0){% else %}rgb(204, 82, 0){% endif %};">
-    {{ article.total_rating }}/5
-</span>			
-            {% endif %}
+    <span class="rating-value" 
+          style="background-color: 
+            {% if article.total_rating | round >= 4 %}
+                rgb(41, 204, 0) 
+            {% elseif article.total_rating | round >= 3 %}
+                rgb(204, 204, 0) 
+            {% else %}
+                rgb(204, 82, 0) 
+            {% endif %};">
+        {{ article.total_rating  }}/5
+    </span>
+{% endif %}
 						</div>
 									<h3 class="product-title">
 										{{article.title }}

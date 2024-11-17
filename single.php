@@ -3,8 +3,10 @@
 $context = Timber::context();
 
 $context['is_front_page'] = false;
-$current_post_id = get_the_ID();
-$current_post_categories = wp_get_post_categories($current_post_id);
+$post_id = get_the_ID();
+
+
+$current_post_categories = wp_get_post_categories($post_id);
 global $paged;
 
 if (!isset($paged) || !$paged) {
@@ -20,7 +22,7 @@ if (!empty($current_post_categories)) {
         'posts_per_page' => 4,
         'paged'          => $paged,
         'category__in'   => $current_post_categories, // Use 'category__in' for categories
-        'post__not_in'   => [$current_post_id],
+        'post__not_in'   => [$post_id],
     ]);
 
     foreach ($related_posts_data as $post) {
@@ -51,7 +53,7 @@ if (!empty($current_post_categories)) {
 $context['related_posts'] = $related_posts;
 
 // Check for shortcodes
-$post_content = get_post_field('post_content', $current_post_id);
+$post_content = get_post_field('post_content', $post_id);
 
 $context['has_shortcode_specifications_section'] = has_shortcode($post_content, "specifications_section");
 $context['has_shortcode_pros_section'] = has_shortcode($post_content, "pros_section");
@@ -162,7 +164,12 @@ function get_comparison_table_data($current_product_id) {
     return $devices;
 }
 
+if ($context['has_shortcode_review_section']) {
+
 $context['comparison_table'] = get_comparison_table_data(get_the_ID());
+
+}
+
 
 $context['sidebar_sections'] = Timber::get_posts([
     'post_type' => 'sections',
