@@ -150,6 +150,10 @@ function get_comparison_table_data($current_product_id) {
             'price' => $product_price,
             'link' => $device_post->link,
             'ratings' => $transformed_array,
+            'id' => $device_id,
+            'brand'         => $meta_value['Product']['brand'] ?? '',
+            'description'         => $meta_value['Product']['description'] ?? '',
+
         ];
     }
 
@@ -190,131 +194,10 @@ $context['sidebar_brands'] = Timber::get_posts([
 
 
 Timber::render('content/single.twig', $context);
+
+
+require(get_theme_file_path('inc/schema_gen.php'));
+
 ?>
 
 
-
-<script type="application/ld+json">
-<?php
-// Handle lists safely
-function prepare_list_items($list_content) {
-    $dom = new DOMDocument('1.0', 'UTF-8');
-    $html_content = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' . $list_content . '</body></html>';
-    @$dom->loadHTML($html_content, LIBXML_NOERROR | LIBXML_NOWARNING);
-    $list_items = $dom->getElementsByTagName('li');
-    $result = [];
-    foreach ($list_items as $item) {
-        $result[] = trim($item->textContent);
-    }
-    return $result;
-}
-
-
-
-  
-$pros       = get_post_meta($post->ID, 'wp_review_pros', true);
-  $cons       = get_post_meta($post->ID, 'wp_review_cons', true);
-  $post_id    = get_the_ID();
-  
-  // For top container title
-  $desc_title = get_post_meta($post_id, 'wp_review_desc_title', true);
-  if (!$desc_title) {
-      $desc_title = __('الملخص', 'wp-review');
-  }
-  
-  $heading = get_post_meta($post_id, 'wp_review_heading', true);
-  
-  // Retrieve schema options
-  $meta_key   = 'wp_review_schema_options';
-  $meta_value = get_post_meta($post_id, $meta_key, true);
-  
-  // Ensure $meta_value is an array
-  if (!is_array($meta_value)) {
-      // Attempt to decode if it's JSON
-      $decoded = json_decode($meta_value, true);
-      if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-          $meta_value = $decoded;
-      } else {
-          // Handle the error appropriately
-          $meta_value = [];
-          error_log("Meta key '{$meta_key}' for post ID {$post_id} is not an array or valid JSON.");
-      }
-  }
-  
-  // Access product details safely
-  if (isset($meta_value['Product']) && is_array($meta_value['Product'])) {
-      $product_name            = isset($meta_value['Product']['name']) ? $meta_value['Product']['name'] : '';
-      $product_desc            = isset($meta_value['Product']['description']) ? $meta_value['Product']['description'] : '';
-      $product_brand           = isset($meta_value['Product']['brand']) ? $meta_value['Product']['brand'] : '';
-      $product_sku             = isset($meta_value['Product']['sku']) ? $meta_value['Product']['sku'] : '';
-      $product_price           = isset($meta_value['Product']['price']) ? $meta_value['Product']['price'] : '';
-      $product_priceCurrency   = isset($meta_value['Product']['priceCurrency']) ? $meta_value['Product']['priceCurrency'] : '';
-  } else {
-      // Set default values or handle the absence of 'Product' key
-      $product_name            = '';
-      $product_desc            = '';
-      $product_brand           = '';
-      $product_sku             = '';
-      $product_price           = '';
-      $product_priceCurrency   = '';
-      error_log("Key 'Product' does not exist in meta key '{$meta_key}' for post ID {$post_id}.");
-  }
-  
-  // Continue with the rest of your code
-  $wp_review_desc_title = get_post_meta($post_id, 'wp_review_desc_title', true);
-  $wp_review_desc_desc  = get_post_meta($post->ID, 'wp_review_desc', true);
-  
-  
-// Extract lists
-$pros_list = prepare_list_items($pros);
-$cons_list = prepare_list_items($cons);
-
-// JSON-LD schema preparation
-$schema_data = [
-    "@context" => "https://schema.org",
-    "@type" => "Product",
-    "name" => $product_name ?: get_the_title($post_id),
-    "image" => get_the_post_thumbnail_url($post_id, 'full'),
-    "description" => $product_desc ?: $wp_review_desc_desc,
-    "brand" => [
-        "@type" => "Brand",
-        "name" => $product_brand,
-    ],
-    "sku" => $product_sku,
-    "offers" => [
-        "@type" => "Offer",
-        "priceCurrency" => $product_priceCurrency ?: "EGP",
-        "price" => $product_price,
-        "url" => get_permalink($post_id),
-    ],
-    "review" => [
-        "@type" => "Review",
-        "name" => $wp_review_desc_title ?: $desc_title,
-        "reviewBody" => $wp_review_desc_desc,
-        "positiveNotes" => [
-            "@type" => "ItemList",
-            "itemListElement" => array_map(function ($item, $index) {
-                return [
-                    "@type" => "ListItem",
-                    "position" => $index + 1,
-                    "name" => $item,
-                ];
-            }, $pros_list, array_keys($pros_list)),
-        ],
-        "negativeNotes" => [
-            "@type" => "ItemList",
-            "itemListElement" => array_map(function ($item, $index) {
-                return [
-                    "@type" => "ListItem",
-                    "position" => $index + 1,
-                    "name" => $item,
-                ];
-            }, $cons_list, array_keys($cons_list)),
-        ],
-    ],
-];
-
-// Output JSON-LD
-echo wp_json_encode($schema_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-?>
-</script>
