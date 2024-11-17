@@ -1150,3 +1150,13 @@
     flex-wrap: wrap;
     gap: 1rem;
   }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    aspect-ratio: 16 / 9; /* Ensures a 16:9 aspect ratio */
+}
