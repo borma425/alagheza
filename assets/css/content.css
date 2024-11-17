@@ -1152,11 +1152,9 @@
   }
 
   iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+    width: 100%; /* Takes full width of the container */
+    height: auto; /* Maintain aspect ratio based on width */
     aspect-ratio: 16 / 9; /* Ensures a 16:9 aspect ratio */
+    border: none;
+    max-width: 100%; /* Prevents iframe from exceeding the container's width */
 }
