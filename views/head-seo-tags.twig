@@ -13,9 +13,6 @@ post.thumbnail.src
 {# {% set mainTitle  = post.title %} #}
 
 {% set Title =
-fn('is_post_type_archive','article') ?  ' أحدث المقالات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
-fn('is_post_type_archive','products') ?  ' أحدث منتجات ﺗﻨﻔﻴــﺬ وﺗﺼﻤﻴــﻢ وإﻧﺸــﺎء ﺷــﺒﻜﺎت اﻟﻐــﺎز   ' :
-fn('is_post_type_archive','success-partners') ?  '  شركاء النجاح   ' :
 fn('is_home') or fn('is_front_page') ? homeName ~ " - " ~ homeDescription :
 fn('is_singular') ?   mainTitle:
 fn('is_search') ?  search_query :
@@ -23,15 +20,11 @@ fn('is_404') ? "  404 - Not Found:" ~ homeName : homeName
 %}
 
 {% set Description =
-fn('is_post_type_archive') ?  Title :
 PostDescription ?  PostDescription : homeDescription
 %}
 
 {% set datePublishedTimestamp = post.date %}
 {% set dateModifiedTimestamp = post.modified %}
-
-{% set articleBody =  post.post_content|shortcodes %}
-
 
 
 <!-- Main info -->
@@ -62,10 +55,10 @@ PostDescription ?  PostDescription : homeDescription
 
 <!-- Favicon Style -->
 
-			<link rel="icon" href="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-32x32.png" sizes="32x32" />
-<link rel="icon" href="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-192x192.png" sizes="192x192" />
-<link rel="apple-touch-icon" href="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-180x180.png" />
-<meta name="msapplication-TileImage" content="https://alagheza.com/wp-content/uploads/2021/05/cropped-Untitled-1-1-1-270x270.png" />
+<link rel="icon" href="{{ logo_100_x_100 }}" sizes="32x32" />
+<link rel="icon" href="{{ medium_logo }}" sizes="192x192" />
+<link rel="apple-touch-icon" href="{{ medium_logo }}" />
+<meta name="msapplication-TileImage" content="{{ medium_logo }}" />
 
 
 
