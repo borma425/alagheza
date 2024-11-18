@@ -197,7 +197,13 @@ if (get_query_var('s')) {
         // Add the post details to the related posts array
         $related_posts[] = $post_details;
     }
-    $context["posts"] = $related_posts;
+
+
+    $context = Timber::context([
+        'posts' => $related_posts,
+        'pagination' => $posts,
+
+    ]);
     // Render the template with the context
     Timber::render('search/results.twig', $context);
 

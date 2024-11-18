@@ -1,29 +1,29 @@
-{% if pagination.pages is not empty %}
+{% if pagination.pagination.pages is not empty %}
 
 					<nav aria-label="Page navigation" class="pagination-container">
 						<ul class="pagination">
 			{# Previous Page #}
-            {% if pagination.prev %}
+            {% if pagination.pagination.prev %}
 							<li class="disabled">
-								<a href="{{ pagination.prev }}" aria-label="Previous"><span aria-hidden="true">«</span></a>
+								<a href="{{ pagination.pagination.prev.link }}" aria-label="Previous"><span aria-hidden="true">«</span></a>
 							</li>
             {% endif %}
 
-            {% for page in pagination.pages %}
+            {% for page in pagination.pagination.pages %}
                  
-							<li class="{% if page.current %}active{% endif %}"><a  href="{{ page.link }}">{{ page.number }}</a></li>
+							<li class="{% if page.current %}active{% endif %}"><a  href="{{ page.link }}">{{ page.title }}</a></li>
 
              
             {% endfor %}
 
-            {% if pagination.next %}
+            {% if pagination.pagination.next %}
 
 							<li>
-								<a href="{{ pagination.next }}" aria-label="Next"><span aria-hidden="true">»</span></a>
+								<a href="{{pagination.pagination.next.link }}" aria-label="Next"><span aria-hidden="true">»</span></a>
 							</li>
             {% endif %}
 
 						</ul>
 					</nav>
-
+<br><br>
 {% endif %}

@@ -65,3 +65,9 @@ function block_comments_with_links( $commentdata ) {
     return $commentdata;
 }
 add_filter( 'preprocess_comment', 'block_comments_with_links' );
+add_filter('redirect_canonical', function ($redirect_url, $requested_url) {
+    if (is_paged() && is_single()) {
+        return false; // Prevent redirect on paginated single pages.
+    }
+    return $redirect_url;
+}, 10, 2);

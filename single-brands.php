@@ -14,7 +14,7 @@ if (!empty($current_post_tags)) {
     // Query posts with matching tags
     $related_posts_data = Timber::get_posts(array(
         'post_type'      => 'post',
-        'posts_per_page' => 40,
+        'posts_per_page' => 10,
         'paged'          => $paged,
         'tag__in'        => $tag_ids,
         'post__not_in'   => array($current_post_id),
@@ -71,7 +71,11 @@ if (!empty($current_post_tags)) {
     }
 
     // Store related posts in the context
-    $context['posts'] = $related_posts;
+    $context = Timber::context([
+        'posts' => $related_posts,
+        'pagination' => $related_posts_data,
+
+    ]);
 }
 
 Timber::render('single-brand.twig', $context);

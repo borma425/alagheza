@@ -2,10 +2,9 @@
 
 global $paged;
 
-if (!isset($paged) || !$paged){
+if (!isset($paged) || !$paged) {
     $paged = 1;
 }
-
 
 
 function setup_theme(){
