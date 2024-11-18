@@ -324,24 +324,20 @@
                         </tr>
 
                         {# Total Reviews Row #}
-                        <tr>
-                            <td>إجمالي التقييمات</td>
-                            {% for device in comparison_table %}
-                                <td>
-                                    {% set total_review = device.total_review %}
-                                    <div style="display: flex; align-items: center;">
-                                        <span style="margin-right: 8px;">{{ total_review }}:</span>
-                                        <span>
-                                            {% for i in 1..5 %}
-                                                <span style="color: {% if i <= total_review %} #FFD700 {% else %} #ccc {% endif %};">
-                                                    &#9733;
-                                                </span>
-                                            {% endfor %}
-                                        </span>
-                                    </div>
-                                </td>
-                            {% endfor %}
-                        </tr>
+<tr>
+    <td>إجمالي التقييمات</td>
+    {% for device in comparison_table %}
+        <td>
+            <div style="display: flex; align-items: center;">
+                <span style="margin-right: 8px;">{{ device.total_review }}:</span>
+                <span>
+                    {{ device.stars_html|raw }} <!-- Render the preprocessed stars HTML here -->
+                </span>
+            </div>
+        </td>
+    {% endfor %}
+</tr>
+
 
                         {# Collect unique spec icons manually #}
                         {% set unique_icons = [] %}
