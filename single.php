@@ -13,44 +13,26 @@ if (!isset($paged) || !$paged) {
     $paged = 1;
 }
 
-$related_posts = [];
 
+
+// Ensure categories exist to avoid errors
 if (!empty($current_post_categories)) {
-    // Query posts with matching categories
-    $related_posts_data = Timber::get_posts([
-        'post_type'      => 'post',
-        'posts_per_page' => 4,
-        'paged'          => $paged,
-        'category__in'   => $current_post_categories, // Use 'category__in' for categories
-        'post__not_in'   => [$post_id],
+    $context['related_posts'] = Timber::get_posts([
+        'post_type' => 'post', // Replace with your custom post type if needed
+        'posts_per_page' => 4, // Number of related posts to display
+        'post__not_in' => [$current_post_id], // Exclude the current post
+        'tax_query' => [
+            [
+                'taxonomy' => 'category', // Use category taxonomy
+                'field' => 'term_id', // Match by term ID
+                'terms' => $current_post_categories, // Use current post's categories
+            ]
+        ]
     ]);
-
-    foreach ($related_posts_data as $post) {
-        $post_categories = get_the_category($post->ID);
-        $first_category = !empty($post_categories) ? $post_categories[0]->name : '';
-
-        $meta_key = 'wp_review_schema_options';
-        $meta_value = get_post_meta($post->ID, $meta_key, true);
-        if (!is_array($meta_value)) {
-            $decoded = json_decode($meta_value, true);
-            $meta_value = json_last_error() === JSON_ERROR_NONE && is_array($decoded) ? $decoded : [];
-        }
-
-        $product_price = $meta_value['Product']['price'] ?? '';
-        $related_posts[] = [
-            'title'         => $post->title,
-            'link'          => $post->link,
-            'id'            => $post->ID,
-            'thumbnail'     => get_the_post_thumbnail_url($post->ID, 'full'),
-            'description'   => get_the_excerpt($post->ID),
-            'first_category'=> $first_category,
-            'price'         => $product_price,
-            'total_rating'  => get_post_meta($post->ID, "wp_review_total", true),
-        ];
-    }
+} else {
+    $context['related_posts'] = []; // No related posts
 }
 
-$context['related_posts'] = $related_posts;
 
 // Check for shortcodes
 $post_content = get_post_field('post_content', $post_id);
