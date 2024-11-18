@@ -20,7 +20,7 @@ if (!empty($current_post_categories)) {
     $context['related_posts'] = Timber::get_posts([
         'post_type' => 'post', // Replace with your custom post type if needed
         'posts_per_page' => 4, // Number of related posts to display
-        'post__not_in' => [$current_post_id], // Exclude the current post
+        'post__not_in' => [$post_id], // Exclude the current post
         'tax_query' => [
             [
                 'taxonomy' => 'category', // Use category taxonomy

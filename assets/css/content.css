@@ -38,10 +38,10 @@
     .main-layout {
       padding: 0;
     }
-  
-    main {
+
+    .main-layout {
       flex-direction: column;
-    }
+  }
   
     .sidebar,
     .main-content {
