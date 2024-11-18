@@ -1,11 +1,11 @@
 						<form  method="POST" action="<?php echo esc_url(get_option('siteurl')); ?>/wp-comments-post.php"  id="commentform">
-						<div class="form-group">
+						<div>
     <input type="hidden" name="action" value="k_comment">
     <input type="hidden" name="post_id" value="143071">
     <input type="hidden" id="url" name="url" required="" value="admin">
   </div>
 
-  <div class="form-group">
+  <div>
     <label id="review-label" for="review">المراجعة:</label>
     <textarea 
       aria-labelledby="review-label" 
@@ -17,7 +17,7 @@
     </textarea>
   </div>
 
-  <div class="form-group">
+  <div>
     <label id="name-label" for="author">الاسم:</label>
     <input 
       aria-labelledby="name-label" 
@@ -28,7 +28,7 @@
       required="">
   </div>
 
-  <div class="form-group">
+  <div>
     <label id="email-label" for="email">البريد الإلكتروني:</label>
     <input 
       aria-labelledby="email-label" 
