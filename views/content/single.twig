@@ -384,17 +384,18 @@
                         {# Ratings Row #}
                         <tr>
                             <td>التقييمات</td>
-                            {% for device in comparison_table %}
-                                <td>
-                                    {% for rating in device.ratings %}
-                                        <div style="display: flex; align-items: center;">
-                                        <span style="margin-right: 8px;">{{ rating.key }} : {{ rating.value }} 
-										<span style="color:  #FFD700 ;"> ★ </span> من النجوم
-										</span>
-                                        </div>
-                                    {% endfor %}
-                                </td>
-                            {% endfor %}
+{% for device in comparison_table %}
+    <td>
+        {% for rating in device.ratings %}
+            <div class="rating-container">
+                <span class="rating-text">{{ rating.key }}: {{ rating.value }} 
+                    <span class="rating-star">★</span> من النجوم
+                </span>
+            </div>
+        {% endfor %}
+    </td>
+{% endfor %}
+
                         </tr>
                     </tbody>
                 </table>
