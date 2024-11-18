@@ -329,7 +329,7 @@ main h6 {
   }
   
   .rating-amount {
-    background-color: #dbeafe;
+    background-color: #ebf5ff;
     color: var(--primary-color);
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
@@ -774,7 +774,6 @@ main h6 {
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-  
   .price-tag {
     display: inline-flex;
     align-items: center;
@@ -786,13 +785,13 @@ main h6 {
   }
   
   .price-value {
-    color: #1a73e8;
-    font-size: .9rem;
+    color: #0c4a6e; /* Darker blue */
+    font-size: 0.9rem;
     font-weight: 700;
   }
   
   .price-currency {
-    color: #6b7280;
+    color: #4b5563; /* Darker gray */
     font-size: 0.875rem;
   }
   
