@@ -8,8 +8,8 @@
 
 :root {
   /* Colors */
-  /* --primary-color: #3498db; */
-  --primary-color: #2176bd; /* Darker blue */
+  --primary-color: #3498db;
+/*   --primary-color: #2176bd; /* Darker blue */ */
 
   --secondary-color: #2c3e50;
   --success-color: #2ecc71;
@@ -316,7 +316,7 @@ section {
 
 .btn-primary {
   color: var(--light-color);
-  background-color: var(--primary-color);
+  background-color: #0c4a6e;
   border-color: var(--primary-color);
 }
 
