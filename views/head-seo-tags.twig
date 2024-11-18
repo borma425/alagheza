@@ -26,6 +26,7 @@ PostDescription ?  PostDescription : homeDescription
 {% set datePublishedTimestamp = post.date %}
 {% set dateModifiedTimestamp = post.modified %}
 
+<link rel="preload" href="{{ thumbnail|towebp }}" as="image">
 
 <!-- Main info -->
 <meta charset='UTF-8'>

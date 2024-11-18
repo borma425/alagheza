@@ -107,8 +107,10 @@ a:not([class]) {
 
 /* Make images easier to work with */
 img {
-  max-width: 100%;
-  display: block;
+  max-width: 100%;  /* Makes sure the image doesn't overflow */
+  height: auto;     /* Keeps the aspect ratio intact */
+  display: block;   /* Removes any unwanted spacing below the image */
+  object-fit: contain;
 }
 
 /* Natural flow and rhythm in articles by default */
