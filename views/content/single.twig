@@ -707,7 +707,7 @@
 
 						<a href="{{ post.link }}" class="category-card">
 							<div class="category-icon">
-								<img src="{{ post.thumbnail.src|towebp | default(defaultimg) }}" alt="{{ post.title }}" width="64" height="64" loading="lazy">
+								<img src="{{ post.thumbnail.src|towebp | default(defaultimg) }}" alt="أيقونه {{ post.title }}" width="64" height="64" loading="lazy">
 							</div>
 							<h3 class="category-name">{{ post.title }}</h3>
 						</a>
@@ -727,7 +727,7 @@
 						<a href="{{ post.link }}" class="brand-item">
 							<img
 								src="{{ post.thumbnail.src|towebp | default(defaultimg) }}"
-								alt="{{ post.title }}"
+								alt="أيقونه {{ post.title }}"
 								width="120"
 								height="60"
 								loading="lazy" />
