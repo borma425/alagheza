@@ -173,12 +173,7 @@
 			});
 		</script>
           {% else %}
-<img 
-    src="{{ post.thumbnail.src|towebp | default(defaultimg) }}" 
-    alt="{{ post.thumbnail.alt }}" 
-    loading="lazy" 
-    srcset="{{ post.thumbnail.src_small|towebp }} 480w, {{ post.thumbnail.src_medium|towebp }} 768w, {{ post.thumbnail.src_large|towebp }} 1200w" 
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px">
+								<img src="{{ post.thumbnail.src|towebp | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}" loading="lazy">
 
 
 {% endif %}
