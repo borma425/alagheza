@@ -295,10 +295,10 @@ function display_review_section($post_id) {
 									<span class="brand-name"><?php echo !empty(get_the_category()) ? get_the_category()[0]->name : 'No categories found'; ?></span>
 									</div>
 
-									<h5 class="product-title">
+									<h3 class="product-title">
 
                                     <?php echo esc_attr($wp_review_heading); ?>
-                                </h5>
+                                </h3>
 
 									<div class="product-meta">
 
