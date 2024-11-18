@@ -176,10 +176,7 @@
 
 <img 
     src="{{ post.thumbnail.src | default(defaultimg) }}" 
-    alt="{{ post.thumbnail.alt }}" 
-    loading="lazy" 
-    srcset="{{ post.thumbnail.src('small') }} 480w, {{ post.thumbnail.src('medium') }} 768w, {{ post.thumbnail.src('large') }} 1200w" 
-    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px">
+    alt="{{ post.thumbnail.alt }}" >
 
 
 {% endif %}
