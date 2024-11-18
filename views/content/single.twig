@@ -173,7 +173,13 @@
 			});
 		</script>
           {% else %}
-								<img src="{{ post.thumbnail.src|towebp | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}" loading="lazy">
+
+<img 
+    src="{{ post.thumbnail.src|towebp|resize(600, 400) | default(defaultimg) }}" 
+    alt="{{ post.thumbnail.alt }}" 
+    loading="lazy" 
+    srcset="{{ post.thumbnail.src('small')|towebp }} 480w, {{ post.thumbnail.src('medium')|towebp }} 768w, {{ post.thumbnail.src('large')|towebp }} 1200w" 
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px">
 
 
 {% endif %}
