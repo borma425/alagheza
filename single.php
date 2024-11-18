@@ -114,16 +114,7 @@ function get_comparison_table_data($current_product_id) {
         $product_price = $meta_value['Product']['price'] ?? '';
 
         $total_review = get_post_meta($device_id, 'wp_review_total', true);
-        $stars_html = '';
-        for ($i = 1; $i <= 5; $i++) {
-            if ($i <= $total_review) {
-                $stars_html .= '<span style="color: #FFD700;">&#9733;</span>'; // Filled star
-            } else {
-                $stars_html .= '<span style="color: #ccc;">&#9733;</span>'; // Empty star
-            }
-        }
-    
-    
+
         $items = wp_review_get_review_items($device_id);
         $transformed_array = [];
 
@@ -147,7 +138,6 @@ function get_comparison_table_data($current_product_id) {
             'id' => $device_id,
             'brand'         => $meta_value['Product']['brand'] ?? '',
             'description'         => $meta_value['Product']['description'] ?? '',
-            'stars_html' => $stars_html, // Add the pre-rendered stars here
 
         ];
     }

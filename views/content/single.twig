@@ -324,17 +324,22 @@
                         </tr>
 
                         {# Total Reviews Row #}
-<tr>
-    <td>إجمالي التقييمات</td>
-    {% for device in comparison_table %}
-        <td>
-            <div style="display: flex; align-items: center;">
-                <span style="margin-right: 8px;">{{ device.total_review }}:</span>
-
-            </div>
-        </td>
-    {% endfor %}
-</tr>
+                        <tr>
+                            <td>إجمالي التقييمات</td>
+                            {% for device in comparison_table %}
+                                <td>
+                                    {% set total_review = device.total_review %}
+                                    <div style="display: flex; align-items: center;">
+                                        <span style="margin-right: 8px;">{{ total_review }}:</span>
+                                        <span>
+                                            {% for i in 1..total_review|round %}
+<span style="color:  #FFD700 ;"> ★ </span>
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
 
 
                         {# Collect unique spec icons manually #}
@@ -386,13 +391,9 @@
                                     {% for rating in device.ratings %}
                                         <div style="display: flex; align-items: center;">
                                             <span style="margin-right: 8px;">{{ rating.key }}:</span>
-                                            <span>
-                                                {% for i in 1..5 %}
-                                                    <span style="color: {% if i <= rating.value %} #FFD700 {% else %} #ccc {% endif %};">
-                                                        &#9733;
-                                                    </span>
-                                                {% endfor %}
-                                            </span>
+                           {% for i in 1..rating.value| round  %}
+<span style="color:  #FFD700 ;"> ★ </span> 
+                                                {% endfor %} 
                                         </div>
                                     {% endfor %}
                                 </td>
