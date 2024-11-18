@@ -393,6 +393,10 @@ form:not(.hero form) select {
   color: var(--text-color);
   font-size: 1rem;
   transition: all 0.3s ease;
+}
+#commentform input,
+#commentform textarea,
+#commentform select {
   width: 100%;
   box-sizing: border-box;
 }
