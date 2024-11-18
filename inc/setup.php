@@ -14,7 +14,9 @@ function setup_theme(){
   register_nav_menu('footer_menu_1','Primary Footer Menu');
 
 add_theme_support( 'post-thumbnails' );
-
+add_image_size('small-thumbnail', 480, 300, true); // Small size
+add_image_size('medium-thumbnail', 768, 480, true); // Medium size
+add_image_size('large-thumbnail', 1200, 800, true); // Large size
 }
 
 
