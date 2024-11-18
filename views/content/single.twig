@@ -359,7 +359,7 @@
                                         {% for spec in device.specs %}
                                             {% if spec.icon == icon_url and not icon_displayed %}
                                                 {% set spec_name = spec.name %}
-                                                <img src="{{ spec.icon|towebp }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
+                                                <img src="{{ spec.icon|towebp }}" width="32" height="32" alt="أيقونه {{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
                                                 {% set icon_displayed = true %}
                                             {% endif %}
                                         {% endfor %}
