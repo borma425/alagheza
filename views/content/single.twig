@@ -388,13 +388,7 @@
                                     {% for rating in device.ratings %}
                                         <div style="display: flex; align-items: center;">
                                             <span style="margin-right: 8px;">{{ rating.key }}:</span>
-                                            <span>
-                                                {% for i in 1..5 %}
-                                                    <span style="color: {% if i <= rating.value %} #FFD700 {% else %} #ccc {% endif %};">
-                                                        &#9733;
-                                                    </span>
-                                                {% endfor %}
-                                            </span>
+
                                         </div>
                                     {% endfor %}
                                 </td>
