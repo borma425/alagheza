@@ -171,8 +171,6 @@ function display_cons_section() {
 }
 
 
-
-
 function display_more_products_prices_section() {
     // Get the current post ID
     $post_id = get_the_ID();
@@ -198,8 +196,8 @@ function display_more_products_prices_section() {
         <section id="pricing" class="pricing-section">
             <h2 class="section-title"><?php echo $section_title; ?></h2>
             <div class="table-container">
-                <button class="scroll-button scroll-left" aria-label="Scroll left"></button>
-                <button class="scroll-button scroll-right" aria-label="Scroll right"></button>
+                <button class="scroll-button scroll-left" aria-label="Scroll left" style="display: block;"></button>
+                <button class="scroll-button scroll-right" aria-label="Scroll right" style="display: none;"></button>
                 <div class="scroll-container" style="direction: rtl;">
                     <table class="price-table">
                         <thead>
@@ -226,7 +224,7 @@ function display_more_products_prices_section() {
                                     // Output a row for each product
                                     ?>
                                     <tr>
-                                        <td><img src="<?php echo $image; ?>" width="100" alt="<?php echo esc_attr($name); ?>" loading="lazy"></td>
+                                        <td><img src="<?php echo $image; ?>" width="100" alt="<?php echo esc_attr($name); ?>"></td>
                                         <td><?php echo $name; ?></td>
                                         <td><?php echo $desc; ?></td>
                                         <td><?php echo $price; ?></td>
@@ -250,7 +248,7 @@ function display_more_products_prices_section() {
         <?php
     }
 
-    // Return the output
+    // Return the generated HTML
     return ob_get_clean();
 }
 
