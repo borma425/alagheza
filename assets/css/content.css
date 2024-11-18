@@ -1158,15 +1158,3 @@ main h6 {
 }
 
 
-.rating-container {
-  display: flex;
-  align-items: center;
-}
-
-.rating-text {
-  margin-right: 8px;
-}
-
-.rating-star {
-  color: #FFD700;
-}
