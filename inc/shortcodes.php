@@ -376,11 +376,12 @@ function display_review_section($post_id) {
                                     
                                         // Check if image URL exists
                                         if (!empty($image_url)) {
-                                            // Assuming the URL is an attachment, retrieve resized image (350xauto to preserve aspect ratio)
+                                            // Assuming the URL is an attachment, retrieve resized image (350x300)
+                                            // If the image is not an attachment (external URL), you can manually resize or use a plugin for resizing.
                                             $image_id = attachment_url_to_postid($image_url);
                                             if ($image_id) {
-                                                // Get the resized image (350xauto to preserve aspect ratio)
-                                                $image = wp_get_attachment_image_src($image_id, array(350, 9999)); // '350' width, 'auto' height
+                                                // Get the resized image (350x300)
+                                                $image = wp_get_attachment_image_src($image_id, 'medium'); // 'medium' size (default is 300x300)
                                                 $reviewed_item_image = $image ? $image[0] : $image_url; // Fallback to original if resizing fails
                                             } else {
                                                 $reviewed_item_image = $image_url; // Fallback when image is not an attachment
@@ -393,8 +394,8 @@ function display_review_section($post_id) {
                                         $reviewed_item_image = "No_image_URL"; // Fallback image
                                     }
                                     
-                                    // Output the image as an <img> tag
-                                    echo '<img src="' . esc_url($reviewed_item_image) . '" alt="' . esc_attr($product_desc) . '" class="product-image" />';
+                                    // Output the image as an <img> tag with a resized URL (350x300)
+                                    echo '<img src="' . esc_url($reviewed_item_image) . '" alt="' . esc_attr($product_desc) . '" class="product-image" width="350" height="300" />';
                                     
 ?>
 
