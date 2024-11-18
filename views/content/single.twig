@@ -335,7 +335,7 @@
     <td>
         {% set total_review = device.total_review %}
         <div style="display: flex; align-items: center;">
-            <span style="margin-right: 8px;">{{ total_review }}   من النجوم</span>
+            <span style="margin-right: 8px;">5/{{ total_review }}   من النجوم</span>
 
           
         </div>
@@ -389,7 +389,7 @@
 
                         {# Ratings Row #}
                         <tr>
-<td>التقييمات</td>
+<td>التقييمات من 5</td>
 {% for device in comparison_table %}
     <td>
         {% for rating in device.ratings %}
