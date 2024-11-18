@@ -455,6 +455,8 @@ foreach ($transformed_array as $key => $rating) {
 }
 
 echo '</div>';
+
+
 ?>
 
 
@@ -500,6 +502,7 @@ $wp_review_cons = get_post_meta($post->ID, 'wp_review_cons', true);
 </div>
 
 						</section>
+
     <?php
     return ob_get_clean();
 }

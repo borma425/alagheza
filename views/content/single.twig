@@ -18,7 +18,7 @@
 						<div class="swiper-wrapper" style="transform: translateX(200%);">
 
             	<div class="swiper-slide">
-								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
+								<img src="{{ post.thumbnail.src|towebp | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
 							</div>
 
 
@@ -26,7 +26,7 @@
         {% for image_id in gallery_images %}
             {% set image = TimberImage(image_id) %}
 							<div class="swiper-slide">
-								<img src="{{ image.src }}" alt="{{ image.alt }}">
+								<img src="{{ image.src|towebp }}" alt="{{ image.alt }}">
 							</div>
 
         {% endfor %}
@@ -173,7 +173,7 @@
 			});
 		</script>
           {% else %}
-								<img src="{{ post.thumbnail.src | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
+								<img src="{{ post.thumbnail.src|towebp | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}">
 {% endif %}
 <br>
 					<p class="subtitle">
@@ -309,7 +309,7 @@
                             {% for device in comparison_table %}
                                 <td>
                                     <a target="_blank" href="{{ device.link }}">
-                                        <img src="{{ device.image }}" width="100" height="100" alt="{{ device.name }}">
+                                        <img src="{{ device.image|towebp }}" width="100" height="100" alt="{{ device.name }}">
                                     </a>
                                 </td>
                             {% endfor %}
@@ -363,7 +363,7 @@
                                         {% for spec in device.specs %}
                                             {% if spec.icon == icon_url and not icon_displayed %}
                                                 {% set spec_name = spec.name %}
-                                                <img src="{{ spec.icon }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
+                                                <img src="{{ spec.icon|towebp }}" width="32" height="32" alt="{{ spec.name }}" style="vertical-align: middle; margin-right: 8px;">
                                                 {% set icon_displayed = true %}
                                             {% endif %}
                                         {% endfor %}
@@ -410,6 +410,75 @@
         </div>
     </div>
 </section>
+
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				// Initialize each table container
+				document
+					.querySelectorAll('.table-container')
+					.forEach(function (tableWrapper) {
+						const scrollContainer =
+							tableWrapper.querySelector('.scroll-container');
+						const leftButton = tableWrapper.querySelector('.scroll-left');
+						const rightButton = tableWrapper.querySelector('.scroll-right');
+
+						function checkScroll() {
+							const scrollLeft = Math.abs(scrollContainer.scrollLeft);
+							const scrollWidth = scrollContainer.scrollWidth;
+							const clientWidth = scrollContainer.clientWidth;
+							const maxScroll = scrollWidth - clientWidth;
+
+							// Update button visibility
+							leftButton.style.display =
+								scrollLeft < maxScroll ? 'block' : 'none';
+							rightButton.style.display = scrollLeft > 0 ? 'block' : 'none';
+						}
+
+						function handleResize() {
+							// Get table width for this specific container
+							const tableWidth =
+								scrollContainer.querySelector('table').offsetWidth;
+							const containerWidth = scrollContainer.offsetWidth;
+
+							// Hide buttons if no scroll needed
+							if (tableWidth <= containerWidth) {
+								leftButton.style.display = 'none';
+								rightButton.style.display = 'none';
+							} else {
+								checkScroll();
+							}
+						}
+
+						// Set RTL direction
+						scrollContainer.style.direction = 'rtl';
+
+						// Add scroll button click handlers
+						rightButton.addEventListener('click', function () {
+							scrollContainer.scrollBy({
+								left: 200,
+								behavior: 'smooth',
+							});
+						});
+
+						leftButton.addEventListener('click', function () {
+							scrollContainer.scrollBy({
+								left: -200,
+								behavior: 'smooth',
+							});
+						});
+
+						// Add event listeners for this container
+						scrollContainer.addEventListener('scroll', checkScroll);
+						window.addEventListener('resize', handleResize);
+
+						// Initialize scroll state
+						handleResize();
+					});
+			});
+		</script>
+
+
             {% endif %}
 
 						<section class="share-buttons">
@@ -493,7 +562,7 @@
 						<a href="{{ article.link }}" class="product-link">
 							<div class="product-card">
 								<div class="product-image">
-									<img src="{{ article.thumbnail | default(defaultimg) }}" alt="{{article.title }}">
+									<img src="{{ article.thumbnail|towebp | default(defaultimg) }}" alt="{{article.title }}">
 <button class="compare-button" id="{{ article.id }}" aria-label="Compare">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="compare-icon">
         <path d="M438.6 150.6c12.5-12.5 12.5-32.8 0-45.3l-96-96c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.7 96 32 96C14.3 96 0 110.3 0 128s14.3 32 32 32l306.7 0-41.4 41.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l96-96zm-333.3 352c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 416 416 416c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0 41.4-41.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3l96 96z"></path>
@@ -642,7 +711,7 @@
 
 						<a href="{{ post.link }}" class="category-card">
 							<div class="category-icon">
-								<img src="{{ post.thumbnail.src | default(defaultimg) }}" alt="{{ post.title }}" width="64" height="64" loading="lazy">
+								<img src="{{ post.thumbnail.src|towebp | default(defaultimg) }}" alt="{{ post.title }}" width="64" height="64" loading="lazy">
 							</div>
 							<h3 class="category-name">{{ post.title }}</h3>
 						</a>
@@ -661,7 +730,7 @@
 
 						<a href="{{ post.link }}" class="brand-item">
 							<img
-								src="{{ post.thumbnail.src | default(defaultimg) }}"
+								src="{{ post.thumbnail.src|towebp | default(defaultimg) }}"
 								alt="{{ post.title }}"
 								width="120"
 								height="60"
@@ -678,91 +747,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-		<script>
-			document.querySelectorAll('.rating-fill').forEach(fill => {
-				const progress = fill.getAttribute('data-progress');
-				fill.style.width = `${progress}%`;
-			});
-		</script>
-
-		<script>
-			document.addEventListener('DOMContentLoaded', function () {
-				// Initialize each table container
-				document
-					.querySelectorAll('.table-container')
-					.forEach(function (tableWrapper) {
-						const scrollContainer =
-							tableWrapper.querySelector('.scroll-container');
-						const leftButton = tableWrapper.querySelector('.scroll-left');
-						const rightButton = tableWrapper.querySelector('.scroll-right');
-
-						function checkScroll() {
-							const scrollLeft = Math.abs(scrollContainer.scrollLeft);
-							const scrollWidth = scrollContainer.scrollWidth;
-							const clientWidth = scrollContainer.clientWidth;
-							const maxScroll = scrollWidth - clientWidth;
-
-							// Update button visibility
-							leftButton.style.display =
-								scrollLeft < maxScroll ? 'block' : 'none';
-							rightButton.style.display = scrollLeft > 0 ? 'block' : 'none';
-						}
-
-						function handleResize() {
-							// Get table width for this specific container
-							const tableWidth =
-								scrollContainer.querySelector('table').offsetWidth;
-							const containerWidth = scrollContainer.offsetWidth;
-
-							// Hide buttons if no scroll needed
-							if (tableWidth <= containerWidth) {
-								leftButton.style.display = 'none';
-								rightButton.style.display = 'none';
-							} else {
-								checkScroll();
-							}
-						}
-
-						// Set RTL direction
-						scrollContainer.style.direction = 'rtl';
-
-						// Add scroll button click handlers
-						rightButton.addEventListener('click', function () {
-							scrollContainer.scrollBy({
-								left: 200,
-								behavior: 'smooth',
-							});
-						});
-
-						leftButton.addEventListener('click', function () {
-							scrollContainer.scrollBy({
-								left: -200,
-								behavior: 'smooth',
-							});
-						});
-
-						// Add event listeners for this container
-						scrollContainer.addEventListener('scroll', checkScroll);
-						window.addEventListener('resize', handleResize);
-
-						// Initialize scroll state
-						handleResize();
-					});
-			});
-		</script>
 
 
 
