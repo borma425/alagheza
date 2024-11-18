@@ -370,24 +370,33 @@ function display_review_section($post_id) {
 									<?php
 
                                     // Ensure the structure is correct
-if (is_array($meta_value) && isset($meta_value['Product']['image'])) {
-    $image_data = $meta_value['Product']['image'];
-    $image_url = isset($image_data['url']) ? $image_data['url'] : ''; // Get image URL
-
-    // Check if image URL exists and output it
-    if (!empty($image_url)) {
-        $reviewed_item_image = $image_url; // Set image URL
-    } else {
-        $reviewed_item_image = "No_image_URL"; // Fallback when image is missing
-    }
-} else {
-    echo 'Product image data is not set correctly.';
-    $reviewed_item_image = "No_image_URL"; // Fallback image
-}
-
-// Output the image as an <img> tag
-echo '<img src="' . esc_url($reviewed_item_image) . '" alt="'.$product_desc.'" class="product-image" />';
-
+                                    if (is_array($meta_value) && isset($meta_value['Product']['image'])) {
+                                        $image_data = $meta_value['Product']['image'];
+                                        $image_url = isset($image_data['url']) ? $image_data['url'] : ''; // Get image URL
+                                    
+                                        // Check if image URL exists
+                                        if (!empty($image_url)) {
+                                            // Assuming the URL is an attachment, retrieve resized image (350x300)
+                                            // If the image is not an attachment (external URL), you can manually resize or use a plugin for resizing.
+                                            $image_id = attachment_url_to_postid($image_url);
+                                            if ($image_id) {
+                                                // Get the resized image (350x300)
+                                                $image = wp_get_attachment_image_src($image_id, 'medium'); // 'medium' size (default is 300x300)
+                                                $reviewed_item_image = $image ? $image[0] : $image_url; // Fallback to original if resizing fails
+                                            } else {
+                                                $reviewed_item_image = $image_url; // Fallback when image is not an attachment
+                                            }
+                                        } else {
+                                            $reviewed_item_image = "No_image_URL"; // Fallback when image is missing
+                                        }
+                                    } else {
+                                        echo 'Product image data is not set correctly.';
+                                        $reviewed_item_image = "No_image_URL"; // Fallback image
+                                    }
+                                    
+                                    // Output the image as an <img> tag with a resized URL (350x300)
+                                    echo '<img src="' . esc_url($reviewed_item_image) . '" alt="' . esc_attr($product_desc) . '" class="product-image" width="350" height="300" />';
+                                    
 ?>
 
 									<div class="holder">
