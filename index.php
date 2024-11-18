@@ -15,9 +15,30 @@ $args = array(
 
 $context['advice_posts'] = Timber::get_posts($args);
 
-$context['aqsam'] = get_sorted_posts_by_taxonomy('category', 'sections', 6);
 
-$context['brands'] = get_sorted_posts_by_taxonomy('post_tag', 'brands', 6);
+$context['aqsam'] = Timber::get_posts([
+    'post_type' => 'sections',
+    'posts_per_page' => 6,
+    'tax_query' => [
+        [
+            'taxonomy' => 'post_tag',
+            'field' => 'slug',
+            'terms' => 'home',
+        ]
+    ]
+]);
+
+$context['brands'] = Timber::get_posts([
+    'post_type' => 'brands',
+    'posts_per_page' => 6,
+    'tax_query' => [
+        [
+            'taxonomy' => 'post_tag',
+            'field' => 'slug',
+            'terms' => 'home',
+        ]
+    ]
+]);
 
 
 // Helper function to get one post per category
@@ -54,14 +75,4 @@ $context['post_contexts'] = [
 ];
 
 
-function enable_comments_globally() {
-    global $wpdb;
-
-    // تحديث حالة التعليقات لجميع المقالات
-    $wpdb->query("
-        UPDATE {$wpdb->posts}
-        SET comment_status = 'open'
-        WHERE post_type = 'post'
-    ");
-}
-add_action('init', 'enable_comments_globally');
+Timber::render('index-home.twig', $context);
