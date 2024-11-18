@@ -253,9 +253,6 @@ function display_more_products_prices_section() {
 }
 
 
-    // Return the generated HTML
-    return ob_get_clean();
-}
 
 
 function display_review_section($post_id) {
