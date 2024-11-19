@@ -5,6 +5,69 @@
 {{ function('wp_head') }}
 
 
+<link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" as="script">
 
+<!-- Lazy load scripts after user interaction or delay -->
+<script>
+    // Lazy load scripts after user interaction or 5-second delay
+    const loadScriptsTimer = setTimeout(loadScripts, 5000); // Delay for 5 seconds
+    const userInteractionEvents = ["mouseover", "keydown", "touchstart", "touchmove", "wheel"];
+
+    // Add event listeners for user interaction
+    userInteractionEvents.forEach((event) => {
+        window.addEventListener(event, triggerScriptLoader, { passive: true });
+    });
+
+    function triggerScriptLoader() {
+        loadScripts();
+        clearTimeout(loadScriptsTimer); // Cancel timer if user interacts early
+        userInteractionEvents.forEach((event) => {
+            window.removeEventListener(event, triggerScriptLoader, { passive: true });
+        });
+    }
+
+    function loadScripts() {
+        // Load AdSense
+        const adsScript = document.createElement("script");
+        adsScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146";
+        adsScript.crossOrigin = "anonymous";
+        adsScript.async = true;
+        document.body.appendChild(adsScript);
+
+        // Load Google Analytics (Universal and GA4)
+        const ga4Script = document.createElement("script");
+        ga4Script.src = "https://www.googletagmanager.com/gtag/js?id=G-2DF7QBZJ5T";
+        ga4Script.async = true;
+        document.body.appendChild(ga4Script);
+
+        const gaUniversalScript = document.createElement("script");
+        gaUniversalScript.src = "https://www.googletagmanager.com/gtag/js?id=UA-148715011-1";
+        gaUniversalScript.async = true;
+        document.body.appendChild(gaUniversalScript);
+
+        // Initialize Google Analytics after loading scripts
+        ga4Script.onload = initializeAnalytics;
+        gaUniversalScript.onload = initializeAnalytics;
+    }
+
+    function initializeAnalytics() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "G-2DF7QBZJ5T"); // GA4
+        gtag("config", "UA-148715011-1"); // Universal Analytics
+    }
+</script>
+
+<!-- AdSense ad -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-2974589963821146"
+     data-ad-slot="1234567890"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
 
