@@ -294,14 +294,7 @@
 						</section>
 <br><br>
 
-    {% set paragraphs = post.content | raw | split('</p>') %}
-    
-    {% for paragraph in paragraphs %}
-      <p>{{ paragraph | raw }}</p>
-      {% if loop.index == 4 %}
-
-        <!-- Insert AdSense after every 4th paragraph -->
-
+Here Test Ad :
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-2974589963821146"
@@ -311,8 +304,6 @@
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-      {% endif %}
-    {% endfor %}
     
 
             {% if comparison_table|length > 0 %}
