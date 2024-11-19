@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-define('DEV_MODE', false);
+define('DEV_MODE', true);
 
 // Initialize Timber.
 Timber\Timber::init();
