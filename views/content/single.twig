@@ -26,7 +26,7 @@
 						<div class="swiper-wrapper" style="transform: translateX(200%);">
 
             	<div class="swiper-slide">
-								<img src="{{ post.thumbnail.src|towebp | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}" loading="lazy" width="100%" height="auto">
+								<img style=" width: 44rem;height: auto;" src="{{ post.thumbnail.src|towebp | default(defaultimg)  }}" alt="{{ post.thumbnail.alt  }}" loading="lazy" width="100%" height="auto">
 							</div>
 
 
@@ -34,7 +34,7 @@
         {% for image_id in gallery_images %}
             {% set image = TimberImage(image_id) %}
 							<div class="swiper-slide">
-								<img src="{{ image.src|towebp }}" alt="{{ image.alt }}">
+								<img style=" width: 44rem;height: auto;" src="{{ image.src|towebp }}" alt="{{ image.alt }}">
 							</div>
 
         {% endfor %}
@@ -182,7 +182,7 @@
 		</script>
           {% else %}
 
-<img 
+<img style=" width: 44rem;height: auto;" 
     src="{{ post.thumbnail.src | default(defaultimg) }}" 
     alt="{{ post.thumbnail.alt }}" >
 
