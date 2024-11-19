@@ -54,10 +54,17 @@
 
 
     <script>
+        function loadAdSenseScript(callback) {
+            var script = document.createElement("script");
+            script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146";
+            script.async = true;
+            script.onload = callback; // Only run the callback once the script is fully loaded
+            document.body.appendChild(script);
+        }
+
         function initializeAdSense() {
             if (typeof adsbygoogle !== "undefined") {
                 document.querySelectorAll(".adsbygoogle").forEach(function (ad) {
-                    // Only initialize ads once
                     if (!ad.dataset.adInitialized) {
                         try {
                             (adsbygoogle = window.adsbygoogle || []).push({});
@@ -72,32 +79,13 @@
             }
         }
 
-        function loadAdSenseScript(callback) {
-            var script = document.createElement("script");
-            script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146";
-            script.async = true;
-            script.onload = callback; // Only initialize ads once the script is fully loaded
-            document.body.appendChild(script);
-        }
-
-        function initializeAdsAfterLoad() {
-            loadAdSenseScript(function () {
-                initializeAdSense();
-            });
-        }
-
         window.addEventListener("scroll", function () {
-            if (!window.adsenseInitialized) {
-                initializeAdsAfterLoad();
-                window.adsenseInitialized = true;
+            if (document.documentElement.scrollTop > 100) {
+                if (!window.adsenseInitialized) {
+                    loadAdSenseScript(initializeAdSense);
+                    window.adsenseInitialized = true;
+                }
             }
         }, { passive: true });
 
-        // Fallback: Initialize after 5 seconds if no scroll occurs
-        setTimeout(function () {
-            if (!window.adsenseInitialized) {
-                initializeAdsAfterLoad();
-                window.adsenseInitialized = true;
-            }
-        }, 5000);
     </script>
