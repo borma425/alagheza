@@ -6,85 +6,56 @@
 
 
 <script>
-var lazyAdsense = false;
-var lazyAnalytics = false;
+    // Flag to track if AdSense has been initialized
+    var lazyAdsenseInitialized = false;
 
-// Function to dynamically load a script
-function loadScript(src, isAsync = true, callback = null) {
-    var script = document.createElement("script");
-    script.src = src;
-    script.async = isAsync;
-    if (callback) script.onload = callback;
-    document.body.appendChild(script);
-}
+    // Function to dynamically load a script
+    function loadScript(src, isAsync = true, callback = null) {
+        var script = document.createElement("script");
+        script.src = src;
+        script.async = isAsync;
+        if (callback) script.onload = callback;
+        document.body.appendChild(script);
+    }
 
-// Event listener to load scripts lazily after scroll
-window.addEventListener(
-    "scroll",
-    function () {
-        if (
-            (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0) &&
-            !lazyAdsense
-        ) {
-            // Load AdSense
-            loadScript(
-                "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146"
-            );
-            lazyAdsense = true;
+    // Function to initialize AdSense ads
+    function initializeAdSense() {
+        if (typeof adsbygoogle !== "undefined") {
+            // Look for all AdSense units and initialize them
+            document.querySelectorAll(".adsbygoogle").forEach(function (ad) {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            });
+        } else {
+            console.error("AdSense script not loaded yet.");
         }
+    }
 
-        if (!lazyAnalytics) {
-            // Load Google Analytics (GA4 and Universal Analytics)
+    // Event listener to load AdSense script lazily after scroll
+    window.addEventListener(
+        "scroll",
+        function () {
+            if (!lazyAdsenseInitialized && (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0)) {
+                // Load AdSense script
+                loadScript(
+                    "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146",
+                    true,
+                    initializeAdSense
+                );
+                lazyAdsenseInitialized = true;
+            }
+        },
+        { passive: true }
+    );
+
+    // Fallback to load AdSense after a delay (in case the user doesn't scroll)
+    setTimeout(function () {
+        if (!lazyAdsenseInitialized) {
             loadScript(
-                "https://www.googletagmanager.com/gtag/js?id=G-2DF7QBZJ5T",
+                "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146",
                 true,
-                initializeAnalytics
+                initializeAdSense
             );
-            loadScript(
-                "https://www.googletagmanager.com/gtag/js?id=UA-148715011-1",
-                true,
-                initializeAnalytics
-            );
-            lazyAnalytics = true;
+            lazyAdsenseInitialized = true;
         }
-    },
-    { passive: true }
-);
-
-// Function to initialize Google Analytics after scripts load
-function initializeAnalytics() {
-    if (!window.dataLayer) window.dataLayer = [];
-    function gtag() {
-        window.dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", "G-2DF7QBZJ5T"); // GA4
-    gtag("config", "UA-148715011-1"); // Universal Analytics
-}
-
-
-var lazyScriptLoaded = false;
-window.addEventListener("scroll", function () {
-    if (!lazyScriptLoaded && (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0)) {
-        loadLazyScript();
-    }
-}, { passive: true });
-
-setTimeout(function () {
-    if (!lazyScriptLoaded) {
-        loadLazyScript();
-    }
-}, 5000); // تحميل السكربت بعد 5 ثوانٍ إذا لم يتفاعل المستخدم
-
-function loadLazyScript() {
-    lazyScriptLoaded = true;
-    var script = document.createElement('script');
-    script.src = "https://cdn.ideanetwork.site/js/AdScript/Alagheza/Init.js?" + new Date().toJSON().slice(0, 13);
-    script.async = true; // يجعل التحميل غير متزامن لتحسين الأداء
-    document.body.appendChild(script);
-}
+    }, 5000); // Fallback delay of 5 seconds
 </script>
-
-
-
-
