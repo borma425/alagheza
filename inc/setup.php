@@ -79,21 +79,7 @@ function asset_url( $filename ,  $path="/images/" ){
 
   $Path_url =  get_template_directory_uri() . '/assets' . $path ;
 
-  if(is_array($filename) && count($filename) > 1){
-
-  $IMGarray = [];
-
-  foreach( $filename as $item){
-  array_push( $IMGarray, esc_url( $Path_url . $item ) );
-  }
-
-  $result   = $IMGarray;
-
-  } else{
-
   $result   = esc_url( $Path_url . $filename ) ;
-
-  }
 
   return   $result;
 
