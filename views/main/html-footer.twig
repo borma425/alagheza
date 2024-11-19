@@ -52,40 +52,17 @@
 
 
 
-
-    <script>
-        function loadAdSenseScript(callback) {
-            var script = document.createElement("script");
-            script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146";
-            script.async = true;
-            script.onload = callback; // Only run the callback once the script is fully loaded
-            document.body.appendChild(script);
-        }
-
-        function initializeAdSense() {
-            if (typeof adsbygoogle !== "undefined") {
-                document.querySelectorAll(".adsbygoogle").forEach(function (ad) {
-                    if (!ad.dataset.adInitialized) {
-                        try {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                            ad.dataset.adInitialized = "true";  // Mark as initialized
-                        } catch (e) {
-                            console.error("AdSense initialization error:", e);
-                        }
-                    }
-                });
-            } else {
-                console.error("AdSense script not loaded properly.");
-            }
-        }
-
-        window.addEventListener("scroll", function () {
-            if (document.documentElement.scrollTop > 100) {
-                if (!window.adsenseInitialized) {
-                    loadAdSenseScript(initializeAdSense);
-                    window.adsenseInitialized = true;
-                }
-            }
-        }, { passive: true });
-
-    </script>
+<!--noptimize-->
+<script type="text/javascript">
+function downloadJSAtOnload() {
+var element = document.createElement("script");
+element.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+document.body.appendChild(element);
+}
+if (window.addEventListener)
+window.addEventListener("load", downloadJSAtOnload, false);
+else if (window.attachEvent)
+window.attachEvent("onload", downloadJSAtOnload);
+else window.onload = downloadJSAtOnload;
+</script>
+<!--/noptimize-->
