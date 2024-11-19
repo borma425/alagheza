@@ -77,7 +77,7 @@ add_filter( 'timber/context', function( $context ) {
 # extract full path of IMAGE dir
 function asset_url( $filename ,  $path="/images/" ){
 
-  $Path_url =  get_template_directory_uri() . '/assets/' . $path ;
+  $Path_url =  get_template_directory_uri() . '/assets' . $path ;
 
   if(is_array($filename) && count($filename) > 1){
 
