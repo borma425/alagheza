@@ -293,7 +293,27 @@
 							</div>
 						</section>
 <br><br>
-          {{ post.content }}
+
+    {% set paragraphs = post.content | raw | split('</p>') %}
+    
+    {% for paragraph in paragraphs %}
+      <p>{{ paragraph | raw }}</p>
+      {% if loop.index == 4 %}
+
+        <!-- Insert AdSense after every 4th paragraph -->
+
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-2974589963821146"
+             data-ad-slot="8134435845"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      {% endif %}
+    {% endfor %}
+    
 
             {% if comparison_table|length > 0 %}
 
