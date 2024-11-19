@@ -73,7 +73,7 @@ function initializeAdSense() {
             if (!ad.dataset.adInitialized) {
                 try {
                     (adsbygoogle = window.adsbygoogle || []).push({});
-                    ad.dataset.adInitialized = "true"; // Mark as initialized
+                    ad.dataset.adInitialized = "true"; // Mark this ad as initialized
                 } catch (e) {
                     console.error("AdSense initialization error:", e);
                 }
@@ -84,42 +84,11 @@ function initializeAdSense() {
     }
 }
 
-
-    // Event listener to load AdSense script lazily after scroll
-    window.addEventListener(
-        "scroll",
-        function () {
-            if (!lazyAdsenseInitialized && (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0)) {
-                // Load AdSense script
-                loadScript(
-                    "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146",
-                    true,
-                    initializeAdSense
-                );
-                lazyAdsenseInitialized = true;
-            }
-        },
-        { passive: true }
-    );
-
-    // Fallback to load AdSense after a delay (in case the user doesn't scroll)
-    setTimeout(function () {
-        if (!lazyAdsenseInitialized) {
-            loadScript(
-                "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146",
-                true,
-                initializeAdSense
-            );
-            lazyAdsenseInitialized = true;
-        }
-    }, 5000); // Fallback delay of 5 seconds
-
-
-	function loadAdSenseScript(callback) {
+function loadAdSenseScript(callback) {
     var script = document.createElement("script");
     script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146";
     script.async = true;
-    script.onload = callback; // Ensure initialization runs after the script loads
+    script.onload = callback; // Trigger callback after the script loads
     document.body.appendChild(script);
 }
 
@@ -128,21 +97,20 @@ function initializeAdsAfterLoad() {
         initializeAdSense();
     });
 }
+window.addEventListener("scroll", function () {
+    if (!window.adsenseInitialized) {
+        initializeAdsAfterLoad();
+        window.adsenseInitialized = true;
+    }
+}, { passive: true });
 
-</script>
-<script>
-    window.addEventListener("scroll", function () {
-        if (!window.adsenseInitialized) {
-            initializeAdsAfterLoad();
-            window.adsenseInitialized = true; // Prevent duplicate loads
-        }
-    }, { passive: true });
+// Fallback: Initialize after 5 seconds if no scroll occurs
+setTimeout(function () {
+    if (!window.adsenseInitialized) {
+        initializeAdsAfterLoad();
+        window.adsenseInitialized = true;
+    }
+}, 5000);
 
-    // Fallback: Load ads after 5 seconds if user doesn't scroll
-    setTimeout(function () {
-        if (!window.adsenseInitialized) {
-            initializeAdsAfterLoad();
-            window.adsenseInitialized = true;
-        }
-    }, 5000);
+
 </script>
