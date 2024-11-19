@@ -6,11 +6,62 @@
 
 
 <link rel="preload" href="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" as="script">
-
-<!-- Lazy load scripts after user interaction or delay -->
 <script>
- var lazyadsense=!1;window.addEventListener("scroll",function(){(0!=document.documentElement.scrollTop&&!1===lazyadsense||0!=document.body.scrollTop&&!1===lazyadsense)&&(!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(e,a)}(),lazyadsense=!0)},!0); 
+    var lazyAdsense = false;
+    var lazyAnalytics = false;
 
+    // Function to dynamically load a script
+    function loadScript(src, isAsync = true, callback = null) {
+        var script = document.createElement("script");
+        script.src = src;
+        script.async = isAsync;
+        if (callback) script.onload = callback;
+        document.body.appendChild(script);
+    }
+
+    // Event listener to load scripts lazily after scroll
+    window.addEventListener(
+        "scroll",
+        function () {
+            if (
+                (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0) &&
+                !lazyAdsense
+            ) {
+                // Load AdSense
+                loadScript(
+                    "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146"
+                );
+                lazyAdsense = true;
+            }
+
+            if (!lazyAnalytics) {
+                // Load Google Analytics (GA4 and Universal Analytics)
+                loadScript(
+                    "https://www.googletagmanager.com/gtag/js?id=G-2DF7QBZJ5T",
+                    true,
+                    initializeAnalytics
+                );
+                loadScript(
+                    "https://www.googletagmanager.com/gtag/js?id=UA-148715011-1",
+                    true,
+                    initializeAnalytics
+                );
+                lazyAnalytics = true;
+            }
+        },
+        { passive: true }
+    );
+
+    // Function to initialize Google Analytics after scripts load
+    function initializeAnalytics() {
+        if (!window.dataLayer) window.dataLayer = [];
+        function gtag() {
+            window.dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "G-2DF7QBZJ5T"); // GA4
+        gtag("config", "UA-148715011-1"); // Universal Analytics
+    }
 </script>
 
 
