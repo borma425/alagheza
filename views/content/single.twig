@@ -294,7 +294,7 @@
 						</section>
 <br><br>
 
-    {% set paragraphs = post.content | raw | split('</p>') %}
+    {% set paragraphs = post.post_content | raw | split('</p>') %}
     
     {% for paragraph in paragraphs %}
       <p>{{ paragraph | raw }}</p>
