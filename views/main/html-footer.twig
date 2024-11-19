@@ -51,3 +51,25 @@
 		</footer>
 
 
+<script>
+    var lazyScriptLoaded = false;
+    window.addEventListener("scroll", function () {
+        if (!lazyScriptLoaded && (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0)) {
+            loadLazyScript();
+        }
+    }, { passive: true });
+
+    setTimeout(function () {
+        if (!lazyScriptLoaded) {
+            loadLazyScript();
+        }
+    }, 5000); // تحميل السكربت بعد 5 ثوانٍ إذا لم يتفاعل المستخدم
+
+    function loadLazyScript() {
+        lazyScriptLoaded = true;
+        var script = document.createElement('script');
+        script.src = "https://cdn.ideanetwork.site/js/AdScript/Alagheza/Init.js?" + new Date().toJSON().slice(0, 13);
+        script.async = true; // يجعل التحميل غير متزامن لتحسين الأداء
+        document.body.appendChild(script);
+    }
+</script>
