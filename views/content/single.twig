@@ -134,7 +134,7 @@
 </div>
 </section>
 <br><br>
-{{ post.post_content|replace({'\n': '<p></p><p>'})|shortcodes|replace({'<p></p>': ''}) }} {% if comparison_table|length > 0 %}
+{{ post.post_content|replace({'\n': '<p></p><p>'})|shortcodes|replace({'<p>\s*</p>': ''}) }} {% if comparison_table|length > 0 %}
 <section id=comparison>
 <h2 class=section-title>مقارنة بين الأجهزة</h2>
 <div class=table-container>
