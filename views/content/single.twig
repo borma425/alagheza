@@ -298,7 +298,8 @@
     
     {% for paragraph in paragraphs %}
       <p>{{ paragraph | raw }}</p>
-      {% if loop.index is divisible by(4) %}
+      {% if loop.index == 4 %}
+
         <!-- Insert AdSense after every 4th paragraph -->
 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
 
