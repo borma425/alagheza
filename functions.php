@@ -70,3 +70,11 @@ add_filter('redirect_canonical', function ($redirect_url, $requested_url) {
     }
     return $redirect_url;
 }, 10, 2);
+
+
+add_filter('the_content', function($content) {
+    // Remove empty <p> tags, including those with only whitespace
+    $content = preg_replace('/<p>\s*<\/p>/', '', $content);
+
+    return $content;
+});
