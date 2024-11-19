@@ -5,6 +5,7 @@
 {{ function('wp_head') }}
 
 
+
 <script>
     // Flag to track if AdSense has been initialized
     var lazyAdsenseInitialized = false;
@@ -19,16 +20,23 @@
     }
 
     // Function to initialize AdSense ads
-    function initializeAdSense() {
-        if (typeof adsbygoogle !== "undefined") {
-            // Look for all AdSense units and initialize them
-            document.querySelectorAll(".adsbygoogle").forEach(function (ad) {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            });
-        } else {
-            console.error("AdSense script not loaded yet.");
-        }
+function initializeAdSense() {
+    if (typeof adsbygoogle !== "undefined") {
+        document.querySelectorAll(".adsbygoogle").forEach(function (ad) {
+            if (!ad.dataset.adInitialized) {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    ad.dataset.adInitialized = "true"; // Mark as initialized
+                } catch (e) {
+                    console.error("AdSense initialization error:", e);
+                }
+            }
+        });
+    } else {
+        console.error("AdSense script not yet loaded.");
     }
+}
+
 
     // Event listener to load AdSense script lazily after scroll
     window.addEventListener(
@@ -58,4 +66,36 @@
             lazyAdsenseInitialized = true;
         }
     }, 5000); // Fallback delay of 5 seconds
+
+
+	function loadAdSenseScript(callback) {
+    var script = document.createElement("script");
+    script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146";
+    script.async = true;
+    script.onload = callback; // Ensure initialization runs after the script loads
+    document.body.appendChild(script);
+}
+
+function initializeAdsAfterLoad() {
+    loadAdSenseScript(function () {
+        initializeAdSense();
+    });
+}
+
+</script>
+<script>
+    window.addEventListener("scroll", function () {
+        if (!window.adsenseInitialized) {
+            initializeAdsAfterLoad();
+            window.adsenseInitialized = true; // Prevent duplicate loads
+        }
+    }, { passive: true });
+
+    // Fallback: Load ads after 5 seconds if user doesn't scroll
+    setTimeout(function () {
+        if (!window.adsenseInitialized) {
+            initializeAdsAfterLoad();
+            window.adsenseInitialized = true;
+        }
+    }, 5000);
 </script>
