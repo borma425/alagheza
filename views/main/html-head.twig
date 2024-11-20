@@ -4,7 +4,6 @@
 {% include "head-seo-tags.twig" %}
 {{ function('wp_head') }}
 
-
 <script>
     var lazyAdsense = false;
     var lazyAnalytics = false;
@@ -27,9 +26,14 @@
                 (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0)
             ) {
                 if (!lazyAdsense) {
-                    // Load AdSense
+                    // Load AdSense script and execute after loading
                     loadScript(
-                        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146"
+                        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146",
+                        true,
+                        function() {
+                            // Initialize ads once the AdSense script has loaded
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        }
                     );
                     lazyAdsense = true;
                 }
@@ -73,6 +77,5 @@
         gtag("config", "UA-148715011-1"); // Universal Analytics
     }
 </script>
-
 
 {{ custom_code_head }}
