@@ -4,10 +4,26 @@
 {% include "head-seo-tags.twig" %}
 {{ function('wp_head') }}
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146"
-     crossorigin="anonymous"></script>
+<!-- Defer Ads JS library -->
+<script type='text/javascript'>
+//<![CDATA[
+/* Lazy Load AdSense*/
+var lazyadsense = !1;
+window.addEventListener("scroll", function() {
+    (0 != document.documentElement.scrollTop && !1 === lazyadsense || 0 != document.body.scrollTop && !1 === lazyadsense) && (! function() {
+        var e = document.createElement("script");
+        e.id = "g_ads_js", e.type = "text/javascript", e.async = "async", e.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+        var a = document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(e, a)
 
+      	/* only for AdSense Auto ads*/
+      	var gads = document.getElementById("g_ads_js")
+        gads.setAttribute("data-ad-client", "ca-pub-2974589963821146");
 
+    }(), lazyadsense = !0)
+}, !0);
+//]]>
+</script>
 <script>
     var lazyAdsense = false;
     var lazyAnalytics = false;
