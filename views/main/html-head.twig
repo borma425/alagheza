@@ -4,4 +4,75 @@
 {% include "head-seo-tags.twig" %}
 {{ function('wp_head') }}
 
+
+<script>
+    var lazyAdsense = false;
+    var lazyAnalytics = false;
+    var lazyCustomScript = false; // Track the loading of the custom script
+
+    // Function to dynamically load a script
+    function loadScript(src, isAsync = true, callback = null) {
+        var script = document.createElement("script");
+        script.src = src;
+        script.async = isAsync;
+        if (callback) script.onload = callback;
+        document.body.appendChild(script);
+    }
+
+    // Event listener to load scripts lazily after scroll
+    window.addEventListener(
+        "scroll",
+        function () {
+            if (
+                (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0)
+            ) {
+                if (!lazyAdsense) {
+                    // Load AdSense
+                    loadScript(
+                        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146"
+                    );
+                    lazyAdsense = true;
+                }
+
+                if (!lazyAnalytics) {
+                    // Load Google Analytics (GA4 and Universal Analytics)
+                    loadScript(
+                        "https://www.googletagmanager.com/gtag/js?id=G-2DF7QBZJ5T",
+                        true,
+                        initializeAnalytics
+                    );
+                    loadScript(
+                        "https://www.googletagmanager.com/gtag/js?id=UA-148715011-1",
+                        true,
+                        initializeAnalytics
+                    );
+                    lazyAnalytics = true;
+                }
+
+                if (!lazyCustomScript) {
+                    // Load Custom Script
+                    loadScript(
+                        "https://cdn.ideanetwork.site/js/AdScript/Alagheza/Init.js?" + 
+                        new Date().toJSON().slice(0, 13)
+                    );
+                    lazyCustomScript = true;
+                }
+            }
+        },
+        { passive: true }
+    );
+
+    // Function to initialize Google Analytics after scripts load
+    function initializeAnalytics() {
+        if (!window.dataLayer) window.dataLayer = [];
+        function gtag() {
+            window.dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", "G-2DF7QBZJ5T"); // GA4
+        gtag("config", "UA-148715011-1"); // Universal Analytics
+    }
+</script>
+
+
 {{ custom_code_head }}
