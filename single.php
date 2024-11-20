@@ -183,8 +183,8 @@ $context['sidebar_brands'] = Timber::get_posts([
 
         $adsense_data = get_option('adsense_data', []);
 
-
-        $content = $post_content;
+        $post = Timber::get_post();
+        $content = $post->content;
 
         // Split content into paragraphs
         $paragraphs = explode('</p>', $content);
@@ -205,9 +205,7 @@ $context['sidebar_brands'] = Timber::get_posts([
 
         // Rebuild content with ads inserted
         $modified_content = implode('', $paragraphs);
-
         // Pass the modified content to the Timber context
-        $context = Timber::context();
         $context['content'] = $modified_content;
 
 Timber::render('content/single.twig', $context);
