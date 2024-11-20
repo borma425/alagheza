@@ -105,10 +105,11 @@ add_filter( 'timber/context', function( $context ) {
 
 
     $adsense_data = get_option('adsense_data', []);
-    error_log(print_r($adsense_data, true)); // This will print to the debug log
 
     // Pass the AdSense data to the Twig context
     $context['ads'] = $adsense_data;
+    $context['custom_code_head']   = get_option('custom_code_textarea');
+    $context['custom_code_footer'] = get_option('custom_code_footer_textarea');
 
 
 
