@@ -183,9 +183,11 @@
 		</script>
           {% else %}
 
-<img style=" width: 44rem;height: auto;" 
-    src="{{ post.thumbnail.src | default(defaultimg) }}" 
-    alt="{{ post.thumbnail.alt }}" >
+
+<div class="medium-box">
+    <img  src="{{ post.thumbnail.src | default(defaultimg) }}" 
+    alt="{{ post.thumbnail.alt }}">
+</div>
 
 
 {% endif %}
