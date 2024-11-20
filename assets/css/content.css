@@ -9,7 +9,9 @@
     padding: 2rem;
   }
 
-
+  .wp-caption img {
+    width: 100% !important;
+}
   
   .sidebar {
     flex: 1;
