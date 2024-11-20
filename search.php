@@ -135,12 +135,7 @@ if (get_query_var('s')) {
 
 
 
-
-
-
-
-
-
+        $search = "";
 
     }
 
@@ -202,6 +197,7 @@ if (get_query_var('s')) {
     $context = Timber::context([
         'posts' => $related_posts,
         'pagination' => $posts,
+        'search_word' => esc_html( $search ),
 
     ]);
     // Render the template with the context
