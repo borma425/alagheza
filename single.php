@@ -185,7 +185,7 @@ $context['sidebar_brands'] = Timber::get_posts([
 
         // Get the post content
         $post = Timber::get_post();
-        $content = $post->content;
+        $content = $post_content;
 
         // Split content into paragraphs
         $paragraphs = explode('</p>', $content);

@@ -148,7 +148,7 @@ if ( $has_shortcode_review_section ) {
         $schema = [
             "@context" => "https://schema.org",
             "@type" => "ItemList",
-            "name" => "Comparison Table",
+            "name" => "جدول المقارنه",
             "itemListElement" => []
         ];
 
