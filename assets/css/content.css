@@ -37,8 +37,19 @@
     border-radius: var(--border-radius);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
+  #respond h4, 
+  #respond h5, 
+  #related-articles h4 {
+      font-size: 20px;
+  }
   @media (max-width: 768px) {
+    #respond h4, 
+    #respond h5, 
+    #related-articles h4 {
+        font-size: 18px;
+    }
+  
     .main-layout {
       padding: 0;
     }
@@ -1160,21 +1171,4 @@ main h6 {
     aspect-ratio: 16 / 9; /* Ensures a 16:9 aspect ratio */
     border: none;
     max-width: 100%; /* Prevents iframe from exceeding the container's width */
-}
-
-.medium-box {
-    width: 36rem; /* Set the width of the box */
-    height: 300px; /* Set the height of the box */
-    display: flex;
-    justify-content: center; /* Horizontally center the image */
-    align-items: center; /* Vertically center the image */
-    border: 1px solid #ccc; /* Optional: Add a border to visualize the box */
-    background-color: #f9f9f9; /* Optional: Add a background color */
-    overflow: hidden; /* Hide overflow if the image is larger than the box */
-}
-
-.medium-box img {
-    max-width: 36rem; /* Ensure the image scales within the box */
-    max-height: 100%; /* Ensure the image scales within the box */
-    object-fit: contain; /* Keep the aspect ratio of the image */
 }
