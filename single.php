@@ -180,8 +180,35 @@ $context['sidebar_brands'] = Timber::get_posts([
 
 
 
+        $adsense_data = get_option('adsense_data', []);
 
+        // Get the post content
+        $post = Timber::get_post();
+        $content = $post->content;
 
+        // Split content into paragraphs
+        $paragraphs = explode('</p>', $content);
+
+        // Insert AdSense codes after the specified paragraphs
+        foreach ($adsense_data as $data) {
+            $position = $data['position'];
+            $code = $data['code'];
+
+            // Add the AdSense code at the specified position
+            foreach ($paragraphs as $index => $paragraph) {
+                $paragraphs[$index] .= '</p>'; // Re-add closing </p>
+                if ($index + 1 == $position) {
+                    $paragraphs[$index] .= $code; // Insert AdSense code
+                }
+            }
+        }
+
+        // Rebuild content with ads inserted
+        $modified_content = implode('', $paragraphs);
+
+        // Pass the modified content to the Timber context
+        $context = Timber::context();
+        $context['content'] = $modified_content;
 
 Timber::render('content/single.twig', $context);
 
