@@ -3,6 +3,8 @@
 <head>
 {% include "head-seo-tags.twig" %}
 {{ function('wp_head') }}
+
+
 <script>
     var lazyAdsense = false;
     var lazyAnalytics = false;
@@ -13,20 +15,33 @@
         var script = document.createElement("script");
         script.src = src;
         script.async = isAsync;
-        if (callback) script.onload = callback; // Trigger the callback after the script is loaded
+        if (callback) {
+            script.onload = callback; // Trigger the callback after the script is loaded
+            script.onerror = function () {
+                console.error("Failed to load script:", src);
+            };
+        }
         document.body.appendChild(script);
     }
 
-    // Function to initialize all AdSense banners on the page
+    // Function to initialize AdSense banners
     function initializeAdsenseBanners() {
-        var ads = document.querySelectorAll('.adsbygoogle'); // Select all AdSense banners
-        ads.forEach(function (ad) {
-            try {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {
-                console.error("AdSense initialization error:", e);
+        try {
+            var ads = document.querySelectorAll('.adsbygoogle'); // Select all AdSense banners
+            if (ads.length === 0) {
+                console.warn("No AdSense banners found on the page.");
+                return;
             }
-        });
+            ads.forEach(function (ad) {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.error("AdSense initialization error for banner:", ad, e);
+                }
+            });
+        } catch (globalError) {
+            console.error("Global AdSense initialization error:", globalError);
+        }
     }
 
     // Event listener to load scripts lazily after scroll
@@ -37,7 +52,7 @@
                 (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0)
             ) {
                 if (!lazyAdsense) {
-                    // Load AdSense script and initialize all banners after it's loaded
+                    // Load AdSense script and initialize banners once it's loaded
                     loadScript(
                         "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2974589963821146",
                         true,
@@ -82,9 +97,10 @@
         }
         gtag("js", new Date());
         gtag("config", "G-2DF7QBZJ5T"); // GA4
-        gtag("config", "UA-148715011-1"); // Universal Analytics GGTS
+        gtag("config", "UA-148715011-1"); // Universal Analytics MM
     }
 </script>
+
 
 
 {{ custom_code_head }}
