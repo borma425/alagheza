@@ -1,25 +1,21 @@
 <?php
-/**
- * Plugin Name: AdSense Manager with Multiple Positions
- * Description: Manage multiple AdSense codes and dynamically insert ads in content at specified positions.
- */
 
-// Add Admin Page
+// إضافة صفحة الإدارة
 add_action('admin_menu', function () {
     add_menu_page(
-        'AdSense Manager',
-        'AdSense Manager',
+        'وحدات ادسنس',
+        'وحدات ادسنس',
         'manage_options',
         'adsense-manager',
         'render_adsense_admin_page',
-        'dashicons-admin-generic',
+        'dashicons-image-flip-vertical',
         80
     );
 });
 
-// Render Admin Page for AdSense Code Management
+// عرض صفحة الإدارة لإدارة أكواد AdSense
 function render_adsense_admin_page() {
-    // Handle form submission
+    // التعامل مع إرسال النموذج
     if (isset($_POST['adsense_codes'])) {
         $adsense_data = array_map(function ($code, $position) {
             return [
@@ -28,30 +24,30 @@ function render_adsense_admin_page() {
             ];
         }, $_POST['adsense_codes'], $_POST['adsense_positions']);
 
-        // Save to WordPress options
+        // حفظ البيانات في خيارات ووردبريس
         update_option('adsense_data', $adsense_data);
-        echo '<div class="updated"><p>AdSense settings updated!</p></div>';
+        echo '<div class="updated"><p>تم تحديث إعدادات AdSense!</p></div>';
     }
 
-    // Retrieve saved adsense data
+    // استرجاع بيانات AdSense المحفوظة
     $adsense_data = get_option('adsense_data', []);
     ?>
     <div class="wrap">
-        <h1>Manage AdSense</h1>
+        <h1>إدارة AdSense</h1>
         <form method="POST">
             <div id="adsense-wrapper">
                 <?php foreach ($adsense_data as $index => $data): ?>
                     <div class="adsense-item">
-                        <label for="adsense_codes_<?php echo $index; ?>"><strong>AdSense Code:</strong></label><br>
+                        <label for="adsense_codes_<?php echo $index; ?>"><strong>رمز AdSense:</strong></label><br>
                         <textarea name="adsense_codes[]" id="adsense_codes_<?php echo $index; ?>" rows="5" style="width:100%;"><?php echo esc_textarea($data['code']); ?></textarea><br>
-                        <label for="adsense_positions_<?php echo $index; ?>"><strong>Insert After Paragraph:</strong></label><br>
+                        <label for="adsense_positions_<?php echo $index; ?>"><strong>إدراج بعد الفقرة:</strong></label><br>
                         <input type="number" name="adsense_positions[]" id="adsense_positions_<?php echo $index; ?>" value="<?php echo intval($data['position']); ?>" min="1"><br><br>
-                        <button type="button" class="button remove-adsense">Remove</button>
+                        <button type="button" class="button remove-adsense">إزالة</button>
                     </div>
                 <?php endforeach; ?>
             </div>
-            <button type="button" class="button add-adsense">Add Another AdSense Code</button><br><br>
-            <button type="submit" class="button button-primary">Save Settings</button>
+            <button type="button" class="button add-adsense">إضافة رمز AdSense آخر</button><br><br>
+            <button type="submit" class="button button-primary">حفظ الإعدادات</button>
         </form>
     </div>
     <script>
@@ -61,11 +57,11 @@ function render_adsense_admin_page() {
                 const index = wrapper.children.length;
                 const template = `
                     <div class="adsense-item">
-                        <label for="adsense_codes_${index}"><strong>AdSense Code:</strong></label><br>
+                        <label for="adsense_codes_${index}"><strong>رمز AdSense:</strong></label><br>
                         <textarea name="adsense_codes[]" id="adsense_codes_${index}" rows="5" style="width:100%;"></textarea><br>
-                        <label for="adsense_positions_${index}"><strong>Insert After Paragraph:</strong></label><br>
+                        <label for="adsense_positions_${index}"><strong>إدراج بعد الفقرة:</strong></label><br>
                         <input type="number" name="adsense_positions[]" id="adsense_positions_${index}" value="1" min="1"><br><br>
-                        <button type="button" class="button remove-adsense">Remove</button>
+                        <button type="button" class="button remove-adsense">إزالة</button>
                     </div>
                 `;
                 wrapper.insertAdjacentHTML('beforeend', template);
@@ -95,8 +91,3 @@ function render_adsense_admin_page() {
     </style>
     <?php
 }
-
-
-
-
-
