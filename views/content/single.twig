@@ -194,7 +194,7 @@
 
 
   
-				<main>
+				
 					<article>
 
 <br><br>
@@ -294,7 +294,7 @@
 						</section>
 <br><br>
 
-    {% set paragraphs = post.post_content|shortcodes | raw | split('</p>') %}
+    {% set paragraphs = post.content | raw | split('</p>') %}
     
     {% for paragraph in paragraphs %}
       <p>{{ paragraph | raw }}</p>
@@ -568,7 +568,6 @@
 							</div>
 						</div>
 					</article>
-				</main>
 
 				<div class="section-holder">
 
