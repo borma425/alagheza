@@ -183,8 +183,7 @@ $context['sidebar_brands'] = Timber::get_posts([
 
         $adsense_data = get_option('adsense_data', []);
 
-        // Get the post content
-        $post = Timber::get_post();
+
         $content = $post_content;
 
         // Split content into paragraphs
