@@ -183,11 +183,9 @@
 		</script>
           {% else %}
 
-
-<div class="medium-box">
-    <img  src="{{ post.thumbnail.src | default(defaultimg) }}" 
-    alt="{{ post.thumbnail.alt }}">
-</div>
+<img 
+    src="{{ post.thumbnail.src | default(defaultimg) }}" 
+    alt="{{ post.thumbnail.alt }}" >
 
 
 {% endif %}
@@ -195,7 +193,10 @@
 				</div>
 
 
+  
+				
 					<article>
+
 						<section id="article-navigation" class="accordion">
 							<div class="accordion-item">
 								<div class="accordion-header">
