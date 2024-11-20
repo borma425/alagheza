@@ -24,7 +24,41 @@
             "mainEntityOfPage" => [
                 "@type" => "WebPage",
                 "@id" => get_permalink($post_id)
-            ]
+            ],
+            "articleBody" =>wp_kses(
+                do_shortcode(apply_filters('the_content', get_post_field('post_content', $post_id))),
+                [
+                    'strong' => [],
+                    'em' => [],
+                    'a' => ['href' => true, 'title' => true, 'target' => true, 'rel' => true],
+                    'p' => [],
+                    'ul' => [],
+                    'li' => [],
+                    'ol' => [],
+                    'br' => [],
+                    'span' => ['class' => true, 'style' => true],
+                    'div' => ['class' => true, 'style' => true],
+                    'h1' => [],
+                    'h2' => [],
+                    'h3' => [],
+                    'h4' => [],
+                    'h5' => [],
+                    'h6' => [],
+                    'blockquote' => ['cite' => true],
+                    'img' => ['src' => true, 'alt' => true, 'title' => true, 'width' => true, 'height' => true, 'class' => true],
+                    'code' => [],
+                    'pre' => ['class' => true],
+                    'figure' => ['class' => true],
+                    'figcaption' => [],
+                    'table' => ['class' => true, 'border' => true],
+                    'thead' => [],
+                    'tbody' => [],
+                    'tr' => [],
+                    'th' => ['scope' => true, 'colspan' => true, 'rowspan' => true],
+                    'td' => ['colspan' => true, 'rowspan' => true],
+                ]
+            ),
+
         ];
     }
 
@@ -86,6 +120,12 @@ if ($context['has_shortcode_review_section']) {
             "description" => $product['description'],
             "brand" => ["@type" => "Brand", "name" => $product['brand']],
             "sku" => $product['sku'],
+            "aggregateRating" => [
+                "@type" => "AggregateRating",
+                "ratingValue" => get_post_meta($post_id, 'wp_review_total', true),
+                "bestRating" => "5",
+                "worstRating" => "2"
+            ],
             "offers" => [
                 "@type" => "Offer",
                 "priceCurrency" => $product['priceCurrency'],
