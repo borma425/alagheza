@@ -63,7 +63,7 @@
     }
 
     
-if ($context['has_shortcode_review_section']) {
+if ( $has_shortcode_review_section ) {
     // Function to safely decode JSON or fallback to array
     function safe_json_decode($data) {
         $decoded = json_decode($data, true);
