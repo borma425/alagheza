@@ -59,7 +59,7 @@ if (isset($_GET['items'])) {
             // Prepare device data
             $selected_devices[] = [
                 'name' => $device_specifications_main_title ?: $device_post->post_title,
-                'image' => $product_thumbnail,
+                'image' => $product_thumbnail ?: get_the_post_thumbnail_url($device_id, 'medium'),
                 'specs' => $device_specs,
                 'total_review' => $total_review,
                 'ratings' => $transformed_array,
