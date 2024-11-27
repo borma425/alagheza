@@ -112,6 +112,7 @@ if ( $has_shortcode_review_section ) {
         $pros = extract_list_items(get_post_meta($post_id, 'wp_review_pros', true));
         $cons = extract_list_items(get_post_meta($post_id, 'wp_review_cons', true));
         $author_id = get_post_field('post_author', $post_id);
+        $totalreview = get_post_meta($post_id, 'wp_review_total', true);
 
         return [
             "@context" => "https://schema.org",
@@ -123,10 +124,10 @@ if ( $has_shortcode_review_section ) {
             "sku" => $product['sku'],
             "aggregateRating" => [
                 "@type" => "AggregateRating",
-                "ratingValue" => get_post_meta($post_id, 'wp_review_total', true),
+                "ratingValue" => $totalreview,
                 "bestRating" => "5",
                 "worstRating" => "2",
-               "reviewCount" => get_comments_number($post_id)
+                "reviewCount" =>$totalreview / $totalreview ?: 0
             ],
             "offers" => [
                 "@type" => "Offer",
@@ -162,6 +163,7 @@ if ( $has_shortcode_review_section ) {
         foreach (array_slice($comparable_products, 0, 3) as $product) {
             $pros = extract_list_items(get_post_meta($product['id'], 'wp_review_pros', true));
             $cons = extract_list_items(get_post_meta($product['id'], 'wp_review_cons', true));
+            $totalreview = get_post_meta($post_id, 'wp_review_total', true);
 
             $schema['itemListElement'][] = [
                 "@type" => "Product",
@@ -174,7 +176,7 @@ if ( $has_shortcode_review_section ) {
                     "ratingValue" => $product['total_review'],
                     "bestRating" => "5",
                   "worstRating" => "2",
-               "reviewCount" => get_comments_number($post_id)
+                  "reviewCount" =>$totalreview / $totalreview ?: 0
                 ],
                 "review" => [
                     "@type" => "Review",
