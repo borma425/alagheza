@@ -100,7 +100,7 @@ if ( $has_shortcode_review_section ) {
             'brand' => $data['Product']['brand'] ?? '',
             'sku' => $data['Product']['sku'] ?? '',
             'price' => $data['Product']['price'] ?? '',
-            'priceCurrency' => $data['Product']['priceCurrency'] ?? 'EGP',
+            "priceCurrency" => "EGP",
             'review_title' => $data['Product']['review_title'] ?? '',
             'review_desc' => $data['Product']['review_desc'] ?? ''
         ];
