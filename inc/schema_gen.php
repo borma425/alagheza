@@ -111,6 +111,7 @@ if ( $has_shortcode_review_section ) {
         $product = get_product_data($post_id);
         $pros = extract_list_items(get_post_meta($post_id, 'wp_review_pros', true));
         $cons = extract_list_items(get_post_meta($post_id, 'wp_review_cons', true));
+        $author_id = get_post_field('post_author', $post_id);
 
         return [
             "@context" => "https://schema.org",
@@ -128,7 +129,7 @@ if ( $has_shortcode_review_section ) {
             ],
             "offers" => [
                 "@type" => "Offer",
-                "priceCurrency" => $product['priceCurrency'],
+                "priceCurrency" => "EGP",
                 "price" => $product['price'],
                 "url" => get_permalink($post_id)
             ],
@@ -136,6 +137,11 @@ if ( $has_shortcode_review_section ) {
                 "@type" => "Review",
                 "name" => $product['review_title'],
                 "reviewBody" => $product['review_desc'],
+                "author" => [
+                    "@type" => "Person",
+                    "name" => get_the_author_meta('display_name', $author_id),
+                    "url" => get_author_posts_url($author_id)
+                ],
                 "positiveNotes" => generate_item_list_schema($pros),
                 "negativeNotes" => generate_item_list_schema($cons)
             ]
