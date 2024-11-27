@@ -9,6 +9,44 @@ add_shortcode('cons_section', 'display_cons_section');
 add_shortcode('more_products_prices_section', 'display_more_products_prices_section');
 add_shortcode('review_section', 'display_review_section');
 
+// Function to remove empty <li> tags
+function remove_empty_li($content) {
+        // Load content into a DOMDocument
+        $dom = new DOMDocument();
+        @$dom->loadHTML('<?xml encoding="utf-8" ?>' . $content); // Suppress warnings for malformed HTML
+    
+        // Get all <li> elements
+        $listItems = $dom->getElementsByTagName('li');
+    
+        // Iterate backwards to avoid node removal issues during iteration
+        for ($i = $listItems->length - 1; $i >= 0; $i--) {
+            $li = $listItems->item($i);
+    
+            // Check if the <li> contains a nested <ul> or <ol>
+            $hasNestedList = false;
+            foreach ($li->childNodes as $child) {
+                if ($child->nodeName === 'ul' || $child->nodeName === 'ol') {
+                    $hasNestedList = true;
+                    break;
+                }
+            }
+    
+            // Check if the <li> is empty (no text content or only whitespace)
+            $isEmpty = trim($li->textContent) === '';
+    
+            // Remove <li> if it's empty or contains a nested list
+            if ($isEmpty || $hasNestedList) {
+                $li->parentNode->removeChild($li);
+            }
+        }
+    
+        // Save and return the cleaned HTML
+        $body = $dom->getElementsByTagName('body')->item(0);
+        return $dom->saveHTML($body->firstChild); // Extract the cleaned <ul>/<ol>
+    }
+    
+
+
 
 
 function display_device_specifications() {
@@ -124,7 +162,7 @@ function display_pros_section() {
 
     // Fallbacks if no data is set
     $pros_main_title = !empty($pros_main_title) ? esc_html($pros_main_title) : 'مميزات';
-    $pros_content = !empty($pros_content) ? $pros_content : '<ul><li>لا توجد مميزات مدخلة</li></ul>';
+    $pros_content = !empty($pros_content) ?  remove_empty_li($pros_content) : '<ul><li>لا توجد مميزات مدخلة</li></ul>';
 
 
     // Render the Pros section
@@ -155,7 +193,7 @@ function display_cons_section() {
 
     // Fallbacks if no data is set
     $cons_main_title = !empty($cons_main_title) ? esc_html($cons_main_title) : 'عيوب';
-    $cons_content = !empty($cons_content) ? $cons_content : '<ul><li>لا توجد عيوب مدخلة</li></ul>';
+    $cons_content = !empty($cons_content) ? remove_empty_li($cons_content) : '<ul><li>لا توجد عيوب مدخلة</li></ul>';
 
     // Render the Cons section
     ob_start();
@@ -262,7 +300,10 @@ function display_review_section($post_id) {
     $wp_review_heading = get_post_meta($post->ID, 'wp_review_heading', true);
     $wp_review_total = get_post_meta($post->ID, 'wp_review_total', true);
     $wp_review_pros = get_post_meta($post->ID, 'wp_review_pros', true);
+    $wp_review_pros = remove_empty_li($wp_review_pros);
     $wp_review_cons = get_post_meta($post->ID, 'wp_review_cons', true);
+    $wp_review_cons = remove_empty_li($wp_review_cons);
+
     $wp_review_desc = get_post_meta($post->ID, 'wp_review_desc', true);
     $wp_review_desc_title = get_post_meta($post->ID, 'wp_review_desc_title', true);
 
@@ -477,7 +518,11 @@ echo '</div>';
 <?php
 // Get pros and cons from the post meta
 $wp_review_pros = get_post_meta($post->ID, 'wp_review_pros', true);
+$wp_review_pros = remove_empty_li($wp_review_pros);
+
 $wp_review_cons = get_post_meta($post->ID, 'wp_review_cons', true);
+$wp_review_cons = remove_empty_li($wp_review_cons);
+
 ?>
 
 <!-- Pros Section -->
