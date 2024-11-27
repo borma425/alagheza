@@ -125,7 +125,8 @@ if ( $has_shortcode_review_section ) {
                 "@type" => "AggregateRating",
                 "ratingValue" => get_post_meta($post_id, 'wp_review_total', true),
                 "bestRating" => "5",
-                "worstRating" => "2"
+                "worstRating" => "2",
+                "reviewCount" => "2"
             ],
             "offers" => [
                 "@type" => "Offer",
@@ -172,7 +173,8 @@ if ( $has_shortcode_review_section ) {
                     "@type" => "AggregateRating",
                     "ratingValue" => $product['total_review'],
                     "bestRating" => "5",
-                    "worstRating" => "2"
+                  "worstRating" => "2",
+                "reviewCount" => "2"
                 ],
                 "review" => [
                     "@type" => "Review",
