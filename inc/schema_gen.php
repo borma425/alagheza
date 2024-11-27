@@ -126,7 +126,7 @@ if ( $has_shortcode_review_section ) {
                 "ratingValue" => get_post_meta($post_id, 'wp_review_total', true),
                 "bestRating" => "5",
                 "worstRating" => "2",
-                "reviewCount" => "2"
+               "reviewCount" => get_comments_number($post_id)
             ],
             "offers" => [
                 "@type" => "Offer",
@@ -174,7 +174,7 @@ if ( $has_shortcode_review_section ) {
                     "ratingValue" => $product['total_review'],
                     "bestRating" => "5",
                   "worstRating" => "2",
-                "reviewCount" => "2"
+               "reviewCount" => get_comments_number($post_id)
                 ],
                 "review" => [
                     "@type" => "Review",
